@@ -150,6 +150,7 @@ class _DaftarProdukScreenState extends State<DaftarProdukScreen> {
                                 },
                                 () {
                                   delete(snapshot.data![index].id!);
+                                  Navigator.pop(context);
                                 },
                               );
                             },

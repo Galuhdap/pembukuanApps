@@ -29,6 +29,7 @@ class _CatatanpenjualanAddScreenState extends State<CatatanpenjualanAddScreen> {
   }
 
   String jmlhError = '';
+   String errorText = '';
 
   @override
   void initState() {
@@ -67,7 +68,7 @@ class _CatatanpenjualanAddScreenState extends State<CatatanpenjualanAddScreen> {
                         padding: const EdgeInsets.only(left: 35, right: 35),
                         child: Container(
                           width: size.width * 0.9,
-                          height: size.height * 0.64,
+                          height: size.height * 0.78,
                           child: ListView.builder(
                             physics: BouncingScrollPhysics(),
                             padding: EdgeInsets.only(top: 10),
@@ -90,6 +91,7 @@ class _CatatanpenjualanAddScreenState extends State<CatatanpenjualanAddScreen> {
                                       snapshot.data![index].harga_jual,
                                       snapshot.data![index].id,
                                       snapshot.data![index].id,
+                                      snapshot.data![index].stock
                                     );
                                   } else {
                                     showDialog(
@@ -105,6 +107,7 @@ class _CatatanpenjualanAddScreenState extends State<CatatanpenjualanAddScreen> {
                                   }
                                 },
                                 size,
+                                
                               );
                             },
                           ),
@@ -120,7 +123,7 @@ class _CatatanpenjualanAddScreenState extends State<CatatanpenjualanAddScreen> {
                   },
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 5, top: 35),
+                  padding: const EdgeInsets.only(bottom: 5, top: 20),
                   child: Column(
                     children: [
                       Text(
@@ -128,7 +131,7 @@ class _CatatanpenjualanAddScreenState extends State<CatatanpenjualanAddScreen> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color(0xFFA8A8A8),
-                          fontSize: 8,
+                          fontSize: 10,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w500,
                         ),
@@ -157,7 +160,7 @@ class _CatatanpenjualanAddScreenState extends State<CatatanpenjualanAddScreen> {
     );
   }
 
-  Future add(Size size, nama, des, stock, hrg, id, id_bahan) {
+  Future add(Size size, nama, des, stock, hrg, id, id_bahan, stockAda) {
     TextEditingController namaController = TextEditingController(text: nama);
     TextEditingController desController = TextEditingController(text: des);
     TextEditingController stockController = TextEditingController(text: stock);
@@ -427,13 +430,17 @@ class _CatatanpenjualanAddScreenState extends State<CatatanpenjualanAddScreen> {
                           ),
                         ),
                         onPressed: () async {
+                        final int enteredStock = int.tryParse(jmlhController.text) ?? 0;
                           setState(() {
                             jmlhError = jmlhController.text.isEmpty
                                 ? 'nama harus diisi'
                                 : '';
+                            errorText = enteredStock > stockAda
+                                ? 'Stock Tidak Cukup'
+                                : '';
                           });
 
-                          if (jmlhError.isEmpty) {
+                          if (jmlhError.isEmpty && enteredStock <= stockAda && enteredStock > 0) {
                             await transaksiController.insert(
                                 nama: namaController.text,
                                 deskripsi: desController.text,

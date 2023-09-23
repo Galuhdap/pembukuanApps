@@ -159,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           setState(() {});
                         });
                       },
-                      child: menu(size,"assets/logo/pnjl.png", 'Catat\nPenJualan')),
+                      child: menu(size,"assets/logo/pnjl.png", 'Catat\nPenjualan')),
                 ],
               ),
             ),

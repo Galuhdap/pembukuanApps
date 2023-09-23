@@ -74,16 +74,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             padding: const EdgeInsets.only(right: 20),
                             child: InkWell(
                               onTap: () {
-                                Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (builde) {
-                                return HomeScreen();
-                              },
-                            ),
-                          ).then((value) {
-                            setState(() {});
-                          });
+                              Navigator.pop(context);
                               },
                               child: Icon(
                                 Icons.arrow_back_ios_new_rounded,

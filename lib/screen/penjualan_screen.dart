@@ -61,16 +61,18 @@ class _PenjualanScreenState extends State<PenjualanScreen> {
             Column(
               children: [
                 appbarCos(size, "Penjualan", () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (builde) {
-                        return HomeScreen();
-                      },
-                    ),
-                  ).then((value) {
-                    setState(() {});
-                  });
+                  Navigator.pop(context);
+                  // Navigator.pop(context);
+                  // Navigator.pushReplacement(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (builde) {
+                  //       return HomeScreen();
+                  //     },
+                  //   ),
+                  // ).then((value) {
+                  //   setState(() {});
+                  // });
                 }),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 15),
@@ -286,8 +288,9 @@ class _PenjualanScreenState extends State<PenjualanScreen> {
                         padding: const EdgeInsets.only(left: 35, right: 35),
                         child: Container(
                           width: size.width * 0.9,
-                          height: size.height * 0.64,
+                          height: size.height * 0.47,
                           child: ListView.builder(
+                            scrollDirection: Axis.vertical,
                             physics: BouncingScrollPhysics(),
                             padding: EdgeInsets.only(top: 10),
                             itemCount: filteredData.length,
@@ -334,7 +337,7 @@ class _PenjualanScreenState extends State<PenjualanScreen> {
                   },
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 5, top: 35),
+                  padding: const EdgeInsets.only(bottom: 2, top:20),
                   child: Column(
                     children: [
                       Text(
@@ -342,7 +345,7 @@ class _PenjualanScreenState extends State<PenjualanScreen> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color(0xFFA8A8A8),
-                          fontSize: 8,
+                          fontSize: 10,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w500,
                         ),
@@ -353,7 +356,7 @@ class _PenjualanScreenState extends State<PenjualanScreen> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color(0xFFA8A8A8),
-                          fontSize: 7,
+                          fontSize: 10,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w400,
                           height: 1.22,

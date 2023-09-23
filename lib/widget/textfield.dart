@@ -75,7 +75,7 @@ Padding textField2(Size size, ttl, e, ctrl, key) {
         ),
         //EROR LEFT 
         Padding(
-          padding: const EdgeInsets.only(left: 15, right: 20),
+          padding: const EdgeInsets.only(left: 20, right: 20),
           child: Container(
             width: size.width * 0.32,
             height: 40,

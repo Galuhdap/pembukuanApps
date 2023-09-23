@@ -99,7 +99,7 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
         idP: 1,
       );
 
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         MaterialPageRoute(
           builder: (builde) {
@@ -916,53 +916,56 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
             side: BorderSide(width: 0.25, color: Color(0xFFA8A8A8)),
           ),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text(
-              nama,
-              style: TextStyle(
-                color: Color(0xFF333333),
-                fontSize: 10,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            Text(
-              jml,
-              style: TextStyle(
-                color: Color(0xFF333333),
-                fontSize: 10,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            Text(
-              total,
-              style: TextStyle(
-                color: Color(0xFF333333),
-                fontSize: 10,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            InkWell(
-              onTap: ontp,
-              child: Container(
-                width: 20,
-                height: 20,
-                decoration: ShapeDecoration(
-                  color: Color(0xFFE91616),
-                  shape: OvalBorder(),
-                ),
-                child: Icon(
-                  Icons.delete,
-                  size: 17,
-                  color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20, right: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                nama,
+                style: TextStyle(
+                  color: Color(0xFF333333),
+                  fontSize: 10,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w400,
                 ),
               ),
-            ),
-          ],
+              Text(
+                jml,
+                style: TextStyle(
+                  color: Color(0xFF333333),
+                  fontSize: 10,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              Text(
+                total,
+                style: TextStyle(
+                  color: Color(0xFF333333),
+                  fontSize: 10,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              InkWell(
+                onTap: ontp,
+                child: Container(
+                  width: 20,
+                  height: 20,
+                  decoration: ShapeDecoration(
+                    color: Color(0xFFE91616),
+                    shape: OvalBorder(),
+                  ),
+                  child: Icon(
+                    Icons.delete,
+                    size: 17,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

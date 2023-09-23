@@ -87,14 +87,15 @@ class _PembelianbahanScreenState extends State<PembelianbahanScreen> {
       setState(() {});
     } else {
       showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-                title: Center(
-                  child: Text(
-                    'Masukan Input Dengan Benar !!',
-                  ),
-                ),
-              ));
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Center(
+            child: Text(
+              'Masukan Input Dengan Benar !!',
+            ),
+          ),
+        ),
+      );
     }
   }
 
@@ -291,7 +292,7 @@ class _PembelianbahanScreenState extends State<PembelianbahanScreen> {
                         padding: const EdgeInsets.only(left: 35, right: 35),
                         child: Container(
                           width: size.width * 0.9,
-                          height: size.height * 0.64,
+                          height: size.height * 0.58,
                           child: ListView.builder(
                             physics: BouncingScrollPhysics(),
                             padding: EdgeInsets.only(top: 10),
@@ -328,7 +329,7 @@ class _PembelianbahanScreenState extends State<PembelianbahanScreen> {
                   },
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 5, top: 35),
+                  padding: const EdgeInsets.only(bottom: 5, top: 25),
                   child: Column(
                     children: [
                       Text(
@@ -336,7 +337,7 @@ class _PembelianbahanScreenState extends State<PembelianbahanScreen> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color(0xFFA8A8A8),
-                          fontSize: 8,
+                          fontSize: 10,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w500,
                         ),

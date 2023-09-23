@@ -63,7 +63,6 @@ class _KasScreenState extends State<KasScreen> {
       deskripsiController.clear();
       biayaController.clear();
       Navigator.pop(context);
-      Navigator.pop(context);
       setState(() {});
     } else {
       showDialog(

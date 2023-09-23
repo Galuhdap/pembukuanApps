@@ -187,7 +187,7 @@ class _ProfileeditScreenState extends State<ProfileeditScreen> {
                                         prov: provController.text,
                                         kota: kotaController.text,
                                         idParams: 1);
-                                    Navigator.push(
+                                    Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
                                         builder: (builde) {

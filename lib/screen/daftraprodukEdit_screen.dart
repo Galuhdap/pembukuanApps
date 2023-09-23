@@ -35,8 +35,6 @@ class _DaftarprodukEditScreenState extends State<DaftarprodukEditScreen> {
   TextEditingController satuanController = TextEditingController();
 
   String namaError = '';
-  String deskripsiError = '';
-  String skuError = '';
   String hargaPokokError = '';
   String hargaJualError = '';
   String stockError = '';
@@ -45,9 +43,6 @@ class _DaftarprodukEditScreenState extends State<DaftarprodukEditScreen> {
   void validateAndSave() async {
     setState(() {
       namaError = namaController.text.isEmpty ? 'Nama harus diisi' : '';
-      deskripsiError =
-          deskripsiController.text.isEmpty ? 'Jumlah harus diisi' : '';
-      skuError = skuController.text.isEmpty ? 'Jumlah harus diisi' : '';
       hargaPokokError =
           hargapokokController.text.isEmpty ? 'Jumlah harus diisi' : '';
       hargaJualError =
@@ -57,9 +52,6 @@ class _DaftarprodukEditScreenState extends State<DaftarprodukEditScreen> {
     });
 
     if (namaError.isEmpty &&
-        deskripsiError.isEmpty &&
-        satuanError.isEmpty &&
-        skuError.isEmpty &&
         hargaPokokError.isEmpty &&
         hargaJualError.isEmpty &&
         satuanError.isEmpty &&
@@ -235,6 +227,7 @@ class _DaftarprodukEditScreenState extends State<DaftarprodukEditScreen> {
                                 width: size.width * 0.5,
                                 height: 40,
                                 child: TextField(
+                                  keyboardType: TextInputType.number,
                                   controller: stockController,
                                   enabled: true,
                                   decoration: InputDecoration(

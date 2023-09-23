@@ -266,16 +266,8 @@ class _DetailScreenState extends State<DetailScreen> {
               child: InkWell(
                 onTap: () async {
                   await transaksiController.deleteKer();
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (builde) {
-                        return PenjualanScreen();
-                      },
-                    ),
-                  ).then((value) {
-                    setState(() {});
-                  });
+                  Navigator.pop(context);
+                  Navigator.pop(context);
                 },
                 child: Container(
                   width: 327,

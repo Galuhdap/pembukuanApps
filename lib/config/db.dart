@@ -14,7 +14,7 @@ import '../models/penjualan_model.dart';
 import '../models/users_model.dart';
 
 class DatabaseService {
-  final String _databaseName = 'todomy25.db';
+  final String _databaseName = 'todomy26.db';
 
   final int _databaseversion = 2;
 
