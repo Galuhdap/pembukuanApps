@@ -233,27 +233,27 @@ class _KasScreenState extends State<KasScreen> {
                               ),
                             ),
                           ),
-                          FutureBuilder<List>(
+                          FutureBuilder<int>(
                             future: saldoController.allKas(),
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
                                 return CircularProgressIndicator();
                               } else {
-                                final List<KasModel> saldos =
-                                    snapshot.data!.map((item) {
-                                  return KasModel(
-                                    id: item['id'],
-                                    biaya: item['biaya'] != null
-                                        ? item['biaya'].toInt()
-                                        : 0,
-                                  );
-                                }).toList();
+                                // final List<KasModel> saldos =
+                                //     snapshot.data!.map((item) {
+                                //   return KasModel(
+                                //     id: item['id'],
+                                //     biaya: item['biaya'] != null
+                                //         ? item['biaya'].toInt()
+                                //         : 0,
+                                //   );
+                                // }).toList();
                                 return Padding(
                                   padding: const EdgeInsets.only(bottom: 20),
                                   child: Text(
                                     CurrencyFormat.convertToIdr(
-                                        saldos.length > 0 ? saldos[0].biaya: 0,
+                                       snapshot.data ?? 0,
                                         0),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(

@@ -29,7 +29,7 @@ class _LaporanpengeluaranScreenState extends State<LaporanpengeluaranScreen> {
 
   List pengeluaran = [];
   List pembelian = [];
-  List peng = [];
+  int peng = 0;
   List pem = [];
   int total = 0;
   String query = "";
@@ -38,14 +38,15 @@ class _LaporanpengeluaranScreenState extends State<LaporanpengeluaranScreen> {
 
   Future fetchData() async {
     List pembelians = await pembelianController.all();
-    List pengeluarans = await pengeluaranController.all();
+    int pengeluarans = await pengeluaranController.all();
+    List pengeluarans2 = await pengeluaranController.allPeng();
     int totals = await pengeluaranController.totalKeseluruhan2();
     setState(() {
       pembelian = pembelians;
-      pengeluaran = pengeluarans;
       peng = pengeluarans;
       pem = pembelians;
       total = totals;
+      pengeluaran = pengeluarans2;
     });
   }
 

@@ -51,10 +51,25 @@ class PengeluaranController {
         whereArgs: [1]);
   }
 
-  Future<List> all() async {
+  Future<int> all() async {
     final Database _database = await databaseService.database();
     final data =
         await _database.rawQuery('SELECT SUM(biaya) as biaya FROM pengeluaran');
+    final bahan =
+        await _database.rawQuery('SELECT SUM(harga) as harga FROM pembelian');
+
+     final total = data.first['biaya'] as int;
+      final bahans = bahan.first['harga'] as int;
+
+      final totals = total + bahans;
+    return totals;
+  }
+
+  Future<List> allPeng() async {
+    final Database _database = await databaseService.database();
+    final data =
+        await _database.rawQuery('SELECT * FROM pengeluaran');
+
     return data;
   }
 

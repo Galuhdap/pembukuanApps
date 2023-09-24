@@ -27,9 +27,11 @@ class SaldoController {
     return data;
   }
 
-  Future<List> allKas() async {
+  Future<int> allKas() async {
     final Database _database = await databaseService.database();
-    final data = await _database.rawQuery('SELECT * FROM kas');
-    return data;
+    final data = await _database.rawQuery('SELECT SUM(biaya) AS total FROM kas');
+
+     final total = data.first['total'] as int;
+    return total;
   }
 }

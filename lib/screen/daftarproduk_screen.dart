@@ -120,7 +120,7 @@ class _DaftarProdukScreenState extends State<DaftarProdukScreen> {
                         padding: const EdgeInsets.only(left: 35, right: 35),
                         child: Container(
                           width: size.width * 0.9,
-                          height: size.height * 0.7,
+                          height: 640,
                           child: ListView.builder(
                             physics: BouncingScrollPhysics(),
                             padding: EdgeInsets.only(top: 10),
@@ -166,7 +166,7 @@ class _DaftarProdukScreenState extends State<DaftarProdukScreen> {
                   },
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 5, top: 15),
+                  padding: const EdgeInsets.only(bottom: 5, top: 20),
                   child: Column(
                     children: [
                       Text(

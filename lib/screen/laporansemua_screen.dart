@@ -26,10 +26,11 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
   PengeluaranController pengeluaranController = PengeluaranController();
   TransaksiController transaksiController = TransaksiController();
 
-  List saldos = [];
+  int saldos = 0;
   List pembelian = [];
-  List pengeluaran = [];
+  int pengeluaran = 0;
   List penjualan = [];
+  List peng = [];
   List pemasukan = [];
   List hpp = [];
   List prTer = [];
@@ -38,9 +39,10 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
   int totals = 0;
 
   Future fetchData() async {
-    List saldoss = await saldoController.allKas();
+    int saldoss = await saldoController.allKas();
     List pembelians = await pembelianController.all();
-    List pengeluarans = await pengeluaranController.all();
+    int pengeluarans = await pengeluaranController.all();
+    List pengeluarans2 = await pengeluaranController.allPeng();
     List penjualans = await transaksiController.all();
     List pemasukans = await transaksiController.alls();
     List totalHpp = await produkController.totalHpp();
@@ -56,6 +58,7 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
       hpp = totalHpp;
       prTer = prTers;
       produks = produk;
+      peng = pengeluarans2;
     });
   }
 
@@ -72,9 +75,10 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
     List<OrdinalData> ordinalDataList = [
       OrdinalData(
           domain: 'Pengeluaran',
-          measure: pengeluaran.length > 0
-              ? (pengeluaran[0] != null ? (pengeluaran[0]['biaya'] ?? 0) : 0)
-              : 0,
+          measure: pengeluaran,
+          // measure: pengeluaran.length > 0
+          //     ? (pengeluaran[0] != null ? (pengeluaran[0]['biaya'] ?? 0) : 0)
+          //     : 0,
           color: Color(0xFFE91616)),
       OrdinalData(
         domain: 'Pemasukan',
@@ -171,14 +175,16 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                   Navigator.of(context).push(
                                       MaterialPageRoute(builder: (context) {
                                     return PDFLaporanSemuaScreen(
-                                      kas: saldos.length > 0
-                                          ? (saldos[0] != null
-                                              ? (saldos[0]['biaya'] ?? 0)
-                                              : 0)
-                                          : 0,
-                                      pengeluaran: pengeluaran.length > 0
-                                          ? (pengeluaran[0] != null
-                                              ? (pengeluaran[0]['biaya'] ?? 0)
+                                      // kas: saldos.length > 0
+                                      //     ? (saldos[0] != null
+                                      //         ? (saldos[0]['biaya'] ?? 0)
+                                      //         : 0)
+                                      //     : 0,
+                                      kas: saldos,
+                                      // pengeluaran: pengeluaran,
+                                      pengeluaran: peng.length > 0
+                                          ? (peng[0] != null
+                                              ? (peng[0]['biaya'] ?? 0)
                                               : 0)
                                           : 0,
                                       penjualan: pemasukan.length > 0
@@ -191,11 +197,6 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                               ? (pembelian[0]['harga'] ?? 0)
                                               : 0)
                                           : 0,
-                                      // totalhpp: hpp.length > 0
-                                      //     ? (hpp[0] != null
-                                      //         ? (hpp[0]['hpp'] ?? 0)
-                                      //         : 0)
-                                      //     : 0,
                                       total: totals,
                                     );
                                   }));
@@ -383,13 +384,14 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                                 const EdgeInsets.only(top: 10),
                                             child: Text(
                                               CurrencyFormat.convertToIdr(
-                                                  pengeluaran.length > 0
-                                                      ? (pengeluaran[0] != null
-                                                          ? (pengeluaran[0]
-                                                                  ['biaya'] ??
-                                                              0)
-                                                          : 0)
-                                                      : 0,
+                                                pengeluaran,
+                                                  // pengeluaran.length > 0
+                                                  //     ? (pengeluaran[0] != null
+                                                  //         ? (pengeluaran[0]
+                                                  //                 ['biaya'] ??
+                                                  //             0)
+                                                  //         : 0)
+                                                  //     : 0,
                                                   0),
                                               style: TextStyle(
                                                 color: Color(0xFF333333),
@@ -412,11 +414,12 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                         contText(
                           size, "Kas",
                           CurrencyFormat.convertToIdr(
-                              saldos.length > 0
-                                  ? (saldos[0] != null
-                                      ? (saldos[0]['biaya'] ?? 0)
-                                      : 0)
-                                  : 0,
+                            saldos,
+                              // saldos.length > 0
+                              //     ? (saldos[0] != null
+                              //         ? (saldos[0]['biaya'] ?? 0)
+                              //         : 0)
+                              //     : 0,
                               0),
                         ),
                         contText(
@@ -432,9 +435,9 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                         contText(
                           size, "Pengeluaran",
                           CurrencyFormat.convertToIdr(
-                              pengeluaran.length > 0
-                                  ? (pengeluaran[0] != null
-                                      ? (pengeluaran[0]['biaya'] ?? 0)
+                              peng.length > 0
+                                  ? (peng[0] != null
+                                      ? (peng[0]['biaya'] ?? 0)
                                       : 0)
                                   : 0,
                               0),

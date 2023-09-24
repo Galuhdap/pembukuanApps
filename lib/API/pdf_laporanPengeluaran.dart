@@ -6,7 +6,6 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/widgets.dart';
 
 import '../data/format.dart';
-import '../models/laporanSemua_model.dart';
 import '../models/users_model.dart';
 
 class PdfLaporanPengeluaran {
@@ -133,12 +132,6 @@ class PdfLaporanPengeluaran {
           Text(
             ttl,
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            DateFormat(' dd MMMM yyyy', 'id_ID').format(DateTime.now()).toString(),
-            style: TextStyle(
-              fontSize: 15,
-            ),
           ),
           SizedBox(height: 0.8 * PdfPageFormat.cm),
         ],
