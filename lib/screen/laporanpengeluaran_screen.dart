@@ -5,6 +5,7 @@ import 'package:fajarjayaspring_app/controllers/pdfController.dart';
 import 'package:fajarjayaspring_app/controllers/pengeluaranController.dart';
 import 'package:fajarjayaspring_app/screen/pdf/pdfLaporanPengeluaran.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../controllers/pembelianController.dart';
@@ -113,11 +114,14 @@ class _LaporanpengeluaranScreenState extends State<LaporanpengeluaranScreen> {
                             Text('Tanggal Transaksi: '),
                             TextButton(
                               onPressed: () async {
-                                final DateTime? picked = await showDatePicker(
-                                  context: context,
+                                final DateTime? picked = await DatePicker.showSimpleDatePicker(
+                                  context,
                                   initialDate: selectedDate ?? DateTime.now(),
-                                  firstDate: DateTime(2000),
-                                  lastDate: DateTime(2101),
+                                  firstDate: DateTime(2020),
+                                  lastDate: DateTime(2090),
+                                  dateFormat: "MMMM-yyyy",
+                                  locale: DateTimePickerLocale.id,
+                                  looping: true,
                                 );
                                 if (picked != null && picked != selectedDate) {
                                   setState(() {
@@ -131,7 +135,7 @@ class _LaporanpengeluaranScreenState extends State<LaporanpengeluaranScreen> {
                                   Text(
                                     selectedDate == null
                                         ? 'Pilih Tanggal'
-                                        : DateFormat('dd MMM yyyy')
+                                        : DateFormat('MMM yyyy')
                                             .format(selectedDate!),
                                   ),
                                   if (selectedDate != null)

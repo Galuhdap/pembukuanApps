@@ -6,6 +6,7 @@ import 'package:fajarjayaspring_app/controllers/pdfController.dart';
 import 'package:fajarjayaspring_app/controllers/transactionController.dart';
 import 'package:fajarjayaspring_app/screen/pdf/pdfLaporanLaba.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../data/format.dart';
@@ -31,10 +32,7 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
   int bersih = 0;
   List pemasukan = [];
 
- 
-
   Future fetchData() async {
-
     int kotorss = await pdfController.totalKotor();
     int bersihss = await pdfController.totalBersih();
     List pemasukans = await transaksiController.alls();
@@ -43,7 +41,6 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
       pemasukan = pemasukans;
       kotor = kotorss;
       bersih = bersihss;
-     
     });
   }
 
@@ -71,7 +68,8 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
           children: [
             Container(
               width: size.width,
-              height: 80,
+              // height: 80,
+              height: 140,
               decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: [
@@ -84,7 +82,6 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                 ],
               ),
               child: Column(
-                
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -96,11 +93,15 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                             Text('Tanggal Transaksi: '),
                             TextButton(
                               onPressed: () async {
-                                final DateTime? picked = await showDatePicker(
-                                  context: context,
+                                final DateTime? picked =
+                                    await DatePicker.showSimpleDatePicker(
+                                  context,
                                   initialDate: selectedDate ?? DateTime.now(),
-                                  firstDate: DateTime(2000),
-                                  lastDate: DateTime(2101),
+                                  firstDate: DateTime(2020),
+                                  lastDate: DateTime(2090),
+                                  dateFormat: "MMMM-yyyy",
+                                  locale: DateTimePickerLocale.id,
+                                  looping: true,
                                 );
                                 if (picked != null && picked != selectedDate) {
                                   setState(() {
@@ -114,7 +115,7 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                                   Text(
                                     selectedDate == null
                                         ? 'Pilih Tanggal'
-                                        : DateFormat('dd MMM yyyy')
+                                        : DateFormat('MMM yyyy')
                                             .format(selectedDate!),
                                   ),
                                   if (selectedDate != null)
@@ -133,7 +134,7 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                         ),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
@@ -170,7 +171,7 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                                       MaterialPageRoute(builder: (context) {
                                     return PDFLaporanLabaScreen(
                                       keuntunganbersih: bersih,
-                                      keuntungankotor: kotor ,
+                                      keuntungankotor: kotor,
                                       penjualan: pemasukan.length > 0
                                           ? (pemasukan[0] != null
                                               ? (pemasukan[0]['total'] ?? 0)
@@ -230,7 +231,7 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                                             formattedDates.toString()),
                                 builder: (context, snapshot) {
                                   if (snapshot.connectionState ==
-                                      ConnectionState.waiting) { 
+                                      ConnectionState.waiting) {
                                     return CircularProgressIndicator();
                                   } else {
                                     final bersih = snapshot.data ?? 0;
@@ -566,7 +567,7 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                               height: 1.22,
                             ),
                           ),
-                            Padding(padding: EdgeInsets.only(bottom: 7)),
+                          Padding(padding: EdgeInsets.only(bottom: 7)),
                         ],
                       ),
                     ),
