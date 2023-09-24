@@ -246,7 +246,7 @@ class _PenjualanScreenState extends State<PenjualanScreen> {
                     if (snapshot.hasData) {
                       if (snapshot.data!.length == 0) {
                         return Padding(
-                          padding: const EdgeInsets.only(top: 250, bottom: 250),
+                          padding: const EdgeInsets.only(top: 195, bottom: 185),
                           child: Center(
                             child: Text("DATA KOSONG"),
                           ),
@@ -278,7 +278,7 @@ class _PenjualanScreenState extends State<PenjualanScreen> {
                         padding: const EdgeInsets.only(left: 35, right: 35),
                         child: Container(
                           width: size.width * 0.9,
-                          height: size.height * 0.47,
+                          height: size.height * 0.48,
                           child: ListView.builder(
                             scrollDirection: Axis.vertical,
                             physics: BouncingScrollPhysics(),

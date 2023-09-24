@@ -260,7 +260,7 @@ class _PembelianbahanScreenState extends State<PembelianbahanScreen> {
                     if (snapshot.hasData) {
                       if (snapshot.data!.length == 0) {
                         return Padding(
-                          padding: const EdgeInsets.only(top: 250, bottom: 250),
+                          padding: const EdgeInsets.only(top: 235, bottom: 244),
                           child: Center(
                             child: Text("DATA KOSONG"),
                           ),

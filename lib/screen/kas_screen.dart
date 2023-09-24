@@ -240,15 +240,6 @@ class _KasScreenState extends State<KasScreen> {
                                   ConnectionState.waiting) {
                                 return CircularProgressIndicator();
                               } else {
-                                // final List<KasModel> saldos =
-                                //     snapshot.data!.map((item) {
-                                //   return KasModel(
-                                //     id: item['id'],
-                                //     biaya: item['biaya'] != null
-                                //         ? item['biaya'].toInt()
-                                //         : 0,
-                                //   );
-                                // }).toList();
                                 return Padding(
                                   padding: const EdgeInsets.only(bottom: 20),
                                   child: Text(
@@ -305,7 +296,7 @@ class _KasScreenState extends State<KasScreen> {
                 if (snapshot.hasData) {
                   if (snapshot.data!.length == 0) {
                     return Padding(
-                      padding: const EdgeInsets.only(top: 250, bottom: 250),
+                      padding: const EdgeInsets.only(top: 200, bottom: 220),
                       child: Center(
                         child: Text("DATA KOSONG"),
                       ),

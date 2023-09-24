@@ -58,7 +58,7 @@ class _CatatanpenjualanAddScreenState extends State<CatatanpenjualanAddScreen> {
                     if (snapshot.hasData) {
                       if (snapshot.data!.length == 0) {
                         return Padding(
-                          padding: const EdgeInsets.only(top: 250, bottom: 250),
+                          padding: const EdgeInsets.only(top: 340, bottom: 298),
                           child: Center(
                             child: Text("DATA KOSONG"),
                           ),
@@ -68,7 +68,7 @@ class _CatatanpenjualanAddScreenState extends State<CatatanpenjualanAddScreen> {
                         padding: const EdgeInsets.only(left: 35, right: 35),
                         child: Container(
                           width: size.width * 0.9,
-                          height: size.height * 0.78,
+                          height: size.height * 0.79,
                           child: ListView.builder(
                             physics: BouncingScrollPhysics(),
                             padding: EdgeInsets.only(top: 10),
