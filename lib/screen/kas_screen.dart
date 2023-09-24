@@ -334,7 +334,7 @@ class _KasScreenState extends State<KasScreen> {
                     padding: const EdgeInsets.only(left: 35, right: 35),
                     child: Container(
                       width: size.width * 0.9,
-                      height: size.height * 0.64,
+                      height: size.height *0.53,
                       child: ListView.builder(
                         physics: BouncingScrollPhysics(),
                         padding: EdgeInsets.only(top: 10),
@@ -366,7 +366,7 @@ class _KasScreenState extends State<KasScreen> {
               },
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 5, top: 35),
+              padding: const EdgeInsets.only(top: 10),
               child: Column(
                 children: [
                   Text(

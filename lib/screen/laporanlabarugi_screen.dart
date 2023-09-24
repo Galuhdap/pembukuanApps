@@ -57,19 +57,17 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
     var size = MediaQuery.of(context).size;
     DateTime? kosong = null;
     final formattedDates = selectedDate != null
-        ? DateFormat('yyyy-MM-dd')
+        ? DateFormat('yyyy-MM')
             .format(DateTime.parse(selectedDate!.toString()))
         : kosong;
 
     return Scaffold(
       body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
         child: Column(
           children: [
             Container(
               width: size.width,
-              // height: 80,
-              height: 140,
+              height: 80,
               decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: [
@@ -191,7 +189,7 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 12, right: 12),
+                                        left: 12, right: 11),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -542,7 +540,7 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 5, top: 35),
+                      padding: const EdgeInsets.only(bottom: 5, top: 60),
                       child: Column(
                         children: [
                           Text(

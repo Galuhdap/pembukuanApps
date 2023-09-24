@@ -61,26 +61,9 @@ class _LaporanpengeluaranScreenState extends State<LaporanpengeluaranScreen> {
     var size = MediaQuery.of(context).size;
     DateTime? kosong = null;
     final formattedDates = selectedDate != null
-        ? DateFormat('yyyy-MM-dd')
+        ? DateFormat('yyyy-MM')
             .format(DateTime.parse(selectedDate!.toString()))
         : kosong;
-
-    List<NumericData> numericDataList = [
-      NumericData(domain: 1, measure: 50000),
-      NumericData(domain: 5, measure: 53000),
-      NumericData(domain: 10, measure: 150000),
-      NumericData(domain: 15, measure: 87000),
-      NumericData(domain: 20, measure: 200000),
-      NumericData(domain: 25, measure: 55000),
-      NumericData(domain: 30, measure: 1300000),
-    ];
-
-    final numericGroupList = [
-      NumericGroup(
-        id: '1',
-        data: numericDataList,
-      ),
-    ];
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -215,7 +198,7 @@ class _LaporanpengeluaranScreenState extends State<LaporanpengeluaranScreen> {
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 12, right: 12),
+                                        left: 12, right: 11),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -375,7 +358,7 @@ class _LaporanpengeluaranScreenState extends State<LaporanpengeluaranScreen> {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 5, top: 35),
+                      padding: const EdgeInsets.only(bottom: 5, top: 60),
                       child: Column(
                         children: [
                           Text(

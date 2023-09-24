@@ -68,7 +68,7 @@ class _PenjualanScreenState extends State<PenjualanScreen> {
                   padding: const EdgeInsets.only(bottom: 15),
                   child: Container(
                     width: size.width,
-                    height: 270,
+                    height: 250,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       boxShadow: [
@@ -327,7 +327,7 @@ class _PenjualanScreenState extends State<PenjualanScreen> {
                   },
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 2, top:20),
+                  padding: const EdgeInsets.only(bottom: 2, top:15),
                   child: Column(
                     children: [
                       Text(

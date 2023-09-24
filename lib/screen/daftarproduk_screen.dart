@@ -120,7 +120,7 @@ class _DaftarProdukScreenState extends State<DaftarProdukScreen> {
                         padding: const EdgeInsets.only(left: 35, right: 35),
                         child: Container(
                           width: size.width * 0.9,
-                          height: size.height * 0.64,
+                          height: size.height * 0.7,
                           child: ListView.builder(
                             physics: BouncingScrollPhysics(),
                             padding: EdgeInsets.only(top: 10),
@@ -135,11 +135,6 @@ class _DaftarProdukScreenState extends State<DaftarProdukScreen> {
                                 filteredData[index].stock.toString(),
                                 filteredData[index].satuan,
                                 () {
-                                  print('Testing');
-                                  // Navigator.pop(context);
-                                  // Navigator.push(context, MaterialPageRoute(builder: (builder){
-
-                                  // }));
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -171,7 +166,7 @@ class _DaftarProdukScreenState extends State<DaftarProdukScreen> {
                   },
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 5, top: 60),
+                  padding: const EdgeInsets.only(bottom: 5, top: 15),
                   child: Column(
                     children: [
                       Text(

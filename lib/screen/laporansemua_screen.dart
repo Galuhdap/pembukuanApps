@@ -211,7 +211,7 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 12, right: 12),
+                                        left: 12, right: 11),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -469,7 +469,7 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                     ),
                     Padding(
                       padding:
-                          const EdgeInsets.only(top: 25, left: 25, right: 25),
+                          const EdgeInsets.only(top: 25, left: 25, right: 20),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
