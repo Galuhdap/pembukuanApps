@@ -14,13 +14,11 @@ class PDFLaporanSemuaScreen extends StatefulWidget {
   final int pemblihanbahan;
   final int pengeluaran;
   final int penjualan;
-  final int totalhpp;
   final int total;
   const PDFLaporanSemuaScreen({super.key,  required this.kas,
     required this.pemblihanbahan,
     required this.pengeluaran,
     required this.penjualan,
-    required this.totalhpp,
     required this.total,});
 
   @override
@@ -99,7 +97,7 @@ class _PDFLaporanSemuaScreenState extends State<PDFLaporanSemuaScreen> {
           kas: widget.kas,
           pemblihanbahan: widget.pemblihanbahan,
           pengeluaran: widget.pengeluaran,
-          totalhpp: widget.totalhpp,
+          // totalhpp: 2929,
           penjualan: widget.penjualan,
           total: widget.total),
     );

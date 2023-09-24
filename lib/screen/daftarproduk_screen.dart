@@ -135,6 +135,11 @@ class _DaftarProdukScreenState extends State<DaftarProdukScreen> {
                                 filteredData[index].stock.toString(),
                                 filteredData[index].satuan,
                                 () {
+                                  print('Testing');
+                                  // Navigator.pop(context);
+                                  // Navigator.push(context, MaterialPageRoute(builder: (builder){
+
+                                  // }));
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -150,7 +155,6 @@ class _DaftarProdukScreenState extends State<DaftarProdukScreen> {
                                 },
                                 () {
                                   delete(snapshot.data![index].id!);
-                                  Navigator.pop(context);
                                 },
                               );
                             },

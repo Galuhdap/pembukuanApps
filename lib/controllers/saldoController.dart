@@ -26,4 +26,10 @@ class SaldoController {
     final data = await _database.rawQuery('SELECT * FROM saldo');
     return data;
   }
+
+  Future<List> allKas() async {
+    final Database _database = await databaseService.database();
+    final data = await _database.rawQuery('SELECT * FROM kas');
+    return data;
+  }
 }

@@ -326,34 +326,34 @@ class TransaksiController {
 
    Future<int> totalSemua() async {
     final Database _database = await databaseService.database();
-    final data = await _database.rawQuery(
-      'SELECT SUM(total) as total FROM penjualan',
-    );
+    // final data = await _database.rawQuery(
+    //   'SELECT SUM(total) as total FROM penjualan',
+    // );
 
-    final bahan = await _database.rawQuery(
-      'SELECT SUM(harga) as harga FROM pembelian',
-    );
+    // final bahan = await _database.rawQuery(
+    //   'SELECT SUM(harga) as harga FROM pembelian',
+    // );
 
-    final pengeluaran = await _database.rawQuery(
-      'SELECT SUM(biaya) as biaya FROM pengeluaran',
-    );
+    // final pengeluaran = await _database.rawQuery(
+    //   'SELECT SUM(biaya) as biaya FROM pengeluaran',
+    // );
     final kas = await _database.rawQuery(
       'SELECT SUM(saldo) as total FROM saldo',
     );
-    final hpp = await _database.rawQuery(
-      'SELECT SUM(harga_pokok) as hpp FROM produk',
-    );
+    // final hpp = await _database.rawQuery(
+    //   'SELECT SUM(harga_pokok) as hpp FROM produk',
+    // );
  
 
 
-    final total = data.first['total'] as int? ?? 0;
-    final harga = bahan.first['harga'] as int? ?? 0;
-    final biya = pengeluaran.first['biaya'] as int? ?? 0;
+    // final total = data.first['total'] as int? ?? 0;
+    // final harga = bahan.first['harga'] as int? ?? 0;
+    // final biya = pengeluaran.first['biaya'] as int? ?? 0;
     final kass = kas.first['total'] as int? ?? 0;
-    final hpps = hpp.first['hpp'] as int? ?? 0;
+    // final hpps = hpp.first['hpp'] as int? ?? 0;
 
-    final totals = total + harga + biya + kass + hpps;
+    // final totals = total + harga + biya + kass + hpps;
 
-    return totals;
+    return kass;
   }
 }

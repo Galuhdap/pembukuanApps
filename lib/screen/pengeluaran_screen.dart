@@ -275,7 +275,7 @@ class _PengeluaranScreenState extends State<PengeluaranScreen> {
                         padding: const EdgeInsets.only(left: 35, right: 35),
                         child: Container(
                           width: size.width * 0.9,
-                          height: size.height * 0.58,
+                          height: 500,
                           child: ListView.builder(
                             physics: BouncingScrollPhysics(),
                             padding: EdgeInsets.only(top: 10),
@@ -288,14 +288,15 @@ class _PengeluaranScreenState extends State<PengeluaranScreen> {
                                     .format(DateTime.parse(filteredData[index]
                                         .createdAt
                                         .toString())),
-                                CurrencyFormat.convertToIdr(
-                                    filteredData[index].biaya, 0),
+                                '-${CurrencyFormat.convertToIdr(
+                                    filteredData[index].biaya, 0)}',
                                 () {
                                   delete(snapshot.data![index].id!,
                                       snapshot.data![index].biaya!);
-                                      Navigator.pop(context);
+                                      
                                 },
                                 () {},
+                                Color(0xFFE91616),
                                
                               );
                             },

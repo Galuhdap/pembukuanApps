@@ -38,7 +38,7 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
   int totals = 0;
 
   Future fetchData() async {
-    List saldoss = await saldoController.all();
+    List saldoss = await saldoController.allKas();
     List pembelians = await pembelianController.all();
     List pengeluarans = await pengeluaranController.all();
     List penjualans = await transaksiController.all();
@@ -173,7 +173,7 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                     return PDFLaporanSemuaScreen(
                                       kas: saldos.length > 0
                                           ? (saldos[0] != null
-                                              ? (saldos[0]['saldo'] ?? 0)
+                                              ? (saldos[0]['biaya'] ?? 0)
                                               : 0)
                                           : 0,
                                       pengeluaran: pengeluaran.length > 0
@@ -191,11 +191,11 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                               ? (pembelian[0]['harga'] ?? 0)
                                               : 0)
                                           : 0,
-                                      totalhpp: hpp.length > 0
-                                          ? (hpp[0] != null
-                                              ? (hpp[0]['hpp'] ?? 0)
-                                              : 0)
-                                          : 0,
+                                      // totalhpp: hpp.length > 0
+                                      //     ? (hpp[0] != null
+                                      //         ? (hpp[0]['hpp'] ?? 0)
+                                      //         : 0)
+                                      //     : 0,
                                       total: totals,
                                     );
                                   }));
@@ -414,7 +414,7 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                           CurrencyFormat.convertToIdr(
                               saldos.length > 0
                                   ? (saldos[0] != null
-                                      ? (saldos[0]['saldo'] ?? 0)
+                                      ? (saldos[0]['biaya'] ?? 0)
                                       : 0)
                                   : 0,
                               0),

@@ -125,7 +125,7 @@ Center PoinCard(Size size, ttl, kas) {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Uang Kas',
+                          'Saldo Sekarang',
                           style: TextStyle(
                             color: Color(0xFF333333),
                             fontSize: 14,

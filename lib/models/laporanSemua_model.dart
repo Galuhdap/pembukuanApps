@@ -29,7 +29,6 @@ class Alls {
   final int pemblihanbahan;
   final int pengeluaran;
   final int penjualan;
-  final int totalhpp;
   final int total;
   
 
@@ -38,7 +37,6 @@ class Alls {
     required this.pemblihanbahan,
     required this.pengeluaran,
     required this.penjualan,
-    required this.totalhpp,
     required this.total,
   });
 }

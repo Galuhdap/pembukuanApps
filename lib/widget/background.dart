@@ -4,7 +4,7 @@ import '../data/colors.dart';
 Container backgroundApps(Size size, p) {
   return Container(
     width: size.width,
-    height: double.infinity,
+    height: 870,
     decoration: BoxDecoration(
       color: backgroundApp,
       gradient: LinearGradient(

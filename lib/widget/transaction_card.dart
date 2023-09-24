@@ -70,27 +70,21 @@ Padding transactionCard(ttl, tgl, rp, hapus, Size size) {
           child: PopupMenuButton(
             itemBuilder: (context) => [
               PopupMenuItem(
-                  child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  InkWell(
-                    onTap: hapus,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 7),
-                      child: Text(
-                        "Hapus",
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 15,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                onTap: hapus,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 7),
+                  child: Text(
+                    "Hapus",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 15,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
-                ],
-              ))
+                ),
+              ),
             ],
             child: Icon(
               Icons.more_vert,
@@ -104,7 +98,7 @@ Padding transactionCard(ttl, tgl, rp, hapus, Size size) {
   );
 }
 
-Padding transactionCard3(Size size, ttl, tgl, rp, hapus, ontp) {
+Padding transactionCard3(Size size, ttl, tgl, rp, hapus, ontp, clr) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 10),
     child: InkWell(
@@ -157,7 +151,7 @@ Padding transactionCard3(Size size, ttl, tgl, rp, hapus, ontp) {
                         rp,
                         textAlign: TextAlign.right,
                         style: TextStyle(
-                          color: Color(0xFFE91616),
+                          color: clr,
                           fontSize: 14,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w500,
@@ -176,27 +170,21 @@ Padding transactionCard3(Size size, ttl, tgl, rp, hapus, ontp) {
             child: PopupMenuButton(
               itemBuilder: (context) => [
                 PopupMenuItem(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    InkWell(
-                      onTap: hapus,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 7),
-                        child: Text(
-                          "Hapus",
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 15,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+                  onTap: hapus,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 7),
+                    child: Text(
+                      "Hapus",
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 15,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                  ],
-                ))
+                  ),
+                )
               ],
               child: Icon(
                 Icons.more_vert,
@@ -309,27 +297,21 @@ Padding transactionCard2(Size size, ttl, tgl, kg, stn, rp, hapus) {
           child: PopupMenuButton(
             itemBuilder: (context) => [
               PopupMenuItem(
-                  child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  InkWell(
-                    onTap: hapus,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 7),
-                      child: Text(
-                        "Hapus",
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 15,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                onTap: hapus,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 7),
+                  child: Text(
+                    "Hapus",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 15,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
-                ],
-              ))
+                ),
+              ),
             ],
             child: Icon(
               Icons.more_vert,
@@ -471,43 +453,39 @@ Padding productCard(Size size, ttl, tgl, kg, rp, stn, edit, hapus) {
           child: PopupMenuButton(
             itemBuilder: (context) => [
               PopupMenuItem(
-                  child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  InkWell(
-                    onTap: edit,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 7, top: 7),
-                      child: Text(
-                        "Edit",
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 15,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                        ),
+                child: InkWell(
+                  onTap: edit,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 7, top: 7),
+                    child: Text(
+                      "Edit",
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 15,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
-                  InkWell(
-                    onTap: hapus,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 7),
-                      child: Text(
-                        "Hapus",
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 15,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                ),
+              ),
+              PopupMenuItem(
+                onTap: hapus,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 7),
+                  child: Text(
+                    "Hapus",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 15,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
-                ],
-              ))
+                ),
+              ),
             ],
             child: Icon(
               Icons.more_vert,
@@ -645,7 +623,7 @@ Padding productCard2(ttl, tgl, kg, rp, stn, ink, Size size) {
         ),
         Positioned(
           left: size.width * 0.73,
-          top: 7,
+          top: size.height * 0.01,
           child: InkWell(
             onTap: ink,
             child: Container(

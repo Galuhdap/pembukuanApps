@@ -234,18 +234,18 @@ class _KasScreenState extends State<KasScreen> {
                             ),
                           ),
                           FutureBuilder<List>(
-                            future: saldoController.all(),
+                            future: saldoController.allKas(),
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
                                 return CircularProgressIndicator();
                               } else {
-                                final List<SaldoModel> saldos =
+                                final List<KasModel> saldos =
                                     snapshot.data!.map((item) {
-                                  return SaldoModel(
+                                  return KasModel(
                                     id: item['id'],
-                                    saldo: item['saldo'] != null
-                                        ? item['saldo'].toInt()
+                                    biaya: item['biaya'] != null
+                                        ? item['biaya'].toInt()
                                         : 0,
                                   );
                                 }).toList();
@@ -253,7 +253,7 @@ class _KasScreenState extends State<KasScreen> {
                                   padding: const EdgeInsets.only(bottom: 20),
                                   child: Text(
                                     CurrencyFormat.convertToIdr(
-                                        saldos.length > 0 ? saldos[0].saldo : 0,
+                                        saldos.length > 0 ? saldos[0].biaya: 0,
                                         0),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
@@ -346,11 +346,11 @@ class _KasScreenState extends State<KasScreen> {
                                   DateTime.parse(filteredData[index]
                                       .createdAt
                                       .toString())),
-                              CurrencyFormat.convertToIdr(
-                                  filteredData[index].biaya, 0), () async {
+                              '+${CurrencyFormat.convertToIdr(filteredData[index].biaya, 0)}',
+                              () async {
                             delete(filteredData[index].id!,
                                 filteredData[index].biaya!);
-                                Navigator.pop(context);
+                            
                           }, size);
                         },
                       ),

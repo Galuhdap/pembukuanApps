@@ -6,6 +6,7 @@ import 'package:fajarjayaspring_app/widget/textfield.dart';
 import 'package:flutter/material.dart';
 
 import '../config/db.dart';
+import '../models/users_model.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -29,19 +30,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController kotaController = TextEditingController();
 
   Future fetchData() async {
-    List datas = await usersController.all();
-    setState(() {
-      data = datas;
+    // List datas = await usersController.all();
+    // setState(() {
+    //   // data = datas;
 
-      if (datas.isNotEmpty) {
-        namaController.text = data[0]['nama'];
-        notelpController.text = data[0]['notelp'];
-        emailController.text = data[0]['email'];
-        alamatController.text = data[0]['alamat'];
-        provController.text = data[0]['prov'];
-        kotaController.text = data[0]['kota'];
-      }
-    });
+    //   if (datas.isNotEmpty) {
+    //     namaController.text = data[0]['nama'];
+    //     notelpController.text = data[0]['notelp'];
+    //     emailController.text = data[0]['email'];
+    //     alamatController.text = data[0]['alamat'];
+    //     provController.text = data[0]['prov'];
+    //     kotaController.text = data[0]['kota'];
+    //   }
+    // });
   }
 
   @override
@@ -74,7 +75,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             padding: const EdgeInsets.only(right: 20),
                             child: InkWell(
                               onTap: () {
-                              Navigator.pop(context);
+                                Navigator.pop(context);
+                                // Navigator.pushReplacement(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (builde) {
+                                //       return HomeScreen();
+                                //     },
+                                //   ),
+                                // ).then((value) {
+                                //   setState(() {});
+                                // });
                               },
                               child: Icon(
                                 Icons.arrow_back_ios_new_rounded,
@@ -142,37 +153,67 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 1, right: 1, top: 25),
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          "assets/logo/logoapp.png",
-                          width: 100,
-                          height: 100,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 25),
-                        ),
-                        fieldText(size, 'Nama Usaha', false, namaController,
-                            TextInputType.text, null, ''),
-                        fieldText(size, 'No Telp', false, notelpController,
-                            TextInputType.number, null, ''),
-                        fieldText(size, 'Email', false, emailController,
-                            TextInputType.text, null,''),
-                        fieldText(size, 'Alamat', false, alamatController,
-                            TextInputType.text, null,''),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            textField2(size, 'Provinsi', false, provController,
-                                TextInputType.text),
-                            textField2(size, 'Kota/Kabupaten', false,
-                                kotaController, TextInputType.text),
-                          ],
-                        ),
-                      ],
-                    ),
+                  child: FutureBuilder<List>(
+                    future: usersController.all(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      } else {
+                        final List<UserModel> users =
+                            snapshot.data!.map((item) {
+                          return UserModel(id: item['id'], nama: item['nama'], notelp: item['notelp'], email: item['email'], alamat: item['alamat'], prov: item['prov'],kota: item['kota']);
+                        }).toList();
+
+                        if (users.isNotEmpty) {
+                          namaController.text = users[0].nama.toString();
+                          notelpController.text = users[0].notelp.toString();
+                          emailController.text = users[0].email.toString();
+                          alamatController.text = users[0].alamat.toString();
+                          provController.text = users[0].prov.toString();
+                          kotaController.text = users[0].kota.toString();
+                        }
+                        return Padding(
+                          padding:
+                              const EdgeInsets.only(left: 1, right: 1, top: 25),
+                          child: Column(
+                            children: [
+                              Image.asset(
+                                "assets/logo/logoapp.png",
+                                width: 100,
+                                height: 100,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 25),
+                              ),
+                              fieldText(size, 'Nama Usaha', false,
+                                  namaController, TextInputType.text, null, ''),
+                              fieldText(
+                                  size,
+                                  'No Telp',
+                                  false,
+                                  notelpController,
+                                  TextInputType.number,
+                                  null,
+                                  ''),
+                              fieldText(size, 'Email', false, emailController,
+                                  TextInputType.text, null, ''),
+                              fieldText(size, 'Alamat', false, alamatController,
+                                  TextInputType.text, null, ''),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  textField2(size, 'Provinsi', false,
+                                      provController, TextInputType.text),
+                                  textField2(size, 'Kota/Kabupaten', false,
+                                      kotaController, TextInputType.text),
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                    },
                   ),
                 ),
                 Padding(
@@ -201,7 +242,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           height: 1.22,
                         ),
                       ),
-                        Padding(padding: EdgeInsets.only(bottom: 7)),
+                      Padding(padding: EdgeInsets.only(bottom: 7)),
                     ],
                   ),
                 ),

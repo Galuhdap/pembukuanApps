@@ -312,11 +312,11 @@ class PdfLaporanSemua {
                   value: CurrencyFormat.convertToIdr(invoice.all.penjualan, 0),
                   unite: true,
                 ),
-                buildText(
-                  title: 'Total HPP',
-                  value: CurrencyFormat.convertToIdr(invoice.all.totalhpp, 0),
-                  unite: true,
-                ),
+                // buildText(
+                //   title: 'Total HPP',
+                //   value: CurrencyFormat.convertToIdr(invoice.all.totalhpp, 0),
+                //   unite: true,
+                // ),
                 Divider(),
                 buildText(
                   title: 'Total Keseluruhan',

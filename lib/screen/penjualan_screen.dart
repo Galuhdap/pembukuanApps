@@ -62,17 +62,7 @@ class _PenjualanScreenState extends State<PenjualanScreen> {
               children: [
                 appbarCos(size, "Penjualan", () {
                   Navigator.pop(context);
-                  // Navigator.pop(context);
-                  // Navigator.pushReplacement(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (builde) {
-                  //       return HomeScreen();
-                  //     },
-                  //   ),
-                  // ).then((value) {
-                  //   setState(() {});
-                  // });
+
                 }),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 15),
@@ -302,12 +292,12 @@ class _PenjualanScreenState extends State<PenjualanScreen> {
                                     .format(DateTime.parse(filteredData[index]
                                         .createdAt
                                         .toString())),
-                                CurrencyFormat.convertToIdr(
-                                    filteredData[index].total, 0),
+                                '+${CurrencyFormat.convertToIdr(
+                                    filteredData[index].total, 0)}',
                                 () {
                                   delete(filteredData[index].nama!,
                                       filteredData[index].total!);
-                                  Navigator.pop(context);
+                                 
                                 },
                                 () {
                                   Navigator.of(context).push(
@@ -318,9 +308,9 @@ class _PenjualanScreenState extends State<PenjualanScreen> {
                                         );
                                       },
                                     ),
-                                  );
-                                   
+                                  );  
                                 },
+                                Color(0xFF1EB927),
                                 
                               );
                             },

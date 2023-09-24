@@ -1,6 +1,7 @@
 import 'package:fajarjayaspring_app/config/db.dart';
 import 'package:fajarjayaspring_app/controllers/saldoController.dart';
 import 'package:fajarjayaspring_app/controllers/usersController.dart';
+import 'package:fajarjayaspring_app/models/users_model.dart';
 import 'package:fajarjayaspring_app/screen/daftarproduk_screen.dart';
 import 'package:fajarjayaspring_app/screen/kas_screen.dart';
 import 'package:fajarjayaspring_app/screen/pembelianBahan_screen.dart';
@@ -37,7 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-
   @override
   void initState() {
     // TODO: implement initState
@@ -67,27 +67,53 @@ class _HomeScreenState extends State<HomeScreen> {
                 });
               },
               child: FutureBuilder<List>(
-                  future: saldoController.all(),
-                  builder: (context, snapshot) {
-                    if(snapshot.connectionState == ConnectionState.waiting){
-                      return CircularProgressIndicator();
-                    } else {
-                      final List<SaldoModel> saldos = snapshot.data!.map((item) {
+                future: saldoController.all(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else {
+                    final List<SaldoModel> saldos = snapshot.data!.map((item) {
                       return SaldoModel(
                         id: item['id'],
-                        saldo:item['saldo'] != null ? item['saldo'].toInt() : 0 ,
-                        
+                        saldo:
+                            item['saldo'] != null ? item['saldo'].toInt() : 0,
                       );
                     }).toList();
-                    return PoinCard(
-                      size,
-                      data.length > 0 ? data[0]['nama'] : "",
-                      CurrencyFormat.convertToIdr(
-                          saldos.length > 0 ? saldos[0].saldo! : 0, 0),
+
+                    return FutureBuilder<List>(
+                      future: usersController.all(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else {
+                          final List<UserModel> users =
+                              snapshot.data!.map((item) {
+                            return UserModel(
+                              id: item['id'],
+                              nama: item['nama']
+                                 
+                            );
+                          }).toList();
+                          return PoinCard(
+                            size,
+                           users.length > 0 ? users[0].nama : "",
+                            CurrencyFormat.convertToIdr(
+                                saldos.length > 0 ? saldos[0].saldo! : 0, 0),
+                          );
+                        }
+                      },
                     );
 
-                    }
-                  }),
+                    // PoinCard(
+                    //   size,
+                    //   data.length > 0 ? data[0]['nama'] : "",
+                    //   CurrencyFormat.convertToIdr(
+                    //       saldos.length > 0 ? saldos[0].saldo! : 0, 0),
+                    // );
+                  }
+                },
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 20, left: 35, right: 33),
@@ -107,7 +133,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         setState(() {});
                       });
                     },
-                    child: menu(size,"assets/logo/add.png", 'Pembelian\nBahan'),
+                    child:
+                        menu(size, "assets/logo/add.png", 'Pembelian\nBahan'),
                   ),
                   InkWell(
                       onTap: () {
@@ -122,8 +149,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           setState(() {});
                         });
                       },
-                      child:
-                          menu(size, "assets/logo/cttn.png", 'Catat\nPengeluaran')),
+                      child: menu(
+                          size, "assets/logo/cttn.png", 'Catat\nPengeluaran')),
                 ],
               ),
             ),
@@ -145,7 +172,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           setState(() {});
                         });
                       },
-                      child: menu(size,"assets/logo/prdk.png", 'Daftar\nProduk')),
+                      child:
+                          menu(size, "assets/logo/prdk.png", 'Daftar\nProduk')),
                   InkWell(
                       onTap: () {
                         Navigator.push(
@@ -159,7 +187,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           setState(() {});
                         });
                       },
-                      child: menu(size,"assets/logo/pnjl.png", 'Catat\nPenjualan')),
+                      child: menu(
+                          size, "assets/logo/pnjl.png", 'Catat\nPenjualan')),
                 ],
               ),
             ),
@@ -181,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           setState(() {});
                         });
                       },
-                      child: menu(size,"assets/logo/laporan.png", 'Laporan')),
+                      child: menu(size, "assets/logo/laporan.png", 'Laporan')),
                   InkWell(
                       onTap: () {
                         Navigator.push(
@@ -195,7 +224,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           setState(() {});
                         });
                       },
-                      child: menu(size,"assets/logo/profile.png", 'Profile\nUsaha')),
+                      child: menu(
+                          size, "assets/logo/profile.png", 'Profile\nUsaha')),
                 ],
               ),
             ),
@@ -208,7 +238,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xFFA8A8A8),
-                      fontSize: 8,
+                      fontSize: 10,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,
                     ),
@@ -235,7 +265,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Container menu(Size size ,icn, ttl) {
+  Container menu(Size size, icn, ttl) {
     return Container(
       width: size.width * 0.38,
       height: 160,

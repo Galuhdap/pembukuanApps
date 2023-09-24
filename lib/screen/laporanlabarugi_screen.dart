@@ -230,7 +230,7 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                                             formattedDates.toString()),
                                 builder: (context, snapshot) {
                                   if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
+                                      ConnectionState.waiting) { 
                                     return CircularProgressIndicator();
                                   } else {
                                     final bersih = snapshot.data ?? 0;
