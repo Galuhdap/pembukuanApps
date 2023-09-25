@@ -148,6 +148,21 @@ class TransaksiController {
         },
         where: 'id = ?',
         whereArgs: [1]);
+
+            final List<Map<String, dynamic>> results =
+        await _database.rawQuery('SELECT * FROM saldo');
+
+    if(results.isNotEmpty){
+
+      final datas = results[0]['saldo'] ?? 0;
+         await _database.update(
+        'saldo',
+        {
+          'saldo': datas - total,
+        },
+        where: 'id = ?',
+        whereArgs: [1]);
+    }
   }
 
   Future<List> alls() async {

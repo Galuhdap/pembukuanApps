@@ -454,7 +454,7 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                         contText(
                           size,
                           "Produk Terjual",
-                          '${prTer.length > 0 ? prTer[0]['jumlah'].toString() : ""} Produk',
+                          '${prTer.length > 0 ? prTer[0]['jumlah']?.toString() ?? 0 : 0} Produk',
                         ),
                         Container(
                           width: size.width * 0.87,

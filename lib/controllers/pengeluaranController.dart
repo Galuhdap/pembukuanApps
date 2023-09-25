@@ -58,8 +58,8 @@ class PengeluaranController {
     final bahan =
         await _database.rawQuery('SELECT SUM(harga) as harga FROM pembelian');
 
-     final total = data.first['biaya'] as int;
-      final bahans = bahan.first['harga'] as int;
+     final total = data.first['biaya'] as int? ?? 0 ;
+      final bahans = bahan.first['harga'] as int? ?? 0;
 
       final totals = total + bahans;
     return totals;

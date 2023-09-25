@@ -31,7 +31,7 @@ class SaldoController {
     final Database _database = await databaseService.database();
     final data = await _database.rawQuery('SELECT SUM(biaya) AS total FROM kas');
 
-     final total = data.first['total'] as int;
+     final total = data.first['total'] as int? ?? 0;
     return total;
   }
 }
