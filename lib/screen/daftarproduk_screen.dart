@@ -105,7 +105,7 @@ class _DaftarProdukScreenState extends State<DaftarProdukScreen> {
                     if (snapshot.hasData) {
                       if (snapshot.data!.length == 0) {
                         return Padding(
-                          padding: const EdgeInsets.only(top: 250, bottom: 310),
+                          padding: const EdgeInsets.only(top: 250, bottom: 355),
                           child: Center(
                             child: Text("DATA KOSONG"),
                           ),

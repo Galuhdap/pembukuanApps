@@ -246,7 +246,7 @@ class _PenjualanScreenState extends State<PenjualanScreen> {
                     if (snapshot.hasData) {
                       if (snapshot.data!.length == 0) {
                         return Padding(
-                          padding: const EdgeInsets.only(top: 195, bottom: 185),
+                          padding: const EdgeInsets.only(top: 195, bottom: 245),
                           child: Center(
                             child: Text("DATA KOSONG"),
                           ),

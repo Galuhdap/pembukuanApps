@@ -367,7 +367,7 @@ class _LaporanpengeluaranScreenState extends State<LaporanpengeluaranScreen> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Color(0xFFA8A8A8),
-                              fontSize: 8,
+                              fontSize: 10,
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.w500,
                             ),

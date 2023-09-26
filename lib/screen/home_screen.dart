@@ -104,13 +104,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         }
                       },
                     );
-
-                    // PoinCard(
-                    //   size,
-                    //   data.length > 0 ? data[0]['nama'] : "",
-                    //   CurrencyFormat.convertToIdr(
-                    //       saldos.length > 0 ? saldos[0].saldo! : 0, 0),
-                    // );
                   }
                 },
               ),

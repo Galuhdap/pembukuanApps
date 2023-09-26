@@ -245,7 +245,7 @@ class _PengeluaranScreenState extends State<PengeluaranScreen> {
                     if (snapshot.hasData) {
                       if (snapshot.data!.length == 0) {
                         return Padding(
-                          padding: const EdgeInsets.only(top: 235, bottom: 243),
+                          padding: const EdgeInsets.only(top: 235, bottom: 280),
                           child: Center(
                             child: Text("DATA KOSONG"),
                           ),
