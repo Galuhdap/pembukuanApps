@@ -876,7 +876,7 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                     'DIDANAI OLEH:',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Color(0xFFA8A8A8),
+                      color: Color(0xFF3F51B5),
                       fontSize: 8,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,
@@ -887,7 +887,7 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                     'Direktorat Riset, Teknologi, dan Pengabdian Kepada Masyarakat, Direktorat\nJenderal Pendidikan Tinggi, Riset dan Teknologi, Kementrian Pendidikan,\nKebudayaan, Riset, dan Teknologi Republik Indonesia',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Color(0xFFA8A8A8),
+                      color: Color(0xFF3F51B5),
                       fontSize: 10,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w400,

@@ -104,7 +104,7 @@ class _SplashScreenState extends State<SplashScreen>
                         height: 40,
                       ),
                       Image.asset(
-                        "assets/logo/unesa.png",
+                        "assets/logo/logounesa.png",
                         width: 45,
                         height: 45,
                       ),

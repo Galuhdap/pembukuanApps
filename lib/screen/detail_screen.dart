@@ -123,14 +123,35 @@ class _DetailScreenState extends State<DetailScreen> {
                                
                               ],
                             ),
+                            Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        "assets/logo/tuturi.png",
+                        width: 45,
+                        height: 45,
+                      ),
+                      Image.asset(
+                        "assets/logo/untag.png",
+                        width: 40,
+                        height: 40,
+                      ),
+                      Image.asset(
+                        "assets/logo/logounesa.png",
+                        width: 45,
+                        height: 45,
+                      ),
+                    ],
+                  ),
                           ],
                         ),
                       ),
+                      
                     ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 33, top: 100),
+                  padding: const EdgeInsets.only(left: 33, top: 140),
                   child: Container(
                     width: size.width * 0.85,
                     height: 600,

@@ -87,12 +87,6 @@ class PdfLaporanLaba {
             ttl,
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          // Text(
-          //   DateFormat(' dd MMMM yyyy', 'id_ID').format(DateTime.now()).toString(),
-          //   style: TextStyle(
-          //     fontSize: 15,
-          //   ),
-          // ),
           SizedBox(height: 0.8 * PdfPageFormat.cm),
         ],
       );

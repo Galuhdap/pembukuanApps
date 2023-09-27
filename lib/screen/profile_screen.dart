@@ -30,19 +30,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController kotaController = TextEditingController();
 
   Future fetchData() async {
-    // List datas = await usersController.all();
-    // setState(() {
-    //   // data = datas;
-
-    //   if (datas.isNotEmpty) {
-    //     namaController.text = data[0]['nama'];
-    //     notelpController.text = data[0]['notelp'];
-    //     emailController.text = data[0]['email'];
-    //     alamatController.text = data[0]['alamat'];
-    //     provController.text = data[0]['prov'];
-    //     kotaController.text = data[0]['kota'];
-    //   }
-    // });
   }
 
   @override
@@ -63,9 +50,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             padding: const EdgeInsets.only(top: 60),
             child: Column(
               children: [
+                
                 Padding(
                   padding:
-                      const EdgeInsets.only(left: 40, right: 45, bottom: 60),
+                      const EdgeInsets.only(left: 40, right: 45, bottom: 30),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -76,16 +64,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: InkWell(
                               onTap: () {
                                 Navigator.pop(context);
-                                // Navigator.pushReplacement(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (builde) {
-                                //       return HomeScreen();
-                                //     },
-                                //   ),
-                                // ).then((value) {
-                                //   setState(() {});
-                                // });
                               },
                               child: Icon(
                                 Icons.arrow_back_ios_new_rounded,
@@ -143,6 +121,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       )
                     ],
                   ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/logo/tuturi.png",
+                          width: 45,
+                          height: 45,
+                        ),
+                        Image.asset(
+                          "assets/logo/untag.png",
+                          width: 40,
+                          height: 40,
+                        ),
+                        Image.asset(
+                          "assets/logo/logounesa.png",
+                          width: 45,
+                          height: 45,
+                        ),
+                      ],
+                    ),
                 ),
                 Container(
                   width: size.width * 0.85,
@@ -224,7 +225,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         'DIDANAI OLEH:',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Color(0xFF3F51B5),
                           fontSize: 12,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w500,
@@ -235,7 +236,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         'Direktorat Riset, Teknologi, dan Pengabdian Kepada Masyarakat, Direktorat Jenderal Pendidikan Tinggi, Riset dan Teknologi, Kementrian Pendidikan, Kebudayaan, Riset, dan Teknologi Republik Indonesia',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Color(0xFF3F51B5),
                           fontSize: 10,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w400,

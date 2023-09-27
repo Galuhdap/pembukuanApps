@@ -52,7 +52,7 @@ Container appbarCos(Size size, ttl , ontap) {
                           height: 25,
                         ),
                         Image.asset(
-                          "assets/logo/unesa.png",
+                          "assets/logo/logounesa.png",
                           width: 30,
                           height: 30,
                         ),

@@ -76,9 +76,6 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
       OrdinalData(
           domain: 'Pengeluaran',
           measure: pengeluaran,
-          // measure: pengeluaran.length > 0
-          //     ? (pengeluaran[0] != null ? (pengeluaran[0]['biaya'] ?? 0) : 0)
-          //     : 0,
           color: Color(0xFFE91616)),
       OrdinalData(
         domain: 'Pemasukan',
@@ -175,13 +172,7 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                   Navigator.of(context).push(
                                       MaterialPageRoute(builder: (context) {
                                     return PDFLaporanSemuaScreen(
-                                      // kas: saldos.length > 0
-                                      //     ? (saldos[0] != null
-                                      //         ? (saldos[0]['biaya'] ?? 0)
-                                      //         : 0)
-                                      //     : 0,
                                       kas: saldos,
-                                      // pengeluaran: pengeluaran,
                                       pengeluaran: peng.length > 0
                                           ? (peng[0] != null
                                               ? (peng[0]['biaya'] ?? 0)
@@ -385,13 +376,6 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                             child: Text(
                                               CurrencyFormat.convertToIdr(
                                                 pengeluaran,
-                                                  // pengeluaran.length > 0
-                                                  //     ? (pengeluaran[0] != null
-                                                  //         ? (pengeluaran[0]
-                                                  //                 ['biaya'] ??
-                                                  //             0)
-                                                  //         : 0)
-                                                  //     : 0,
                                                   0),
                                               style: TextStyle(
                                                 color: Color(0xFF333333),
@@ -415,11 +399,6 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                           size, "Kas",
                           CurrencyFormat.convertToIdr(
                             saldos,
-                              // saldos.length > 0
-                              //     ? (saldos[0] != null
-                              //         ? (saldos[0]['biaya'] ?? 0)
-                              //         : 0)
-                              //     : 0,
                               0),
                         ),
                         contText(
@@ -545,7 +524,7 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                             'DIDANAI OLEH:',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: Color(0xFFA8A8A8),
+                              color: Color(0xFF3F51B5),
                               fontSize: 10,
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.w500,
@@ -556,7 +535,7 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                             'Direktorat Riset, Teknologi, dan Pengabdian Kepada Masyarakat, Direktorat\nJenderal Pendidikan Tinggi, Riset dan Teknologi, Kementrian Pendidikan,\nKebudayaan, Riset, dan Teknologi Republik Indonesia',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: Color(0xFFA8A8A8),
+                              color: Color(0xFF3F51B5),
                               fontSize: 10,
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.w400,

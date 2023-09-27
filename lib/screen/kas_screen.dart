@@ -170,7 +170,7 @@ class _KasScreenState extends State<KasScreen> {
                                     height: 25,
                                   ),
                                   Image.asset(
-                                    "assets/logo/unesa.png",
+                                    "assets/logo/logounesa.png",
                                     width: 30,
                                     height: 30,
                                   ),
@@ -364,7 +364,7 @@ class _KasScreenState extends State<KasScreen> {
                     'DIDANAI OLEH:',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Color(0xFFA8A8A8),
+                      color: Color(0xFF3F51B5),
                       fontSize: 8,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,
@@ -375,7 +375,7 @@ class _KasScreenState extends State<KasScreen> {
                     'Direktorat Riset, Teknologi, dan Pengabdian Kepada Masyarakat, Direktorat\nJenderal Pendidikan Tinggi, Riset dan Teknologi, Kementrian Pendidikan,\nKebudayaan, Riset, dan Teknologi Republik Indonesia',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Color(0xFFA8A8A8),
+                      color: Color(0xFF3F51B5),
                       fontSize: 10,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w400,

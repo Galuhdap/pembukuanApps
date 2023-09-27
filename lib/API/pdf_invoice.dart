@@ -111,7 +111,6 @@ class PdfInvoiceApi {
   static Widget buildInvoice(Invoice invoice) {
     final headers = ['Description', 'Quantity', 'Total'];
     final data = invoice.items.map((item) {
-      // final total = item.unitPrice * item.quantity * (1 + item.vat);
 
       return [
         item.description,

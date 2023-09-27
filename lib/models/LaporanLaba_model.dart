@@ -7,7 +7,6 @@ class LaporanLaba {
   final UserModel userModel;
   final Alls all;
   final List<PenjualanModel> items;
-  // final PembelianModel pembelianModel;
 
 
   const LaporanLaba({

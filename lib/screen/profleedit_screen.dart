@@ -62,7 +62,7 @@ class _ProfileeditScreenState extends State<ProfileeditScreen> {
               children: [
                 Padding(
                   padding:
-                      const EdgeInsets.only(left: 40, right: 45, bottom: 60),
+                      const EdgeInsets.only(left: 40, right: 45, bottom: 30),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -94,6 +94,29 @@ class _ProfileeditScreenState extends State<ProfileeditScreen> {
                       ),
                     ],
                   ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/logo/tuturi.png",
+                          width: 45,
+                          height: 45,
+                        ),
+                        Image.asset(
+                          "assets/logo/untag.png",
+                          width: 40,
+                          height: 40,
+                        ),
+                        Image.asset(
+                          "assets/logo/logounesa.png",
+                          width: 45,
+                          height: 45,
+                        ),
+                      ],
+                    ),
                 ),
                 Container(
                   width: size.width * 0.85,

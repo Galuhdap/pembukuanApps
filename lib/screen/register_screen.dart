@@ -43,8 +43,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
             padding: const EdgeInsets.only(top: 60),
             child: Column(
               children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        "assets/logo/tuturi.png",
+                        width: 45,
+                        height: 45,
+                      ),
+                      Image.asset(
+                        "assets/logo/untag.png",
+                        width: 40,
+                        height: 40,
+                      ),
+                      Image.asset(
+                        "assets/logo/logounesa.png",
+                        width: 45,
+                        height: 45,
+                      ),
+                    ],
+                  ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 40),
+                  padding: const EdgeInsets.only(bottom: 40, top: 10),
                   child: Text(
                     'Hai, Daftarkan\nUsahamu Dulu Yuk!',
                     textAlign: TextAlign.center,
