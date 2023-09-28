@@ -29,8 +29,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController provController = TextEditingController();
   TextEditingController kotaController = TextEditingController();
 
-  Future fetchData() async {
-  }
+  Future fetchData() async {}
 
   @override
   void initState() {
@@ -50,7 +49,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             padding: const EdgeInsets.only(top: 60),
             child: Column(
               children: [
-                
                 Padding(
                   padding:
                       const EdgeInsets.only(left: 40, right: 45, bottom: 30),
@@ -126,28 +124,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   padding: const EdgeInsets.only(bottom: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 3.5),
+                        child: Image.asset(
                           "assets/logo/tuturi.png",
-                          width: 45,
-                          height: 45,
+                          width: 45.5,
+                          height: 45.5,
                         ),
-                        Image.asset(
-                          "assets/logo/untag.png",
-                          width: 40,
-                          height: 40,
-                        ),
-                        Image.asset(
-                          "assets/logo/logounesa.png",
-                          width: 45,
-                          height: 45,
-                        ),
-                      ],
-                    ),
+                      ),
+                      Image.asset(
+                        "assets/logo/untag.png",
+                        width: 42,
+                        height: 42,
+                      ),
+                      Image.asset(
+                        "assets/logo/logounesa.png",
+                        width: 41.5,
+                        height: 41.5,
+                      ),
+                    ],
+                  ),
                 ),
                 Container(
                   width: size.width * 0.85,
-                  height: 550,
+                  height: 555,
                   decoration: ShapeDecoration(
                     color: Color(0xFFF5F5F5),
                     shape: RoundedRectangleBorder(
@@ -162,7 +163,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       } else {
                         final List<UserModel> users =
                             snapshot.data!.map((item) {
-                          return UserModel(id: item['id'], nama: item['nama'], notelp: item['notelp'], email: item['email'], alamat: item['alamat'], prov: item['prov'],kota: item['kota']);
+                          return UserModel(
+                              id: item['id'],
+                              nama: item['nama'],
+                              notelp: item['notelp'],
+                              email: item['email'],
+                              alamat: item['alamat'],
+                              prov: item['prov'],
+                              kota: item['kota']);
                         }).toList();
 
                         if (users.isNotEmpty) {
@@ -186,28 +194,78 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Padding(
                                 padding: EdgeInsets.only(bottom: 25),
                               ),
-                              fieldText(size, 'Nama Usaha', false,
-                                  namaController, TextInputType.text, null, ''),
                               fieldText(
-                                  size,
-                                  'No Telp',
-                                  false,
-                                  notelpController,
-                                  TextInputType.number,
-                                  null,
-                                  ''),
-                              fieldText(size, 'Email', false, emailController,
-                                  TextInputType.text, null, ''),
-                              fieldText(size, 'Alamat', false, alamatController,
-                                  TextInputType.text, null, ''),
+                                size,
+                                'Nama Usaha',
+                                false,
+                                namaController,
+                                TextInputType.text,
+                                null,
+                                '',
+                                (value) {
+                                  
+                                },
+                              ),
+                              fieldText(
+                                size,
+                                'No Telp',
+                                false,
+                                notelpController,
+                                TextInputType.number,
+                                null,
+                                '',
+                                (value) {
+                                  
+                                },
+                              ),
+                              fieldText(
+                                size,
+                                'Email',
+                                false,
+                                emailController,
+                                TextInputType.text,
+                                null,
+                                '',
+                                (value) {
+                                  
+                                },
+                              ),
+                              fieldText(
+                                size,
+                                'Alamat',
+                                false,
+                                alamatController,
+                                TextInputType.text,
+                                null,
+                                '',
+                                (value) {
+                                  
+                                },
+                              ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  textField2(size, 'Provinsi', false,
-                                      provController, TextInputType.text),
-                                  textField2(size, 'Kota/Kabupaten', false,
-                                      kotaController, TextInputType.text),
+                                  textField2(
+                                    size,
+                                    'Provinsi',
+                                    false,
+                                    provController,
+                                    TextInputType.text,
+                                    (value) {
+                                      
+                                    },
+                                  ),
+                                  textField2(
+                                    size,
+                                    'Kota/Kabupaten',
+                                    false,
+                                    kotaController,
+                                    TextInputType.text,
+                                    (value) {
+                                      
+                                    },
+                                  ),
                                 ],
                               ),
                             ],
@@ -233,7 +291,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       Padding(padding: EdgeInsets.only(bottom: 7)),
                       Text(
-                        'Direktorat Riset, Teknologi, dan Pengabdian Kepada Masyarakat, Direktorat Jenderal Pendidikan Tinggi, Riset dan Teknologi, Kementrian Pendidikan, Kebudayaan, Riset, dan Teknologi Republik Indonesia',
+                        'Direktorat Riset, Teknologi, dan Pengabdian Kepada Masyarakat, Direktorat Jenderal Pendidikan Tinggi, Riset dan Teknologi, Kementrian Pendidikan, Kebudayaan, Riset, dan Teknologi Republik Indonesia Tahun Pendanaan 2023',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,

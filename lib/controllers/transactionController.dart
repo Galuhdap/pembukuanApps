@@ -44,7 +44,8 @@ class TransaksiController {
       required int ongkos_kirim,
       required int potongan_harga,
       required int total,
-      required int idP}) async {
+      required int idP,
+      required String tgl,}) async {
     final Database _database = await databaseService.database();
 
     final List<Map<String, dynamic>> keranjang =
@@ -63,7 +64,7 @@ class TransaksiController {
         'ongkos_kirim': ongkos_kirim,
         'potongan_harga': potongan_harga,
         'total': total,
-        'createdAt': DateTime.now().toString(),
+        'createdAt': tgl,
         'updatedAt': DateTime.now().toString(),
       });
     }

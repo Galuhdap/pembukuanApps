@@ -8,12 +8,13 @@ class PengeluaranController {
   Future<void> insert({
     required String nama_pengeluaran,
     required int biaya,
+    required String tgl,
   }) async {
     final Database _database = await databaseService.database();
     await _database.insert('pengeluaran', {
       'nama_pengeluaran': nama_pengeluaran,
       'biaya': biaya,
-      'createdAt': DateTime.now().toString(),
+      'createdAt': tgl,
       'updatedAt': DateTime.now().toString(),
     });
 
@@ -24,7 +25,7 @@ class PengeluaranController {
         'saldo',
         {
           'saldo': total[0]['saldo'] - biaya,
-          'createdAt': DateTime.now().toString(),
+          'createdAt': tgl,
           'updatedAt': DateTime.now().toString(),
         },
         where: 'id = ?',

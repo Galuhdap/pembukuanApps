@@ -50,6 +50,9 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
   TextEditingController biayaController = TextEditingController();
   TextEditingController potonganController = TextEditingController();
 
+  final _formState = GlobalKey<FormState>();
+  DateTime? _date;
+
   Future initDatabase() async {
     await databaseService!.database();
     setState(() {});
@@ -58,79 +61,6 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
   Future delete(int id) async {
     await transaksiController.delete(idParams: id);
     setState(() {});
-  }
-
-  String namaError = '';
-  String namapemError = '';
-
-  void validateAndSave() async {
-    setState(() {
-      namapemError = namapemController.text.isEmpty ? 'Nama harus diisi' : '';
-      namaError = namaController.text.isEmpty ? 'nama harus diisi' : '';
-    });
-
-    if (namapemError.isEmpty && namaError.isEmpty) {
-      String ongkirText =
-          ongkirController.text.replaceAll('Rp ', '').replaceAll('.', '');
-      String biayaText =
-          biayaController.text.replaceAll('Rp ', '').replaceAll('.', '');
-      String potoText =
-          potonganController.text.replaceAll('Rp ', '').replaceAll('.', '');
-
-      int parsedongkir = int.tryParse(ongkirText) ?? 0;
-      int parsedbaiay = int.tryParse(biayaText) ?? 0;
-      int parsedpotong = int.tryParse(potoText) ?? 0;
-
-      setState(() {
-        ongkirs = parsedongkir;
-        biayas = parsedbaiay;
-        potonganH = parsedpotong;
-      });
-
-      await transaksiController.insertpenjualan(
-        nama: namaController.text,
-        nama_pembeli: namapemController.text,
-        subtotal: subtotals ?? 0,
-        biaya_lain: biayas,
-        ongkos_kirim: ongkirs,
-        potongan_harga: potonganH,
-        pembayaran: _value,
-        total: finals,
-        idP: 1,
-      );
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (builde) {
-            return DetailScreen(
-              namatransaksi: namaController.text,
-              namapembeli: namapemController.text,
-              pembayaran: _value,
-              tanggal: DateTime.now().toString(),
-              subtotal: subtotals ?? 0,
-              lain: byn,
-              ongkir: ongkir,
-              potongan: potongan,
-              total: finals,
-            );
-          },
-        ),
-      ).then((value) {
-        setState(() {});
-      });
-    } else {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Center(
-            child: Text(
-              'Masukan Input Dengan Benar !!',
-            ),
-          ),
-        ),
-      );
-    }
   }
 
   @override
@@ -156,22 +86,82 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          children: [
-            appbarCos(size, "Catat Penjualan", () {
-              Navigator.pop(context);
-            }),
-            SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
+      body: Form(
+        key: _formState,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: [
+              appbarCos(size, "Catat Penjualan", () {
+                Navigator.pop(context);
+              }),
+              SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child:  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 5, top: 10),
+                        child: Text(
+                          "Nama Transaksi",
+                          style: TextStyle(
+                            color: Color(0xFF333333),
+                            fontSize: 12,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: size.width * 0.8,
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value == '') {
+                              return "Text Tidak Boleh Kosong";
+                            }
+                            return null;
+                          },
+                          controller: namaController,
+                          onChanged: (value) {
+                            setState(() {
+                              nama = value;
+                            });
+                          },
+                          enabled: true,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(3),
+                              borderSide: BorderSide(
+                                color: Color(0xFFA8A8A8),
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(3),
+                              borderSide: BorderSide(
+                                color: Color(0xFFA8A8A8),
+                              ),
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            isDense: true,
+                          ),
+                          style: TextStyle(
+                            fontSize: 13.0,
+                            color: Colors.black,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(bottom: 5, top: 10),
                     child: Text(
-                      "Nama Transaksi",
+                      "Tanggal",
                       style: TextStyle(
                         color: Color(0xFF333333),
                         fontSize: 12,
@@ -183,13 +173,84 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                   Container(
                     width: size.width * 0.8,
                     height: 40,
-                    child: TextField(
-                      controller: namaController,
-                      onChanged: (value) {
-                        setState(() {
-                          nama = value;
-                        });
+                    child: TextFormField(
+                      validator: (value) {
+                            if (value == '') {
+                              return "Text Tidak Boleh Kosong";
+                            }
+                            return null;
+                          },
+                      controller: tglController,
+                      enabled: true,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(3),
+                          borderSide: BorderSide(
+                            color: Color(0xFFA8A8A8),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(3),
+                          borderSide: BorderSide(
+                            color: Color(0xFFA8A8A8),
+                          ),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        isDense: true,
+                        suffixIcon: Icon(Icons.calendar_today),
+                      ),
+                      onTap: () async {
+                        DateTime? picked = await showDatePicker(
+                          context: context,
+                          initialDate: _date ?? DateTime.now(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2101),
+                        );
+      
+                        if (picked != null) {
+                          setState(() {
+                            tglController.text =
+                                DateFormat('EEEE, dd MMMM yyyy', 'id_ID')
+                                    .format(picked);
+      
+                            _date = picked;
+                          });
+                        }
                       },
+                      style: TextStyle(
+                        fontSize: 13.0,
+                        color: Colors.black,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 5, top: 10),
+                    child: Text(
+                      "Nama Pembeli",
+                      style: TextStyle(
+                        color: Color(0xFF333333),
+                        fontSize: 12,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: size.width * 0.8,
+                    child: TextFormField(
+                      validator: (value) {
+                        if (value == '') {
+                          return "Text Tidak Boleh Kosong";
+                        }
+                        return null;
+                      },
+                      controller: namapemController,
                       enabled: true,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -216,434 +277,461 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                   )
                 ],
               ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 5, top: 10),
-                  child: Text(
-                    "Tanggal",
-                    style: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 12,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-                Container(
-                  width: size.width * 0.8,
-                  height: 40,
-                  child: TextField(
-                    controller: tglController,
-                    enabled: false,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(3),
-                        borderSide: BorderSide(
-                          color: Color(0xFFA8A8A8),
-                        ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 40, right: 40, top: 15, bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Produk',
+                      style: TextStyle(
+                        color: Color(0xFF333333),
+                        fontSize: 12,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(3),
-                        borderSide: BorderSide(
-                          color: Color(0xFFA8A8A8),
-                        ),
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                      isDense: true,
                     ),
-                    style: TextStyle(
-                      fontSize: 13.0,
-                      color: Colors.black,
-                    ),
-                  ),
-                )
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 5, top: 10),
-                  child: Text(
-                    "Nama Pembeli",
-                    style: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 12,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-                Container(
-                  width: size.width * 0.8,
-                  height: 40,
-                  child: TextField(
-                    controller: namapemController,
-                    enabled: true,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(3),
-                        borderSide: BorderSide(
-                          color: Color(0xFFA8A8A8),
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(3),
-                        borderSide: BorderSide(
-                          color: Color(0xFFA8A8A8),
-                        ),
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                      isDense: true,
-                    ),
-                    style: TextStyle(
-                      fontSize: 13.0,
-                      color: Colors.black,
-                    ),
-                  ),
-                )
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 40, right: 40, top: 15, bottom: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Produk',
-                    style: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 12,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Padding(padding: EdgeInsets.only(left: 10)),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (builde) {
-                                return CatatanpenjualanAddScreen();
-                              },
+                    Row(
+                      children: [
+                        Padding(padding: EdgeInsets.only(left: 10)),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (builde) {
+                                  return CatatanpenjualanAddScreen();
+                                },
+                              ),
+                            ).then((value) {
+                              setState(() {});
+                            });
+                          },
+                          child: Container(
+                            width: 53,
+                            height: 25,
+                            decoration: ShapeDecoration(
+                              color: Color(0xFF2196F3),
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    width: 0.50, color: Color(0xFF2196F3)),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
                             ),
-                          ).then((value) {
-                            setState(() {});
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'TAMBAH',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              FutureBuilder<List<KeranjangModel>>(
+                future: databaseService!.allDataKar(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data!.length == 0) {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 50, bottom: 50),
+                        child: Center(
+                          child: Text("DATA KOSONG"),
+                        ),
+                      );
+                    }
+                    return Container(
+                      width: size.width * 0.8,
+                      height: size.height * 0.23,
+                      child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        padding: EdgeInsets.only(top: 10),
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (BuildContext context, index) {
+                          return product(
+                              size,
+                              snapshot.data![index].nama,
+                              snapshot.data![index].jumlah.toString(),
+                              CurrencyFormat.convertToIdr(
+                                  snapshot.data![index].total, 0), () {
+                            delete(snapshot.data![index].id!);
                           });
                         },
-                        child: Container(
-                          width: 53,
-                          height: 25,
-                          decoration: ShapeDecoration(
-                            color: Color(0xFF2196F3),
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  width: 0.50, color: Color(0xFF2196F3)),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'TAMBAH',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
-            FutureBuilder<List<KeranjangModel>>(
-              future: databaseService!.allDataKar(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  if (snapshot.data!.length == 0) {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 50, bottom: 50),
-                      child: Center(
-                        child: Text("DATA KOSONG"),
+                      ),
+                    );
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.blue,
                       ),
                     );
                   }
-                  return Container(
+                },
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 5, top: 10),
+                    child: Text(
+                      "Ongkos Kirim",
+                      style: TextStyle(
+                        color: Color(0xFF333333),
+                        fontSize: 12,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  Container(
                     width: size.width * 0.8,
-                    height: size.height * 0.23,
-                    child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      padding: EdgeInsets.only(top: 10),
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (BuildContext context, index) {
-                        return product(
-                            size,
-                            snapshot.data![index].nama,
-                            snapshot.data![index].jumlah.toString(),
-                            CurrencyFormat.convertToIdr(
-                                snapshot.data![index].total, 0), () {
-                          delete(snapshot.data![index].id!);
+                    child: TextFormField(
+                      
+                      inputFormatters: [_currencyFormatter],
+                      keyboardType: TextInputType.number,
+                      onChanged: (value) {
+                        setState(() {
+                          if (value.isEmpty) {
+                            ongkir = 0;
+                          } else {
+                            String hargaText =
+                                value.replaceAll('Rp ', '').replaceAll('.', '');
+      
+                            int parsedHarga = int.tryParse(hargaText) ?? 0;
+      
+                            ongkir = parsedHarga;
+                          }
                         });
                       },
+                      controller: ongkirController,
+                      enabled: true,
+                      decoration: InputDecoration(
+                        prefixText: "Rp ",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(3),
+                          borderSide: BorderSide(
+                            color: Color(0xFFA8A8A8),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(3),
+                          borderSide: BorderSide(
+                            color: Color(0xFFA8A8A8),
+                          ),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        isDense: true,
+                      ),
+                      style: TextStyle(
+                        fontSize: 13.0,
+                        color: Colors.black,
+                      ),
                     ),
-                  );
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.blue,
-                    ),
-                  );
-                }
-              },
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 5, top: 10),
-                  child: Text(
-                    "Ongkos Kirim",
-                    style: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 12,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
+                  )
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 5, top: 10),
+                    child: Text(
+                      "Biaya Lain-lain (Opsional)",
+                      style: TextStyle(
+                        color: Color(0xFF333333),
+                        fontSize: 12,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ),
-                ),
-                Container(
+                  Container(
+                    width: size.width * 0.8,
+                    child: TextFormField(
+ 
+                      inputFormatters: [_currencyFormatter],
+                      keyboardType: TextInputType.number,
+                      onChanged: (value) {
+                        setState(() {
+                          if (value.isEmpty) {
+                            byn = 0;
+                          } else {
+                            String hargaText =
+                                value.replaceAll('Rp ', '').replaceAll('.', '');
+      
+                            int parsedHarga = int.tryParse(hargaText) ?? 0;
+      
+                            byn = parsedHarga;
+                          }
+                        });
+                      },
+                      controller: biayaController,
+                      enabled: true,
+                      decoration: InputDecoration(
+                        prefixText: "Rp ",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(3),
+                          borderSide: BorderSide(
+                            color: Color(0xFFA8A8A8),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(3),
+                          borderSide: BorderSide(
+                            color: Color(0xFFA8A8A8),
+                          ),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        isDense: true,
+                      ),
+                      style: TextStyle(
+                        fontSize: 13.0,
+                        color: Colors.black,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 5, top: 10),
+                    child: Text(
+                      "Potongan Harga (Opsional)",
+                      style: TextStyle(
+                        color: Color(0xFF333333),
+                        fontSize: 12,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: size.width * 0.8,
+                    child: TextFormField(
+                      
+                      inputFormatters: [_currencyFormatter],
+                      keyboardType: TextInputType.number,
+                      onChanged: (value) {
+                        setState(() {
+                          if (value.isEmpty) {
+                            potongan = 0;
+                          } else {
+                            String hargaText =
+                                value.replaceAll('Rp ', '').replaceAll('.', '');
+      
+                            int parsedHarga = int.tryParse(hargaText) ?? 0;
+      
+                            potongan = parsedHarga;
+                          }
+                        });
+                      },
+                      controller: potonganController,
+                      enabled: true,
+                      decoration: InputDecoration(
+                        prefixText: "Rp ",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(3),
+                          borderSide: BorderSide(
+                            color: Color(0xFFA8A8A8),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(3),
+                          borderSide: BorderSide(
+                            color: Color(0xFFA8A8A8),
+                          ),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        isDense: true,
+                      ),
+                      style: TextStyle(
+                        fontSize: 13.0,
+                        color: Colors.black,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 30, bottom: 15),
+                child: Container(
                   width: size.width * 0.8,
-                  height: 40,
-                  child: TextField(
-                    inputFormatters: [_currencyFormatter],
-                    keyboardType: TextInputType.number,
-                    onChanged: (value) {
-                      setState(() {
-                        if (value.isEmpty) {
-                          ongkir = 0;
-                        } else {
-                          String hargaText =
-                              value.replaceAll('Rp ', '').replaceAll('.', '');
-
-                          int parsedHarga = int.tryParse(hargaText) ?? 0;
-
-                          ongkir = parsedHarga;
-                        }
-                      });
-                    },
-                    controller: ongkirController,
-                    enabled: true,
-                    decoration: InputDecoration(
-                      prefixText: "Rp ",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(3),
-                        borderSide: BorderSide(
-                          color: Color(0xFFA8A8A8),
-                        ),
+                  decoration: ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        width: 0.50,
+                        strokeAlign: BorderSide.strokeAlignCenter,
+                        color: Color(0xFFA8A8A8),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(3),
-                        borderSide: BorderSide(
-                          color: Color(0xFFA8A8A8),
-                        ),
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                      isDense: true,
-                    ),
-                    style: TextStyle(
-                      fontSize: 13.0,
-                      color: Colors.black,
-                    ),
-                  ),
-                )
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 5, top: 10),
-                  child: Text(
-                    "Biaya Lain-lain (Opsional)",
-                    style: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 12,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-                Container(
-                  width: size.width * 0.8,
-                  height: 40,
-                  child: TextField(
-                    inputFormatters: [_currencyFormatter],
-                    keyboardType: TextInputType.number,
-                    onChanged: (value) {
-                      setState(() {
-                        if (value.isEmpty) {
-                          byn = 0;
-                        } else {
-                          String hargaText =
-                              value.replaceAll('Rp ', '').replaceAll('.', '');
-
-                          int parsedHarga = int.tryParse(hargaText) ?? 0;
-
-                          byn = parsedHarga;
-                        }
-                      });
-                    },
-                    controller: biayaController,
-                    enabled: true,
-                    decoration: InputDecoration(
-                      prefixText: "Rp ",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(3),
-                        borderSide: BorderSide(
-                          color: Color(0xFFA8A8A8),
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(3),
-                        borderSide: BorderSide(
-                          color: Color(0xFFA8A8A8),
-                        ),
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                      isDense: true,
-                    ),
-                    style: TextStyle(
-                      fontSize: 13.0,
-                      color: Colors.black,
-                    ),
-                  ),
-                )
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 5, top: 10),
-                  child: Text(
-                    "Potongan Harga (Opsional)",
-                    style: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 12,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-                Container(
-                  width: size.width * 0.8,
-                  height: 40,
-                  child: TextField(
-                    inputFormatters: [_currencyFormatter],
-                    keyboardType: TextInputType.number,
-                    onChanged: (value) {
-                      setState(() {
-                        if (value.isEmpty) {
-                          potongan = 0;
-                        } else {
-                          String hargaText =
-                              value.replaceAll('Rp ', '').replaceAll('.', '');
-
-                          int parsedHarga = int.tryParse(hargaText) ?? 0;
-
-                          potongan = parsedHarga;
-                        }
-                      });
-                    },
-                    controller: potonganController,
-                    enabled: true,
-                    decoration: InputDecoration(
-                      prefixText: "Rp ",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(3),
-                        borderSide: BorderSide(
-                          color: Color(0xFFA8A8A8),
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(3),
-                        borderSide: BorderSide(
-                          color: Color(0xFFA8A8A8),
-                        ),
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                      isDense: true,
-                    ),
-                    style: TextStyle(
-                      fontSize: 13.0,
-                      color: Colors.black,
-                    ),
-                  ),
-                )
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 30, bottom: 15),
-              child: Container(
-                width: size.width * 0.8,
-                decoration: ShapeDecoration(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      width: 0.50,
-                      strokeAlign: BorderSide.strokeAlignCenter,
-                      color: Color(0xFFA8A8A8),
                     ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 40, right: 40, bottom: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Subtotal',
-                    style: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 12,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
+              Padding(
+                padding: const EdgeInsets.only(left: 40, right: 40, bottom: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Subtotal',
+                      style: TextStyle(
+                        color: Color(0xFF333333),
+                        fontSize: 12,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
-                  ),
-                  FutureBuilder<int>(
+                    FutureBuilder<int>(
+                        future: transaksiController.subtotal(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          } else {
+                            subtotals = snapshot.data;
+      
+                            return Text(
+                              CurrencyFormat.convertToIdr(subtotals, 0),
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                color: Color(0xFF333333),
+                                fontSize: 12,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            );
+                          }
+                        }),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 40, right: 40, bottom: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Ongkir',
+                      style: TextStyle(
+                        color: Color(0xFF333333),
+                        fontSize: 12,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    Text(
+                      CurrencyFormat.convertToIdr(ongkir == 0 ? 0 : ongkir, 0),
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        color: Color(0xFF333333),
+                        fontSize: 12,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 40, right: 40, bottom: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Lain - Lain',
+                      style: TextStyle(
+                        color: Color(0xFF333333),
+                        fontSize: 12,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    Text(
+                      CurrencyFormat.convertToIdr(byn == 0 ? 0 : byn, 0),
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        color: Color(0xFF333333),
+                        fontSize: 12,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 40, right: 40, bottom: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Potongan',
+                      style: TextStyle(
+                        color: Color(0xFF333333),
+                        fontSize: 12,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    Text(
+                      CurrencyFormat.convertToIdr(
+                          potongan == 0 ? 0 : potongan, 0),
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        color: Color(0xFF333333),
+                        fontSize: 12,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 40, right: 40, bottom: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'TOTAL',
+                      style: TextStyle(
+                        color: Color(0xFF333333),
+                        fontSize: 12,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    FutureBuilder<int>(
                       future: transaksiController.subtotal(),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
                           return CircularProgressIndicator();
                         } else {
-                          subtotals = snapshot.data;
-
+                          final int? data = snapshot.data;
+                          final num subtotal = data ?? 0;
+                          finals = subtotal + ongkir + byn - potongan;
                           return Text(
-                            CurrencyFormat.convertToIdr(subtotals, 0),
+                            CurrencyFormat.convertToIdr(finals, 0),
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               color: Color(0xFF333333),
@@ -653,252 +741,189 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                             ),
                           );
                         }
-                      }),
-                ],
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 40, right: 40, bottom: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Ongkir',
-                    style: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 12,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
+              Padding(
+                padding: const EdgeInsets.only(left: 40, top: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Pembayaran',
+                      style: TextStyle(
+                        color: Color(0xFF333333),
+                        fontSize: 14,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
+                        height: 1.15,
+                      ),
                     ),
-                  ),
-                  Text(
-                    CurrencyFormat.convertToIdr(ongkir == 0 ? 0 : ongkir, 0),
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 12,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  )
-                ],
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 40, right: 40, bottom: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Lain - Lain',
-                    style: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 12,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  Text(
-                    CurrencyFormat.convertToIdr(byn == 0 ? 0 : byn, 0),
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 12,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 40, right: 40, bottom: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Potongan',
-                    style: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 12,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  Text(
-                    CurrencyFormat.convertToIdr(
-                        potongan == 0 ? 0 : potongan, 0),
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 12,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 40, right: 40, bottom: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'TOTAL',
-                    style: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 12,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  FutureBuilder<int>(
-                    future: transaksiController.subtotal(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
-                      } else {
-                        final int? data = snapshot.data;
-                        final num subtotal = data ?? 0;
-                        finals = subtotal + ongkir + byn - potongan;
-                        return Text(
-                          CurrencyFormat.convertToIdr(finals, 0),
-                          textAlign: TextAlign.right,
+              Padding(
+                padding: const EdgeInsets.only(left: 25, right: 20),
+                child: Row(
+                  children: [
+                    Row(
+                      children: [
+                        Radio<String>(
+                            value: 'Tunai',
+                            groupValue: _value,
+                            onChanged: (value) {
+                              setState(() {
+                                _value = value!;
+                              });
+                            }),
+                        Text(
+                          'Tunai',
                           style: TextStyle(
                             color: Color(0xFF333333),
                             fontSize: 12,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w400,
                           ),
-                        );
-                      }
-                    },
-                  ),
-                ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Radio<String>(
+                            value: 'Transfer',
+                            groupValue: _value,
+                            onChanged: (value) {
+                              setState(() {
+                                _value = value!;
+                              });
+                            }),
+                        Text(
+                          'Transfer',
+                          style: TextStyle(
+                            color: Color(0xFF333333),
+                            fontSize: 12,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 40, top: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    'Pembayaran',
+              Container(
+                width: size.width * 0.75,
+                height: 37,
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Color(0xFF3F51B5),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                  onPressed: () async {
+                    if (_formState.currentState!.validate()) {
+                      String ongkirText = ongkirController.text
+                          .replaceAll('Rp ', '')
+                          .replaceAll('.', '');
+                      String biayaText = biayaController.text
+                          .replaceAll('Rp ', '')
+                          .replaceAll('.', '');
+                      String potoText = potonganController.text
+                          .replaceAll('Rp ', '')
+                          .replaceAll('.', '');
+      
+                      int parsedongkir = int.tryParse(ongkirText) ?? 0;
+                      int parsedbaiay = int.tryParse(biayaText) ?? 0;
+                      int parsedpotong = int.tryParse(potoText) ?? 0;
+      
+                      setState(() {
+                        ongkirs = parsedongkir;
+                        biayas = parsedbaiay;
+                        potonganH = parsedpotong;
+                      });
+      
+                      await transaksiController.insertpenjualan(
+                        nama: namaController.text,
+                        nama_pembeli: namapemController.text,
+                        subtotal: subtotals ?? 0,
+                        biaya_lain: biayas,
+                        ongkos_kirim: ongkirs,
+                        potongan_harga: potonganH,
+                        pembayaran: _value,
+                        total: finals,
+                        idP: 1,
+                        tgl:  _date != null ?  _date.toString() : DateTime.now().toString()
+                      );
+      
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (builde) {
+                            return DetailScreen(
+                              namatransaksi: namaController.text,
+                              namapembeli: namapemController.text,
+                              pembayaran: _value,
+                              tanggal: _date != null ?  _date.toString() : DateTime.now().toString(),
+                              subtotal: subtotals ?? 0,
+                              lain: byn,
+                              ongkir: ongkir,
+                              potongan: potongan,
+                              total: finals,
+                            );
+                          },
+                        ),
+                      ).then((value) {
+                        setState(() {});
+                      });
+                    }
+                  },
+                  child: Text(
+                    "SIMPAN",
                     style: TextStyle(
-                      color: Color(0xFF333333),
+                      color: Colors.white,
                       fontSize: 14,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,
                       height: 1.15,
                     ),
                   ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 25, right: 20),
-              child: Row(
-                children: [
-                  Row(
-                    children: [
-                      Radio<String>(
-                          value: 'Tunai',
-                          groupValue: _value,
-                          onChanged: (value) {
-                            setState(() {
-                              _value = value!;
-                            });
-                          }),
-                      Text(
-                        'Tunai',
-                        style: TextStyle(
-                          color: Color(0xFF333333),
-                          fontSize: 12,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Radio<String>(
-                          value: 'Transfer',
-                          groupValue: _value,
-                          onChanged: (value) {
-                            setState(() {
-                              _value = value!;
-                            });
-                          }),
-                      Text(
-                        'Transfer',
-                        style: TextStyle(
-                          color: Color(0xFF333333),
-                          fontSize: 12,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              width: size.width * 0.75,
-              height: 37,
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: Color(0xFF3F51B5),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                ),
-                onPressed: validateAndSave,
-                child: Text(
-                  "SIMPAN",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500,
-                    height: 1.15,
-                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 7, top: 35),
-              child: Column(
-                children: [
-                  Text(
-                    'DIDANAI OLEH:',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFF3F51B5),
-                      fontSize: 8,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 7, top: 35),
+                child: Column(
+                  children: [
+                    Text(
+                      'DIDANAI OLEH:',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xFF3F51B5),
+                        fontSize: 8,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                  Padding(padding: EdgeInsets.only(bottom: 7)),
-                  Text(
-                    'Direktorat Riset, Teknologi, dan Pengabdian Kepada Masyarakat, Direktorat\nJenderal Pendidikan Tinggi, Riset dan Teknologi, Kementrian Pendidikan,\nKebudayaan, Riset, dan Teknologi Republik Indonesia',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFF3F51B5),
-                      fontSize: 10,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                      height: 1.22,
+                    Padding(padding: EdgeInsets.only(bottom: 7)),
+                    Text(
+                      'Direktorat Riset, Teknologi, dan Pengabdian Kepada Masyarakat, Direktorat\nJenderal Pendidikan Tinggi, Riset dan Teknologi, Kementrian Pendidikan,\nKebudayaan, Riset, dan Teknologi Republik Indonesia Tahun Pendanaan 2023',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xFF3F51B5),
+                        fontSize: 10,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                        height: 1.22,
+                      ),
                     ),
-                  ),
-                  Padding(padding: EdgeInsets.only(bottom: 7)),
-                ],
+                    Padding(padding: EdgeInsets.only(bottom: 7)),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

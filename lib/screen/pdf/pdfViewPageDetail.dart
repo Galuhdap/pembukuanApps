@@ -63,7 +63,7 @@ class _PdfviewDetailScreenState extends State<PdfviewDetailScreen> {
         name:  widget.penjualanModel!.nama_pembeli ?? '',
       ),
       info: InvoiceInfo(
-        date: DateTime.now(),
+        date: DateTime.parse(widget.penjualanModel!.createdAt ?? '') ,
         pay:  widget.penjualanModel!.pembayaran?? '',
       ),
       items: items,

@@ -77,7 +77,7 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
         name: widget.namapembeli,
       ),
       info: InvoiceInfo(
-        date: DateTime.now(),
+        date: DateTime.parse(widget.tanggal),
         pay: widget.pembayaran,
       ),
       items: items,

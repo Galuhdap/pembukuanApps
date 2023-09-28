@@ -93,20 +93,23 @@ class _SplashScreenState extends State<SplashScreen>
                   ),
                   Row(
                     children: [
-                      Image.asset(
-                        "assets/logo/tuturi.png",
-                        width: 45,
-                        height: 45,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4),
+                        child: Image.asset(
+                          "assets/logo/tuturi.png",
+                          width: 46,
+                          height: 46,
+                        ),
                       ),
                       Image.asset(
                         "assets/logo/untag.png",
-                        width: 40,
-                        height: 40,
+                        width: 42,
+                        height: 42,
                       ),
                       Image.asset(
                         "assets/logo/logounesa.png",
-                        width: 45,
-                        height: 45,
+                        width: 42,
+                        height: 42,
                       ),
                     ],
                   ),
@@ -128,7 +131,7 @@ class _SplashScreenState extends State<SplashScreen>
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 30),
+                padding: const EdgeInsets.only(bottom: 35),
                 child: Column(
                   children: [
                     Text(
@@ -143,7 +146,7 @@ class _SplashScreenState extends State<SplashScreen>
                     ),
                     Padding(padding: EdgeInsets.only(bottom: 7)),
                     Text(
-                      'Direktorat Riset, Teknologi, dan Pengabdian Kepada Masyarakat, Direktorat Jenderal Pendidikan Tinggi, Riset dan Teknologi, Kementrian Pendidikan, Kebudayaan, Riset, dan Teknologi Republik Indonesia',
+                      'Direktorat Riset, Teknologi, dan Pengabdian Kepada Masyarakat, Direktorat Jenderal Pendidikan Tinggi, Riset dan Teknologi, Kementrian Pendidikan, Kebudayaan, Riset, dan Teknologi Republik Indonesia Tahun Pendanaan 2023',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,

@@ -12,6 +12,7 @@ class PembelianController {
     required int jmlh_brng,
     required String satuan,
     required int harga,
+    required String tgl,
   }) async {
     final Database _database = await databaseService.database();
     await _database.insert('pembelian', {
@@ -19,7 +20,7 @@ class PembelianController {
       'jmlh_brng': jmlh_brng,
       'satuan': satuan,
       'harga': harga,
-      'createdAt': DateTime.now().toString(),
+      'createdAt': tgl,
       'updatedAt': DateTime.now().toString(),
     });
 

@@ -25,15 +25,18 @@ Center PoinCard(Size size, ttl, kas, ontap) {
                       children: [
                         Row(
                           children: [
-                            Image.asset(
-                              "assets/logo/tuturi.png",
-                              width: 30,
-                              height: 30,
+                            Padding(
+                              padding: const EdgeInsets.only(top: 2),
+                              child: Image.asset(
+                                "assets/logo/tuturi.png",
+                                width: 33,
+                                height: 33,
+                              ),
                             ),
                             Image.asset(
                               "assets/logo/untag.png",
-                              width: 25,
-                              height: 25,
+                              width: 30,
+                              height: 30,
                             ),
                             Image.asset(
                               "assets/logo/logounesa.png",

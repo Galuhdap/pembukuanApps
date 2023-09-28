@@ -106,7 +106,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                         namatransaksi: widget.namatransaksi,
                                         namapembeli: widget.namapembeli,
                                         pembayaran: widget.pembayaran,
-                                        tanggal: DateTime.now().toString(),
+                                        tanggal: widget.tanggal,
                                         subtotal: widget.subtotal,
                                         lain: widget.lain,
                                         ongkir: widget.ongkir,
@@ -120,33 +120,31 @@ class _DetailScreenState extends State<DetailScreen> {
                                     color: Colors.white,
                                   ),
                                 ),
-                               
                               ],
                             ),
                             Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/logo/tuturi.png",
-                        width: 45,
-                        height: 45,
-                      ),
-                      Image.asset(
-                        "assets/logo/untag.png",
-                        width: 40,
-                        height: 40,
-                      ),
-                      Image.asset(
-                        "assets/logo/logounesa.png",
-                        width: 45,
-                        height: 45,
-                      ),
-                    ],
-                  ),
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  "assets/logo/tuturi.png",
+                                  width: 45,
+                                  height: 45,
+                                ),
+                                Image.asset(
+                                  "assets/logo/untag.png",
+                                  width: 40,
+                                  height: 40,
+                                ),
+                                Image.asset(
+                                  "assets/logo/logounesa.png",
+                                  width: 45,
+                                  height: 45,
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
-                      
                     ],
                   ),
                 ),
@@ -320,7 +318,37 @@ class _DetailScreenState extends State<DetailScreen> {
                   ),
                 ),
               ),
-            )
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 5, top: 20),
+              child: Column(
+                children: [
+                  Text(
+                    'DIDANAI OLEH:',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xFF3F51B5),
+                      fontSize: 10,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.only(bottom: 7)),
+                  Text(
+                    'Direktorat Riset, Teknologi, dan Pengabdian Kepada Masyarakat, Direktorat\nJenderal Pendidikan Tinggi, Riset dan Teknologi, Kementrian Pendidikan,\nKebudayaan, Riset, dan Teknologi Republik Indonesia Tahun Pendanaan 2023',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xFF3F51B5),
+                      fontSize: 10,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w400,
+                      height: 1.22,
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.only(bottom: 7)),
+                ],
+              ),
+            ),
           ],
         ),
       ),

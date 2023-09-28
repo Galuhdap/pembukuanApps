@@ -23,13 +23,15 @@ class _CatatanpenjualanAddScreenState extends State<CatatanpenjualanAddScreen> {
   TransaksiController transaksiController = TransaksiController();
   TextEditingController jmlhController = TextEditingController();
 
+  final _formState = GlobalKey<FormState>();
+
   Future initDatabase() async {
     await databaseService!.database();
     setState(() {});
   }
 
   String jmlhError = '';
-   String errorText = '';
+  String errorText = '';
 
   @override
   void initState() {
@@ -84,15 +86,14 @@ class _CatatanpenjualanAddScreenState extends State<CatatanpenjualanAddScreen> {
                                 () {
                                   if (snapshot.data![index].stock! > 0) {
                                     add(
-                                      size,
-                                      snapshot.data![index].nama,
-                                      snapshot.data![index].deskripsi,
-                                      snapshot.data![index].stock.toString(),
-                                      snapshot.data![index].harga_jual,
-                                      snapshot.data![index].id,
-                                      snapshot.data![index].id,
-                                      snapshot.data![index].stock
-                                    );
+                                        size,
+                                        snapshot.data![index].nama,
+                                        snapshot.data![index].deskripsi,
+                                        snapshot.data![index].stock.toString(),
+                                        snapshot.data![index].harga_jual,
+                                        snapshot.data![index].id,
+                                        snapshot.data![index].id,
+                                        snapshot.data![index].stock);
                                   } else {
                                     showDialog(
                                       context: context,
@@ -107,7 +108,6 @@ class _CatatanpenjualanAddScreenState extends State<CatatanpenjualanAddScreen> {
                                   }
                                 },
                                 size,
-                                
                               );
                             },
                           ),
@@ -138,7 +138,7 @@ class _CatatanpenjualanAddScreenState extends State<CatatanpenjualanAddScreen> {
                       ),
                       Padding(padding: EdgeInsets.only(bottom: 7)),
                       Text(
-                        'Direktorat Riset, Teknologi, dan Pengabdian Kepada Masyarakat, Direktorat\nJenderal Pendidikan Tinggi, Riset dan Teknologi, Kementrian Pendidikan,\nKebudayaan, Riset, dan Teknologi Republik Indonesia',
+                        'Direktorat Riset, Teknologi, dan Pengabdian Kepada Masyarakat, Direktorat\nJenderal Pendidikan Tinggi, Riset dan Teknologi, Kementrian Pendidikan,\nKebudayaan, Riset, dan Teknologi Republik Indonesia Tahun Pendanaan 2023',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color(0xFF3F51B5),
@@ -168,6 +168,7 @@ class _CatatanpenjualanAddScreenState extends State<CatatanpenjualanAddScreen> {
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
+        scrollable: true,
         title: Center(
           child: Text(
             'Tambah Ke Keranjang',
@@ -179,9 +180,7 @@ class _CatatanpenjualanAddScreenState extends State<CatatanpenjualanAddScreen> {
             ),
           ),
         ),
-        content: Container(
-          height: 340,
-          child: Column(
+        content: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
@@ -339,52 +338,61 @@ class _CatatanpenjualanAddScreenState extends State<CatatanpenjualanAddScreen> {
                   ),
                 ],
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 5, top: 10),
-                    child: Text(
-                      "Masukan Jumlah",
-                      style: TextStyle(
-                        color: Color(0xFF333333),
-                        fontSize: 12,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w400,
+              Form(
+                key: _formState,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 5, top: 10),
+                      child: Text(
+                        "Masukan Jumlah Penjualan",
+                        style: TextStyle(
+                          color: Color(0xFF333333),
+                          fontSize: 12,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: size.width * 0.67,
-                    height: 40,
-                    child: TextField(
-                      controller: jmlhController,
-                      keyboardType: TextInputType.number,
-                      enabled: true,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(3),
-                          borderSide: BorderSide(
-                            color: Color(0xFFA8A8A8),
+                    Container(
+                      width: size.width * 0.67,
+                     
+                      child: TextFormField(
+                        validator: (value) {
+                          if (value == '') {
+                            return "Text Tidak Boleh Kosong";
+                          }
+                          return null;
+                        },
+                        controller: jmlhController,
+                        keyboardType: TextInputType.number,
+                        enabled: true,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(3),
+                            borderSide: BorderSide(
+                              color: Color(0xFFA8A8A8),
+                            ),
                           ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(3),
-                          borderSide: BorderSide(
-                            color: Color(0xFFA8A8A8),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(3),
+                            borderSide: BorderSide(
+                              color: Color(0xFFA8A8A8),
+                            ),
                           ),
+                          filled: true,
+                          fillColor: Colors.white,
+                          isDense: true,
                         ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        isDense: true,
+                        style: TextStyle(
+                          fontSize: 13.0,
+                          color: Colors.black,
+                        ),
                       ),
-                      style: TextStyle(
-                        fontSize: 13.0,
-                        color: Colors.black,
-                      ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15),
@@ -430,41 +438,46 @@ class _CatatanpenjualanAddScreenState extends State<CatatanpenjualanAddScreen> {
                           ),
                         ),
                         onPressed: () async {
-                        final int enteredStock = int.tryParse(jmlhController.text) ?? 0;
-                          setState(() {
-                            jmlhError = jmlhController.text.isEmpty
-                                ? 'nama harus diisi'
-                                : '';
-                            errorText = enteredStock > stockAda
-                                ? 'Stock Tidak Cukup'
-                                : '';
-                          });
+                          if (_formState.currentState!.validate()) {
+                            final int enteredStock =
+                                int.tryParse(jmlhController.text) ?? 0;
+                            setState(() {
+                              jmlhError = jmlhController.text.isEmpty
+                                  ? 'nama harus diisi'
+                                  : '';
+                              errorText = enteredStock > stockAda
+                                  ? 'Stock Tidak Cukup'
+                                  : '';
+                            });
 
-                          if (jmlhError.isEmpty && enteredStock <= stockAda && enteredStock > 0) {
-                            await transaksiController.insert(
-                                nama: namaController.text,
-                                deskripsi: desController.text,
-                                stock: int.parse(stockController.text),
-                                jumlah: int.parse(jmlhController.text),
-                                totals:
-                                    int.parse(jmlhController.text) * hrg as int,
-                                id_bahan: id_bahan,
-                                idParams: id);
-                            Navigator.pop(context);
-                            setState(() {});
-                            Navigator.pop(context);
-                            setState(() {});
-                          } else {
-                            showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                title: Center(
-                                  child: Text(
-                                    'Masukan Input Dengan Benar !!',
+                            if (jmlhError.isEmpty &&
+                                enteredStock <= stockAda &&
+                                enteredStock > 0) {
+                              await transaksiController.insert(
+                                  nama: namaController.text,
+                                  deskripsi: desController.text,
+                                  stock: int.parse(stockController.text),
+                                  jumlah: int.parse(jmlhController.text),
+                                  totals: int.parse(jmlhController.text) * hrg
+                                      as int,
+                                  id_bahan: id_bahan,
+                                  idParams: id);
+                              Navigator.pop(context);
+                              setState(() {});
+                              Navigator.pop(context);
+                              setState(() {});
+                            } else {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Center(
+                                    child: Text(
+                                      'Masukan Input Dengan Benar !!',
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
+                              );
+                            }
                           }
                         },
                         child: Text(
@@ -484,7 +497,7 @@ class _CatatanpenjualanAddScreenState extends State<CatatanpenjualanAddScreen> {
               ),
             ],
           ),
-        ),
+        
       ),
     );
   }

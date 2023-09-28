@@ -229,7 +229,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Padding(padding: EdgeInsets.only(bottom: 7)),
                   Text(
-                    'Direktorat Riset, Teknologi, dan Pengabdian Kepada Masyarakat, Direktorat\nJenderal Pendidikan Tinggi, Riset dan Teknologi, Kementrian Pendidikan,\nKebudayaan, Riset, dan Teknologi Republik Indonesia',
+                    'Direktorat Riset, Teknologi, dan Pengabdian Kepada Masyarakat, Direktorat\nJenderal Pendidikan Tinggi, Riset dan Teknologi, Kementrian Pendidikan,\nKebudayaan, Riset, dan Teknologi Republik Indonesia Tahun Pendanaan 2023',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xFF3F51B5),

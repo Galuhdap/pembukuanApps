@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-Padding fieldText(Size size, ttl, e, cntrl, key, nt , pt) {
+Padding fieldText(Size size, ttl, e, cntrl, key, nt, pt, validat) {
   return Padding(
-    padding: const EdgeInsets.only(bottom: 19),
+    padding: const EdgeInsets.only(bottom: 14),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -20,8 +20,8 @@ Padding fieldText(Size size, ttl, e, cntrl, key, nt , pt) {
         ),
         Container(
           width: size.width * 0.75,
-          height: 40,
-          child: TextField(
+          child: TextFormField(
+            validator: validat,
             controller: cntrl,
             keyboardType: key,
             inputFormatters: nt,
@@ -55,7 +55,7 @@ Padding fieldText(Size size, ttl, e, cntrl, key, nt , pt) {
   );
 }
 
-Padding textField2(Size size, ttl, e, ctrl, key) {
+Padding textField2(Size size, ttl, e, ctrl, key, valida) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 19),
     child: Column(
@@ -77,8 +77,9 @@ Padding textField2(Size size, ttl, e, ctrl, key) {
           padding: const EdgeInsets.only(left: 20, right: 20),
           child: Container(
             width: size.width * 0.32,
-            height: 40,
-            child: TextField(
+            child: TextFormField(
+              
+              validator: valida,
               controller: ctrl,
               keyboardType: key,
               enabled: e,

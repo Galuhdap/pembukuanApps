@@ -7,12 +7,14 @@ class KasController {
   Future<void> insert(
       {required String deskripsi,
       required int biaya,
-      required int idParams}) async {
+      required int idParams,
+      required String tgl,
+      }) async {
     final Database _database = await databaseService.database();
     await _database.insert('kas', {
       'deskripsi': deskripsi,
       'biaya': biaya,
-      'createdAt': DateTime.now().toString(),
+      'createdAt': tgl,
       'updatedAt': DateTime.now().toString(),
     });
 

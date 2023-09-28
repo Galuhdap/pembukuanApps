@@ -31,52 +31,12 @@ class _KasScreenState extends State<KasScreen> {
   List saldos = [];
   int harga = 0;
   String query = "";
-
+  final _formState = GlobalKey<FormState>();
   DateTime? selectedDate;
-
+  DateTime? _date;
   CurrencyTextInputFormatter _currencyFormatter =
       CurrencyTextInputFormatter(locale: 'ID', decimalDigits: 0, name: '');
 
-  String biayaError = '';
-  String deskripsiError = '';
-
-  void validateAndSave() async {
-    setState(() {
-      deskripsiError =
-          deskripsiController.text.isEmpty ? 'Nama harus diisi' : '';
-      biayaError = biayaController.text.isEmpty ? 'Jumlah harus diisi' : '';
-    });
-
-    if (deskripsiError.isEmpty && biayaError.isEmpty) {
-      String hargaText =
-          biayaController.text.replaceAll('Rp ', '').replaceAll('.', '');
-
-      int parsedHarga = int.tryParse(hargaText) ?? 0;
-
-      setState(() {
-        harga = parsedHarga;
-      });
-
-      await kasController.insert(
-          deskripsi: deskripsiController.text, biaya: harga, idParams: 1);
-
-      deskripsiController.clear();
-      biayaController.clear();
-      Navigator.pop(context);
-      setState(() {});
-    } else {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Center(
-            child: Text(
-              'Masukan Input Dengan Benar !!',
-            ),
-          ),
-        ),
-      );
-    }
-  }
 
   Future fetchData() async {
     List saldoss = await saldoController.all();
@@ -101,6 +61,7 @@ class _KasScreenState extends State<KasScreen> {
     databaseService = DatabaseService();
     initDatabase();
     fetchData();
+
     super.initState();
   }
 
@@ -116,278 +77,277 @@ class _KasScreenState extends State<KasScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-
+    print(_date);
     return Scaffold(
-      body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: Container(
-                width: size.width,
-                height: 300,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0x3F000000),
-                      blurRadius: 16,
-                      offset: Offset(0, 0),
-                      spreadRadius: -6,
-                    )
-                  ],
-                ),
-                child: Stack(
-                  children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(top: 40, left: 30, right: 30),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Icon(
-                                  Icons.arrow_back_ios_new_rounded,
-                                  color: Colors.black,
-                                ),
+      resizeToAvoidBottomInset: false,
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Container(
+              width: size.width,
+              height: 300,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0x3F000000),
+                    blurRadius: 16,
+                    offset: Offset(0, 0),
+                    spreadRadius: -6,
+                  )
+                ],
+              ),
+              child: Stack(
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 40, left: 30, right: 30),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Icon(
+                                Icons.arrow_back_ios_new_rounded,
+                                color: Colors.black,
                               ),
-                              Row(
-                                children: [
-                                  Image.asset(
+                            ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 2),
+                                  child: Image.asset(
                                     "assets/logo/tuturi.png",
-                                    width: 30,
-                                    height: 30,
+                                    width: 33,
+                                    height: 33,
                                   ),
-                                  Image.asset(
-                                    "assets/logo/untag.png",
-                                    width: 25,
-                                    height: 25,
-                                  ),
-                                  Image.asset(
+                                ),
+                                Image.asset(
+                                  "assets/logo/untag.png",
+                                  width: 29,
+                                  height: 29,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 2),
+                                  child: Image.asset(
                                     "assets/logo/logounesa.png",
                                     width: 30,
                                     height: 30,
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text('Tanggal Transaksi: '),
-                                TextButton(
-                                  onPressed: () async {
-                                    final DateTime? picked =
-                                        await showDatePicker(
-                                      context: context,
-                                      initialDate:
-                                          selectedDate ?? DateTime.now(),
-                                      firstDate: DateTime(2000),
-                                      lastDate: DateTime(2101),
-                                    );
-                                    if (picked != null &&
-                                        picked != selectedDate) {
-                                      setState(() {
-                                        selectedDate = picked;
-                                      });
-                                    }
-                                  },
-                                  child: Text(
-                                    selectedDate == null
-                                        ? 'Pilih Tanggal'
-                                        : DateFormat('dd MMM yyyy')
-                                            .format(selectedDate!),
-                                  ),
                                 ),
-                                if (selectedDate != null)
-                                  IconButton(
-                                    icon: Icon(Icons.delete),
-                                    onPressed: () {
-                                      setState(() {
-                                        selectedDate = null;
-                                      });
-                                    },
-                                  ),
                               ],
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10, bottom: 10),
-                            child: Text(
-                              'Uang Kas',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color(0xFF333333),
-                                fontSize: 20,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w600,
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text('Tanggal Transaksi: '),
+                              TextButton(
+                                onPressed: () async {
+                                  final DateTime? picked = await showDatePicker(
+                                    context: context,
+                                    initialDate: selectedDate ?? DateTime.now(),
+                                    firstDate: DateTime(2000),
+                                    lastDate: DateTime(2101),
+                                  );
+                                  if (picked != null &&
+                                      picked != selectedDate) {
+                                    setState(() {
+                                      selectedDate = picked;
+                                    });
+                                  }
+                                },
+                                child: Text(
+                                  selectedDate == null
+                                      ? 'Pilih Tanggal'
+                                      : DateFormat('dd MMM yyyy')
+                                          .format(selectedDate!),
+                                ),
                               ),
+                              if (selectedDate != null)
+                                IconButton(
+                                  icon: Icon(Icons.delete),
+                                  onPressed: () {
+                                    setState(() {
+                                      selectedDate = null;
+                                    });
+                                  },
+                                ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          child: Text(
+                            'Uang Kas',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color(0xFF333333),
+                              fontSize: 20,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
-                          FutureBuilder<int>(
-                            future: saldoController.allKas(),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return CircularProgressIndicator();
-                              } else {
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: 20),
-                                  child: Text(
-                                    CurrencyFormat.convertToIdr(
-                                       snapshot.data ?? 0,
-                                        0),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Color(0xFF333333),
-                                      fontSize: 32,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                        ),
+                        FutureBuilder<int>(
+                          future: saldoController.allKas(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return CircularProgressIndicator();
+                            } else {
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 20),
+                                child: Text(
+                                  CurrencyFormat.convertToIdr(
+                                      snapshot.data ?? 0, 0),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Color(0xFF333333),
+                                    fontSize: 32,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w600,
                                   ),
-                                );
-                              }
-                            },
-                          ),
-                          Container(
-                            width: 166,
-                            height: 37,
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                backgroundColor: Color(0xFF3F51B5),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
                                 ),
+                              );
+                            }
+                          },
+                        ),
+                        Container(
+                          width: 166,
+                          height: 37,
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: Color(0xFF3F51B5),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
                               ),
-                              onPressed: () async {
-                                add(size);
-                              },
-                              child: Text(
-                                "TAMBAH KAS",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w500,
-                                  height: 1.15,
-                                ),
+                            ),
+                            onPressed: () async {
+                              print('Ini Data: $_date');
+                              add(size);
+                            },
+                            child: Text(
+                              "TAMBAH KAS",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w500,
+                                height: 1.15,
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            FutureBuilder<List<KasModel>>(
-              future: databaseService!.allDataKas(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  if (snapshot.data!.length == 0) {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 200, bottom: 240),
-                      child: Center(
-                        child: Text("DATA KOSONG"),
-                      ),
-                    );
-                  }
-                  final List<KasModel> filteredData =
-                      snapshot.data!.where((item) {
-                    final itemDate = DateTime.parse(item.createdAt.toString());
-                    final formattedDate =
-                        DateFormat('yyyy-MM-dd').format(itemDate);
-
-                    DateTime? kosong = null;
-
-                    final formattedDates = selectedDate != null
-                        ? DateFormat('yyyy-MM-dd')
-                            .format(DateTime.parse(selectedDate!.toString()))
-                        : kosong;
-
-                    return item.deskripsi!
-                            .toLowerCase()
-                            .contains(query.toLowerCase()) &&
-                        (formattedDates == null ||
-                            formattedDate == formattedDates.toString());
-                  }).toList();
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 35, right: 35),
-                    child: Container(
-                      width: size.width * 0.9,
-                      height: size.height *0.53,
-                      child: ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        padding: EdgeInsets.only(top: 10),
-                        itemCount: filteredData.length,
-                        itemBuilder: (BuildContext context, index) {
-                          return transactionCard(
-                              filteredData[index].deskripsi,
-                              DateFormat('EEEE, dd MMMM yyyy', 'id_ID').format(
-                                  DateTime.parse(filteredData[index]
-                                      .createdAt
-                                      .toString())),
-                              '+${CurrencyFormat.convertToIdr(filteredData[index].biaya, 0)}',
-                              () async {
-                            delete(filteredData[index].id!,
-                                filteredData[index].biaya!);
-                            
-                          }, size);
-                        },
-                      ),
-                    ),
-                  );
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.blue,
-                    ),
-                  );
-                }
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Column(
-                children: [
-                  Text(
-                    'DIDANAI OLEH:',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFF3F51B5),
-                      fontSize: 8,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
+                        ),
+                      ],
                     ),
                   ),
-                  Padding(padding: EdgeInsets.only(bottom: 7)),
-                  Text(
-                    'Direktorat Riset, Teknologi, dan Pengabdian Kepada Masyarakat, Direktorat\nJenderal Pendidikan Tinggi, Riset dan Teknologi, Kementrian Pendidikan,\nKebudayaan, Riset, dan Teknologi Republik Indonesia',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFF3F51B5),
-                      fontSize: 10,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                      height: 1.22,
-                    ),
-                  ),
-                  Padding(padding: EdgeInsets.only(bottom: 7)),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+          FutureBuilder<List<KasModel>>(
+            future: databaseService!.allDataKas(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data!.length == 0) {
+                  return Padding(
+                    padding:  EdgeInsets.only(top: size.height * 0.25, bottom: size.height * 0.26),
+                    child: Center(
+                      child: Text("DATA KOSONG"),
+                    ),
+                  );
+                }
+                final List<KasModel> filteredData =
+                    snapshot.data!.where((item) {
+                  final itemDate = DateTime.parse(item.createdAt.toString());
+                  final formattedDate =
+                      DateFormat('yyyy-MM-dd').format(itemDate);
+
+                  DateTime? kosong = null;
+
+                  final formattedDates = selectedDate != null
+                      ? DateFormat('yyyy-MM-dd')
+                          .format(DateTime.parse(selectedDate!.toString()))
+                      : kosong;
+
+                  return item.deskripsi!
+                          .toLowerCase()
+                          .contains(query.toLowerCase()) &&
+                      (formattedDates == null ||
+                          formattedDate == formattedDates.toString());
+                }).toList();
+                return Padding(
+                  padding: const EdgeInsets.only(left: 35, right: 35),
+                  child: Container(
+                    width: size.width * 0.9,
+                    height: size.height * 0.53,
+                    child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      padding: EdgeInsets.only(top: 10),
+                      itemCount: filteredData.length,
+                      itemBuilder: (BuildContext context, index) {
+                        return transactionCard(
+                            filteredData[index].deskripsi,
+                            DateFormat('EEEE, dd MMMM yyyy', 'id_ID').format(
+                                DateTime.parse(
+                                    filteredData[index].createdAt.toString())),
+                            '+${CurrencyFormat.convertToIdr(filteredData[index].biaya, 0)}',
+                            () async {
+                          delete(filteredData[index].id!,
+                              filteredData[index].biaya!);
+                        }, size);
+                      },
+                    ),
+                  ),
+                );
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.blue,
+                  ),
+                );
+              }
+            },
+          ),
+          Padding(
+            padding:  EdgeInsets.only(top: size.height * 0.01),
+            child: Column(
+              children: [
+                Text(
+                  'DIDANAI OLEH:',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF3F51B5),
+                    fontSize: 8,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Padding(padding: EdgeInsets.only(bottom: 7)),
+                Text(
+                  'Direktorat Riset, Teknologi, dan Pengabdian Kepada Masyarakat, Direktorat\nJenderal Pendidikan Tinggi, Riset dan Teknologi, Kementrian Pendidikan,\nKebudayaan, Riset, dan Teknologi Republik Indonesia Tahun Pendanaan 2023',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF3F51B5),
+                    fontSize: 10,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w400,
+                    height: 1.22,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -395,6 +355,7 @@ class _KasScreenState extends State<KasScreen> {
   Future add(Size size) => showDialog(
         context: context,
         builder: (context) => AlertDialog(
+          scrollable: true,
           title: Center(
             child: Text(
               'Tambah Kas',
@@ -406,8 +367,8 @@ class _KasScreenState extends State<KasScreen> {
               ),
             ),
           ),
-          content: Container(
-            height: 280,
+          content: Form(
+            key: _formState,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -440,11 +401,17 @@ class _KasScreenState extends State<KasScreen> {
                     ),
                     Container(
                       width: size.width * 0.67,
-                      height: 40,
-                      child: TextField(
+                      child: TextFormField(
+                        validator: (value) {
+                          if (value == '') {
+                            return "Text Tidak Boleh Kosong";
+                          }
+                          return null;
+                        },
                         controller: tglController,
-                        enabled: false,
+                        enabled: true,
                         decoration: InputDecoration(
+                          suffixIcon: Icon(Icons.calendar_today),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(3),
                             borderSide: BorderSide(
@@ -465,6 +432,24 @@ class _KasScreenState extends State<KasScreen> {
                           fontSize: 13.0,
                           color: Colors.black,
                         ),
+                        onTap: () async {
+                          DateTime? picked = await showDatePicker(
+                            context: context,
+                            initialDate: _date ?? DateTime.now(),
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2101),
+                          );
+
+                          if (picked != null) {
+                            setState(() {
+                              tglController.text =
+                                  DateFormat('EEEE, dd MMMM yyyy', 'id_ID')
+                                      .format(picked);
+
+                              _date = picked;
+                            });
+                          }
+                        },
                       ),
                     )
                   ],
@@ -486,8 +471,13 @@ class _KasScreenState extends State<KasScreen> {
                     ),
                     Container(
                       width: size.width * 0.67,
-                      height: 40,
-                      child: TextField(
+                      child: TextFormField(
+                        validator: (value) {
+                          if (value == '') {
+                            return "Text Tidak Boleh Kosong";
+                          }
+                          return null;
+                        },
                         keyboardType: TextInputType.text,
                         controller: deskripsiController,
                         enabled: true,
@@ -533,8 +523,13 @@ class _KasScreenState extends State<KasScreen> {
                     ),
                     Container(
                       width: size.width * 0.67,
-                      height: 40,
-                      child: TextField(
+                      child: TextFormField(
+                        validator: (value) {
+                          if (value == '') {
+                            return "Text Tidak Boleh Kosong";
+                          }
+                          return null;
+                        },
                         inputFormatters: [_currencyFormatter],
                         keyboardType: TextInputType.number,
                         controller: biayaController,
@@ -607,7 +602,30 @@ class _KasScreenState extends State<KasScreen> {
                               borderRadius: BorderRadius.circular(5),
                             ),
                           ),
-                          onPressed: validateAndSave,
+                          onPressed: () async {
+                            if (_formState.currentState!.validate()) {
+                              String hargaText = biayaController.text
+                                  .replaceAll('Rp ', '')
+                                  .replaceAll('.', '');
+
+                              int parsedHarga = int.tryParse(hargaText) ?? 0;
+
+                              setState(() {
+                                harga = parsedHarga;
+                              });
+
+                              await kasController.insert(
+                                  deskripsi: deskripsiController.text,
+                                  biaya: harga,
+                                  idParams: 1,
+                                  tgl: _date != null ?  _date.toString() : DateTime.now().toString());
+
+                              deskripsiController.clear();
+                              biayaController.clear();
+                              Navigator.pop(context);
+                              setState(() {});
+                            }
+                          },
                           child: Text(
                             "SIMPAN",
                             style: TextStyle(

@@ -46,8 +46,7 @@ class _DaftarProdukScreenState extends State<DaftarProdukScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Stack(
+      body: Stack(
           children: [
             Column(
               children: [
@@ -105,7 +104,7 @@ class _DaftarProdukScreenState extends State<DaftarProdukScreen> {
                     if (snapshot.hasData) {
                       if (snapshot.data!.length == 0) {
                         return Padding(
-                          padding: const EdgeInsets.only(top: 250, bottom: 355),
+                          padding: EdgeInsets.only(top: size.height * 0.29, bottom: size.height * 0.4),
                           child: Center(
                             child: Text("DATA KOSONG"),
                           ),
@@ -120,7 +119,7 @@ class _DaftarProdukScreenState extends State<DaftarProdukScreen> {
                         padding: const EdgeInsets.only(left: 35, right: 35),
                         child: Container(
                           width: size.width * 0.9,
-                          height: size.height * 0.7,
+                          height: size.height * 0.71,
                           child: ListView.builder(
                             physics: BouncingScrollPhysics(),
                             padding: EdgeInsets.only(top: 10),
@@ -166,7 +165,7 @@ class _DaftarProdukScreenState extends State<DaftarProdukScreen> {
                   },
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 5, top: 20),
+                  padding: EdgeInsets.only( top: size.height * 0.01),
                   child: Column(
                     children: [
                       Text(
@@ -181,7 +180,7 @@ class _DaftarProdukScreenState extends State<DaftarProdukScreen> {
                       ),
                       Padding(padding: EdgeInsets.only(bottom: 7)),
                       Text(
-                        'Direktorat Riset, Teknologi, dan Pengabdian Kepada Masyarakat, Direktorat\nJenderal Pendidikan Tinggi, Riset dan Teknologi, Kementrian Pendidikan,\nKebudayaan, Riset, dan Teknologi Republik Indonesia',
+                        'Direktorat Riset, Teknologi, dan Pengabdian Kepada Masyarakat, Direktorat\nJenderal Pendidikan Tinggi, Riset dan Teknologi, Kementrian Pendidikan,\nKebudayaan, Riset, dan Teknologi Republik Indonesia Tahun Pendanaan 2023',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color(0xFF3F51B5),
@@ -250,7 +249,7 @@ class _DaftarProdukScreenState extends State<DaftarProdukScreen> {
             )
           ],
         ),
-      ),
+      
     );
   }
 }

@@ -246,7 +246,7 @@ class _PenjualanScreenState extends State<PenjualanScreen> {
                     if (snapshot.hasData) {
                       if (snapshot.data!.length == 0) {
                         return Padding(
-                          padding: const EdgeInsets.only(top: 195, bottom: 245),
+                          padding:  EdgeInsets.only(top: size.height * 0.24, bottom: size.height * 0.23),
                           child: Center(
                             child: Text("DATA KOSONG"),
                           ),
@@ -278,7 +278,7 @@ class _PenjualanScreenState extends State<PenjualanScreen> {
                         padding: const EdgeInsets.only(left: 35, right: 35),
                         child: Container(
                           width: size.width * 0.9,
-                          height: size.height * 0.48,
+                          height: size.height * 0.49,
                           child: ListView.builder(
                             scrollDirection: Axis.vertical,
                             physics: BouncingScrollPhysics(),
@@ -327,7 +327,7 @@ class _PenjualanScreenState extends State<PenjualanScreen> {
                   },
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 2, top:15),
+                  padding: EdgeInsets.only(top: size.height * 0.01,),
                   child: Column(
                     children: [
                       Text(
@@ -342,7 +342,7 @@ class _PenjualanScreenState extends State<PenjualanScreen> {
                       ),
                       Padding(padding: EdgeInsets.only(bottom: 7)),
                       Text(
-                        'Direktorat Riset, Teknologi, dan Pengabdian Kepada Masyarakat, Direktorat\nJenderal Pendidikan Tinggi, Riset dan Teknologi, Kementrian Pendidikan,\nKebudayaan, Riset, dan Teknologi Republik Indonesia',
+                        'Direktorat Riset, Teknologi, dan Pengabdian Kepada Masyarakat, Direktorat\nJenderal Pendidikan Tinggi, Riset dan Teknologi, Kementrian Pendidikan,\nKebudayaan, Riset, dan Teknologi Republik Indonesia Tahun Pendanaan 2023',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color(0xFF3F51B5),
