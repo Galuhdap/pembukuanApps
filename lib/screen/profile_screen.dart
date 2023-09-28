@@ -225,7 +225,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         'DIDANAI OLEH:',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Color(0xFF3F51B5),
+                          color: Colors.white,
                           fontSize: 12,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w500,
@@ -236,7 +236,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         'Direktorat Riset, Teknologi, dan Pengabdian Kepada Masyarakat, Direktorat Jenderal Pendidikan Tinggi, Riset dan Teknologi, Kementrian Pendidikan, Kebudayaan, Riset, dan Teknologi Republik Indonesia',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Color(0xFF3F51B5),
+                          color: Colors.white,
                           fontSize: 10,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w400,

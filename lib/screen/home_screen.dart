@@ -53,60 +53,51 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (builde) {
-                      return KasScreen();
-                    },
-                  ),
-                ).then((value) {
-                  setState(() {});
-                });
-              },
-              child: FutureBuilder<List>(
-                future: saldoController.all(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
-                  } else {
-                    final List<SaldoModel> saldos = snapshot.data!.map((item) {
-                      return SaldoModel(
-                        id: item['id'],
-                        saldo:
-                            item['saldo'] != null ? item['saldo'].toInt() : 0,
-                      );
-                    }).toList();
+            FutureBuilder<List>(
+              future: saldoController.all(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else {
+                  final List<SaldoModel> saldos = snapshot.data!.map((item) {
+                    return SaldoModel(
+                      id: item['id'],
+                      saldo: item['saldo'] != null ? item['saldo'].toInt() : 0,
+                    );
+                  }).toList();
 
-                    return FutureBuilder<List>(
-                      future: usersController.all(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return CircularProgressIndicator();
-                        } else {
-                          final List<UserModel> users =
-                              snapshot.data!.map((item) {
-                            return UserModel(
-                              id: item['id'],
-                              nama: item['nama']
-                                 
-                            );
-                          }).toList();
-                          return PoinCard(
+                  return FutureBuilder<List>(
+                    future: usersController.all(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      } else {
+                        final List<UserModel> users =
+                            snapshot.data!.map((item) {
+                          return UserModel(id: item['id'], nama: item['nama']);
+                        }).toList();
+                        return PoinCard(
                             size,
-                           users.length > 0 ? users[0].nama : "",
+                            users.length > 0 ? users[0].nama : "",
                             CurrencyFormat.convertToIdr(
                                 saldos.length > 0 ? saldos[0].saldo! : 0, 0),
-                          );
-                        }
-                      },
-                    );
-                  }
-                },
-              ),
+                            () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builde) {
+                                return KasScreen();
+                              },
+                            ),
+                          ).then((value) {
+                            setState(() {});
+                          });
+                        });
+                      }
+                    },
+                  );
+                }
+              },
             ),
             Padding(
               padding: const EdgeInsets.only(top: 20, left: 35, right: 33),
