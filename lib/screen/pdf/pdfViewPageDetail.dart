@@ -81,7 +81,7 @@ class _PdfviewDetailScreenState extends State<PdfviewDetailScreen> {
       ),
       body: PdfPreview(
         build: (context) => pdfInvoiceApi.generate(invoice),
-        pdfFileName: 'asdasd/Struck.pdf',
+        pdfFileName: '${widget.penjualanModel!.nama ?? ''}.struck.pdf',
       ),
     );
   }

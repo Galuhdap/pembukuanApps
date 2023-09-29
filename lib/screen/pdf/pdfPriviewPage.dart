@@ -95,7 +95,7 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
       ),
       body: PdfPreview(
         build: (context) => pdfInvoiceApi.generate(invoice),
-        pdfFileName: '${widget.namatransaksi}/Struck.pdf',
+        pdfFileName: '${widget.namatransaksi}.struck.pdf',
       ),
     );
   }

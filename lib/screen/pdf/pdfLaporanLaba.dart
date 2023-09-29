@@ -104,7 +104,7 @@ class _PDFLaporanLabaScreenState extends State<PDFLaporanLabaScreen> {
       ),
       body: PdfPreview(
         build: (context) => pdfLaporanLaba.generate(laporan),
-        pdfFileName: 'asdasd/Struck.pdf',
+        pdfFileName: 'LaporanLabaKotor.${widget.selectedDate ?? DateTime.now()}.pdf',
       ),
     );
   }

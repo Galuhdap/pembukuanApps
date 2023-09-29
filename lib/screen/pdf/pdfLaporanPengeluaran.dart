@@ -124,7 +124,7 @@ class _PDFLaporanPengeluaranScreenState
       ),
       body: PdfPreview(
         build: (context) => pdfLaporanPengeluaran.generate(laporan),
-        pdfFileName: 'asdasd/Struck.pdf',
+        pdfFileName: 'LaporanPengeluaran.${widget.selectedDate ?? DateTime.now()}.pdf',
       ),
     );
   }

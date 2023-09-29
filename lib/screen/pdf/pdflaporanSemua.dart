@@ -108,7 +108,7 @@ class _PDFLaporanSemuaScreenState extends State<PDFLaporanSemuaScreen> {
       ),
       body: PdfPreview(
         build: (context) => pdfLaporanSemua.generate(laporan),
-        pdfFileName: 'asdasd/Struck.pdf',
+        pdfFileName: 'LaporanSemua.${DateTime.now()}.pdf',
       ),
     );
   }
