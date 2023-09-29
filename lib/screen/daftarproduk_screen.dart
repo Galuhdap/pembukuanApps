@@ -46,6 +46,7 @@ class _DaftarProdukScreenState extends State<DaftarProdukScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
           children: [
             Column(

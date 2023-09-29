@@ -9,6 +9,7 @@ class PdfController {
     final data = await _database.rawQuery('SELECT * FROM keranjang');
     return data;
   }
+
   Future<List> allPenjualan() async {
     final Database _database = await databaseService.database();
     final data = await _database.rawQuery('SELECT * FROM penjualan');
@@ -91,5 +92,74 @@ class PdfController {
     final totals = total - harga - biya;
 
     return totals;
+  }
+
+  Future<List> laporanPenjualanAll() async {
+    final Database _database = await databaseService.database();
+    final data = await _database.rawQuery(
+      'SELECT * FROM penjualan',
+    );
+
+    final total = data.isEmpty ? [] : data;
+    return total;
+  }
+
+  Future<List> filterDataBylaporanPenjualan(String? targetDate) async {
+    final Database _database = await databaseService.database();
+
+    final data = await _database.rawQuery(
+      'SELECT * FROM penjualan WHERE createdAt LIKE ?',
+      ['$targetDate%'],
+    );
+
+    final total = data.isEmpty ? [] : data;
+
+    return total;
+  }
+
+  Future<List> laporanPengeluaranAll() async {
+    final Database _database = await databaseService.database();
+    final data = await _database.rawQuery(
+      'SELECT * FROM pengeluaran',
+    );
+
+    final total = data.isEmpty ? [] : data;
+    return total;
+  }
+
+  Future<List> filterDataBylaporanPengeluaran(String? targetDate) async {
+    final Database _database = await databaseService.database();
+
+    final data = await _database.rawQuery(
+      'SELECT * FROM pengeluaran WHERE createdAt LIKE ?',
+      ['$targetDate%'],
+    );
+
+    final total = data.isEmpty ? [] : data;
+
+    return total;
+  }
+
+  Future<List> laporanpembelianAll() async {
+    final Database _database = await databaseService.database();
+    final data = await _database.rawQuery(
+      'SELECT * FROM pembelian',
+    );
+
+    final total = data.isEmpty ? [] : data;
+    return total;
+  }
+
+  Future<List> filterDataBylaporanPembelian(String? targetDate) async {
+    final Database _database = await databaseService.database();
+
+    final data = await _database.rawQuery(
+      'SELECT * FROM pembelian WHERE createdAt LIKE ?',
+      ['$targetDate%'],
+    );
+
+    final total = data.isEmpty ? [] : data;
+
+    return total;
   }
 }

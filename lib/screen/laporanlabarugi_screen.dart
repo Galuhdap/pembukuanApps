@@ -57,8 +57,7 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
     var size = MediaQuery.of(context).size;
     DateTime? kosong = null;
     final formattedDates = selectedDate != null
-        ? DateFormat('yyyy-MM')
-            .format(DateTime.parse(selectedDate!.toString()))
+        ? DateFormat('yyyy-MM').format(DateTime.parse(selectedDate!.toString()))
         : kosong;
 
     return Scaffold(
@@ -164,19 +163,33 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                                 ),
                               ),
                               InkWell(
-                                onTap: () {
+                                onTap: () async {
+                                  final bersih = await (selectedDate == null
+                                      ? transaksiController.totalBersih()
+                                      : transaksiController
+                                          .filterDataByDateBersih(
+                                          formattedDates.toString(),
+                                        ));
+                                  final kotor = await (selectedDate == null
+                                      ? transaksiController.totalKotor()
+                                      : transaksiController
+                                          .filterDataByDateKotor(
+                                              formattedDates.toString()));
+                                  final penjualans = await (selectedDate == null
+                                      ? transaksiController.totals()
+                                      : transaksiController.filterDataByDate(
+                                          formattedDates.toString()));
+
                                   Navigator.of(context).push(
-                                      MaterialPageRoute(builder: (context) {
-                                    return PDFLaporanLabaScreen(
-                                      keuntunganbersih: bersih,
-                                      keuntungankotor: kotor,
-                                      penjualan: pemasukan.length > 0
-                                          ? (pemasukan[0] != null
-                                              ? (pemasukan[0]['total'] ?? 0)
-                                              : 0)
-                                          : 0,
-                                    );
-                                  }));
+                                    MaterialPageRoute(builder: (context) {
+                                      return PDFLaporanLabaScreen(
+                                        keuntunganbersih: bersih,
+                                        keuntungankotor: kotor,
+                                        penjualan: penjualans,
+                                        selectedDate: selectedDate,
+                                      );
+                                    }),
+                                  );
                                 },
                                 child: Container(
                                   width: size.width * 0.17,

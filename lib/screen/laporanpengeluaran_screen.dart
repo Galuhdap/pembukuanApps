@@ -36,6 +36,8 @@ class _LaporanpengeluaranScreenState extends State<LaporanpengeluaranScreen> {
 
   DateTime? selectedDate;
 
+  
+
   Future fetchData() async {
     List pembelians = await pembelianController.all();
     int pengeluarans = await pengeluaranController.all();
@@ -62,8 +64,7 @@ class _LaporanpengeluaranScreenState extends State<LaporanpengeluaranScreen> {
     var size = MediaQuery.of(context).size;
     DateTime? kosong = null;
     final formattedDates = selectedDate != null
-        ? DateFormat('yyyy-MM')
-            .format(DateTime.parse(selectedDate!.toString()))
+        ? DateFormat('yyyy-MM').format(DateTime.parse(selectedDate!.toString()))
         : kosong;
 
     return Scaffold(
@@ -98,7 +99,8 @@ class _LaporanpengeluaranScreenState extends State<LaporanpengeluaranScreen> {
                             Text('Tanggal Transaksi: '),
                             TextButton(
                               onPressed: () async {
-                                final DateTime? picked = await DatePicker.showSimpleDatePicker(
+                                final DateTime? picked =
+                                    await DatePicker.showSimpleDatePicker(
                                   context,
                                   initialDate: selectedDate ?? DateTime.now(),
                                   firstDate: DateTime(2020),
@@ -170,21 +172,33 @@ class _LaporanpengeluaranScreenState extends State<LaporanpengeluaranScreen> {
                                 ),
                               ),
                               InkWell(
-                                onTap: () {
+                                onTap: () async {
+                                  final pengeluarans =
+                                      await (selectedDate == null
+                                          ? pengeluaranController.totalPeng()
+                                          : pengeluaranController
+                                              .filterDataByDatePeng(
+                                                  formattedDates.toString()));
+                                  final pembelihans =
+                                      await (selectedDate == null
+                                          ? pengeluaranController.totalBahan()
+                                          : pengeluaranController
+                                              .filterDataByDateBahan(
+                                                  formattedDates.toString()));
+
+                                  final totals = await (selectedDate == null
+                                      ? pengeluaranController.totalKeseluruhan()
+                                      : pengeluaranController
+                                          .filterDataByDateKeseluruhan(
+                                              formattedDates.toString()));
+
                                   Navigator.of(context).push(
                                       MaterialPageRoute(builder: (context) {
                                     return PDFLaporanPengeluaranScreen(
-                                          pengeluaran:  pengeluaran.length > 0
-                                          ? (pengeluaran[0] != null
-                                              ? (pengeluaran[0]['biaya'] ?? 0)
-                                              : 0)
-                                          : 0,
-                                          pemblihanbahan:  pembelian.length > 0
-                                          ? (pembelian[0] != null
-                                              ? (pembelian[0]['harga'] ?? 0)
-                                              : 0)
-                                          : 0,
-                                          total: total,
+                                      pengeluaran: pengeluarans,
+                                      pemblihanbahan: pembelihans,
+                                      total: totals,
+                                      selectedDate: selectedDate,
                                     );
                                   }));
                                 },
@@ -384,7 +398,7 @@ class _LaporanpengeluaranScreenState extends State<LaporanpengeluaranScreen> {
                               height: 1.22,
                             ),
                           ),
-                            Padding(padding: EdgeInsets.only(bottom: 7)),
+                          Padding(padding: EdgeInsets.only(bottom: 7)),
                         ],
                       ),
                     ),

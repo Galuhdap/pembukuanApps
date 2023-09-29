@@ -26,11 +26,13 @@ class Alls {
   final int pemblihanbahan;
   final int pengeluaran;
   final int total;
+  final DateTime tgl;
   
 
   const Alls({
     required this.pemblihanbahan,
     required this.pengeluaran,
     required this.total,
+    required this.tgl,
   });
 }

@@ -4,17 +4,21 @@ import 'package:fajarjayaspring_app/models/LaporanLaba_model.dart';
 import 'package:fajarjayaspring_app/models/penjualan_model.dart';
 import 'package:fajarjayaspring_app/models/users_model.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:printing/printing.dart';
 
 class PDFLaporanLabaScreen extends StatefulWidget {
   final int keuntungankotor;
   final int keuntunganbersih;
-  final int penjualan;
+  final int penjualan; 
+  final DateTime? selectedDate;
+  
   const PDFLaporanLabaScreen({
     super.key,
     required this.keuntungankotor,
     required this.keuntunganbersih,
     required this.penjualan,
+    required this.selectedDate,
   });
 
   @override
@@ -28,10 +32,32 @@ class _PDFLaporanLabaScreenState extends State<PDFLaporanLabaScreen> {
   List datas = [];
   List penj = [];
   List users = [];
+  List _penjualan = [];
+
+  // DateTime? selectedDate;
+
+   DateTime? kosong = null;
+
+  Future filterDatas() async {
+   
+    final formattedDates = widget.selectedDate != null
+        ? DateFormat('yyyy-MM').format(DateTime.parse(widget.selectedDate!.toString()))
+        : kosong;
+
+    List penjualans = await (widget.selectedDate == null
+        ? pdfController.laporanPenjualanAll()
+        : pdfController
+            .filterDataBylaporanPenjualan(formattedDates.toString()));
+
+    setState(() {
+      _penjualan = penjualans;
+    });
+  }
 
   Future getDatas() async {
     datas = await pdfController.allPenjualan();
     users = await pdfController.user();
+
     setState(() {
       penj = datas;
     });
@@ -41,12 +67,13 @@ class _PDFLaporanLabaScreenState extends State<PDFLaporanLabaScreen> {
   void initState() {
     // TODO: implement initState
     getDatas();
+    filterDatas();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    List<PenjualanModel> items = penj.map((category) {
+    List<PenjualanModel> items = _penjualan.map((category) {
       return PenjualanModel(
         createdAt: category['createdAt'],
         nama: category['nama'],
@@ -58,6 +85,7 @@ class _PDFLaporanLabaScreenState extends State<PDFLaporanLabaScreen> {
     }).toList();
 
     final laporan = LaporanLaba(
+      
       userModel: UserModel(
           nama: users.length > 0 ? users[0]['nama'] : "",
           alamat: users.length > 0 ? users[0]['alamat'] : ""),
@@ -66,6 +94,7 @@ class _PDFLaporanLabaScreenState extends State<PDFLaporanLabaScreen> {
         keuntungankotor: widget.keuntungankotor,
         keuntunganbersih: widget.keuntunganbersih,
         penjualan: widget.penjualan,
+        tgl:  widget.selectedDate ?? DateTime.now(),
       ),
     );
 

@@ -17,12 +17,12 @@ class PdfLaporanPengeluaran {
       build: (context) => [
         buildHeader(invoice),
         SizedBox(height: 2 * PdfPageFormat.cm),
-        buildTitle('Laporan Pembelian Bahan'),
+        buildTitle('Laporan Pembelian Bahan', invoice),
         buildTabel(invoice),
         Divider(),
         totals(invoice),
         SizedBox(height: 2 * PdfPageFormat.cm),
-        buildTitle('Laporan Pengeluaran '),
+        buildTitle('Laporan Pengeluaran ', invoice),
         buildTabelPengeluaran(invoice),
         Divider(),
         totals2(invoice),
@@ -117,7 +117,7 @@ class PdfLaporanPengeluaran {
 //ini untuk judul
   static Widget buildJudul(UserModel users) => Column(
         children: [
-          Text('Laporan Keuangan',
+          Text('Laporan Keuangan Pengeluaran',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
           Text(users.nama.toString(), style: TextStyle(fontSize: 18)),
           Text(users.alamat.toString(), style: TextStyle(fontSize: 15)),
@@ -126,12 +126,18 @@ class PdfLaporanPengeluaran {
       );
 
   // ini buat Judul
-  static Widget buildTitle(ttl) => Column(
+  static Widget buildTitle(ttl , LaporanPengeluaran invoice) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             ttl,
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            DateFormat('MMMM yyyy', 'id_ID').format(invoice.all.tgl).toString(),
+            style: TextStyle(
+              fontSize: 15,
+            ),
           ),
           SizedBox(height: 0.8 * PdfPageFormat.cm),
         ],

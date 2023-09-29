@@ -13,6 +13,7 @@ class LaporanLaba {
     required this.userModel,
     required this.all,
     required this.items,
+
   });
 }
 
@@ -21,12 +22,14 @@ class Alls {
   final int keuntungankotor;
   final int keuntunganbersih;
   final int penjualan;
+  final DateTime tgl;
 
 
   const Alls({
     required this.keuntungankotor,
     required this.keuntunganbersih,
     required this.penjualan,
+        required this.tgl,
 
   });
 }

@@ -226,7 +226,7 @@ class TransaksiController {
       'SELECT SUM(total) as total FROM penjualan',
     );
 
-    final total = data.first['total'] as int;
+    final total = data.first['total'] as int? ?? 0;
     return total;
   }
 
@@ -238,7 +238,7 @@ class TransaksiController {
       ['$targetDate%'],
     );
 
-    final total = data.first['total'] as int;
+    final total = data.first['total'] as int? ?? 0;
 
     return total;
   }
@@ -349,4 +349,7 @@ class TransaksiController {
 
     return kass;
   }
+
+
+
 }
