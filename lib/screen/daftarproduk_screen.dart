@@ -134,7 +134,8 @@ class _DaftarProdukScreenState extends State<DaftarProdukScreen> {
                                 filteredData[index].sku,
                                 filteredData[index].stock.toString(),
                                 filteredData[index].satuan,
-                                () {
+                                (value) {
+                                if (value == 'edit') {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -147,7 +148,8 @@ class _DaftarProdukScreenState extends State<DaftarProdukScreen> {
                                   ).then((value) {
                                     setState(() {});
                                   });
-                                },
+                                }
+                              },
                                 () {
                                   delete(snapshot.data![index].id!);
                                 },

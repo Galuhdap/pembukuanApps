@@ -199,6 +199,119 @@ Padding transactionCard3(Size size, ttl, tgl, rp, hapus, ontp, clr) {
   );
 }
 
+Padding transactionCard4(Size size, ttl, kode, tgl, rp, hapus, ontp, clr) {
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 10),
+    child: InkWell(
+      onTap: ontp,
+      child: Stack(
+        children: [
+          Container(
+            width: 342,
+            height: 83,
+            decoration: BoxDecoration(boxShadow: [
+              BoxShadow(
+                color: Color(0x3F000000),
+                blurRadius: 16,
+                offset: Offset(0, 0),
+                spreadRadius: -6,
+              )
+            ], color: Colors.white, borderRadius: BorderRadius.circular(10)),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: 15, left: 15, right: 15, bottom: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 7),
+                    child: Text(
+                      ttl,
+                      style: TextStyle(
+                        color: Color(0xFF333333),
+                        fontSize: 14,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
+                        height: 1.15,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 3),
+                    child: Text(
+                      kode,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 12,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        tgl,
+                        style: TextStyle(
+                          color: Color(0xFFA8A8A8),
+                          fontSize: 12,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      Text(
+                        rp,
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          color: clr,
+                          fontSize: 14,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w500,
+                          height: 1.15,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            left: size.width * 0.765,
+            top: size.height * 0.01,
+            child: PopupMenuButton(
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  onTap: hapus,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 7),
+                    child: Text(
+                      "Hapus",
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 15,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+              child: Icon(
+                Icons.more_vert,
+                size: 20,
+                color: Colors.grey,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
 Padding transactionCard2(Size size, ttl, tgl, kg, stn, rp, hapus) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 10),
@@ -451,21 +564,20 @@ Padding productCard(Size size, ttl, tgl, kg, rp, stn, edit, hapus) {
           left: size.width * 0.765,
           top: size.height * 0.01,
           child: PopupMenuButton(
+            onSelected: edit,
             itemBuilder: (context) => [
               PopupMenuItem(
-                child: InkWell(
-                  onTap: edit,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 7, top: 7),
-                    child: Text(
-                      "Edit",
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 15,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w500,
-                      ),
+                value: 'edit',
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 7, top: 7),
+                  child: Text(
+                    "Edit",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 15,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
@@ -518,111 +630,115 @@ Padding productCard2(ttl, tgl, kg, rp, stn, ink, Size size) {
           child: Padding(
             padding:
                 const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Stack(
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 15),
-                      child: Image.asset(
-                        "assets/logo/boxs.png",
-                        width: 34,
-                        height: 34,
-                      ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Row(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 3),
-                          child: Text(
-                            ttl,
-                            style: TextStyle(
-                              color: Color(0xFF333333),
-                              fontSize: 14,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w500,
-                              height: 1.15,
-                            ),
+                          padding: const EdgeInsets.only(right: 15),
+                          child: Image.asset(
+                            "assets/logo/boxs.png",
+                            width: 34,
+                            height: 34,
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 3),
-                          child: Text(
-                            kg,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 3),
+                              child: Text(
+                                ttl,
+                                style: TextStyle(
+                                  color: Color(0xFF333333),
+                                  fontSize: 14,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w500,
+                                  height: 1.15,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 3),
+                              child: Text(
+                                kg,
+                                style: TextStyle(
+                                  color: Color(0xFFA8A8A8),
+                                  fontSize: 12,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  tgl,
+                                  style: TextStyle(
+                                    color: Color(0xFF333333),
+                                    fontSize: 14,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w500,
+                                    height: 1.15,
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 30),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Stock: ",
+                            textAlign: TextAlign.right,
                             style: TextStyle(
-                              color: Color(0xFFA8A8A8),
+                              color: Color(0xFF333333),
                               fontSize: 12,
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.w400,
                             ),
                           ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              tgl,
-                              style: TextStyle(
-                                color: Color(0xFF333333),
-                                fontSize: 14,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500,
-                                height: 1.15,
-                              ),
+                          Padding(padding: EdgeInsets.only(left: 5)),
+                          Text(
+                            rp,
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              color: Color(0xFF333333),
+                              fontSize: 12,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
                             ),
-                          ],
-                        )
-                      ],
+                          ),
+                          Padding(padding: EdgeInsets.only(left: 2)),
+                          Text(
+                            stn,
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              color: Color(0xFF333333),
+                              fontSize: 12,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 30),
-                  child: Row(
-                    children: [
-                      Text(
-                        "Stock: ",
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          color: Color(0xFF333333),
-                          fontSize: 12,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.only(left: 5)),
-                      Text(
-                        rp,
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          color: Color(0xFF333333),
-                          fontSize: 12,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.only(left: 2)),
-                      Text(
-                        stn,
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          color: Color(0xFF333333),
-                          fontSize: 12,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
               ],
             ),
           ),
         ),
         Positioned(
-          left: size.width * 0.73,
+          left: size.width * 0.72,
           top: size.height * 0.01,
           child: InkWell(
             onTap: ink,

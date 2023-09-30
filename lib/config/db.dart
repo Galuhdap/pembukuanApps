@@ -56,7 +56,7 @@ class DatabaseService {
     await db.execute(
         '''CREATE TABLE $table5 (id INTEGER PRIMARY KEY, nama TEXT NULL, deskripsi TEXT NULL, sku TEXT NULL, harga_pokok INTEGER NULL, harga_jual INTEGER NULL, stock INTEGER NULL, satuan TEXT NULL, createdAt TEXT, updatedAt TEXT)''');
     await db.execute(
-        '''CREATE TABLE $table6 (id INTEGER PRIMARY KEY, nama STRING NULL, nama_pembeli STRING NULL, produk TEXT NULL, jumlah_produk INTEGER NULL, total_produk INTEGER NULL, subtotal INTEGER NULL, ongkos_kirim INTEGER NULL, biaya_lain INTEGER NULL, potongan_harga INTEGER NULL, total INT NULL,pembayaran TEXT NULL, createdAt TEXT, updatedAt TEXT)''');
+        '''CREATE TABLE $table6 (id INTEGER PRIMARY KEY,kode_invoice STRING NULL ,nama STRING NULL, nama_pembeli STRING NULL, produk TEXT NULL, jumlah_produk INTEGER NULL, total_produk INTEGER NULL, subtotal INTEGER NULL, ongkos_kirim INTEGER NULL, biaya_lain INTEGER NULL, potongan_harga INTEGER NULL, total INT NULL,pembayaran TEXT NULL, createdAt TEXT, updatedAt TEXT)''');
     await db.execute(
         '''CREATE TABLE $table7 (id INTEGER PRIMARY KEY, saldo INTEGER NULL, createdAt TEXT, updatedAt TEXT)''');
     await db.execute(
@@ -127,7 +127,7 @@ class DatabaseService {
   }
 
   Future<List<PenjualanModel>> allPen() async {
-    final data = await _database!.rawQuery('SELECT * FROM penjualan GROUP BY nama');
+    final data = await _database!.rawQuery('SELECT * FROM penjualan GROUP BY kode_invoice');
     List<PenjualanModel> result =
         data.map((e) => PenjualanModel.fromJson(e)).toList();
     return result;

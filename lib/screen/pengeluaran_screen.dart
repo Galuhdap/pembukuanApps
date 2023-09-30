@@ -205,7 +205,7 @@ class _PengeluaranScreenState extends State<PengeluaranScreen> {
                     if (snapshot.data!.length == 0) {
                       return Padding(
                         padding: EdgeInsets.only(
-                            top: size.height * 0.29, bottom: size.height * 0.29),
+                            top: size.height * 0.29, bottom: size.height * 0.289),
                         child: Center(
                           child: Text("DATA KOSONG"),
                         ),
@@ -235,7 +235,7 @@ class _PengeluaranScreenState extends State<PengeluaranScreen> {
                       padding: const EdgeInsets.only(left: 35, right: 35),
                       child: Container(
                         width: size.width * 0.9,
-                        height: size.height * 0.599,
+                        height: size.height * 0.6,
                         child: ListView.builder(
                           physics: BouncingScrollPhysics(),
                           padding: EdgeInsets.only(top: 10),
@@ -270,7 +270,7 @@ class _PengeluaranScreenState extends State<PengeluaranScreen> {
                 },
               ),
               Padding(
-                padding: EdgeInsets.only(bottom: 5, top: size.height * 0.01),
+                padding: EdgeInsets.only(top: size.height * 0.01),
                 child: Column(
                   children: [
                     Text(

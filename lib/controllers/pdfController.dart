@@ -31,7 +31,7 @@ class PdfController {
   Future<List> all(String nama) async {
     final Database _database = await databaseService.database();
     final data = await _database
-        .query("penjualan", where: "nama_pembeli = ?", whereArgs: [nama]);
+        .query("penjualan", where: "kode_invoice = ?", whereArgs: [nama]);
     return data;
   }
 

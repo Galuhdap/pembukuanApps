@@ -108,7 +108,7 @@ class _PDFLaporanPengeluaranScreenState
     final laporan = LaporanPengeluaran(
         userModel: UserModel(
             nama: users.length > 0 ? users[0]['nama'] : "",
-            alamat: users.length > 0 ? users[0]['alamat'] : ""),
+            alamat: '${users.length > 0 ? (users[0]['alamat']) : ""} ${users.length > 0 ? (users[0]['kota']) : ""} ${users.length > 0 ? (users[0]['prov']) : ""}'),
         items: itemsPembelian,
         itemsPengeluaran: itemsPengeluaran,
         all: Alls(

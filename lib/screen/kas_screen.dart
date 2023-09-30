@@ -260,7 +260,7 @@ class _KasScreenState extends State<KasScreen> {
               if (snapshot.hasData) {
                 if (snapshot.data!.length == 0) {
                   return Padding(
-                    padding:  EdgeInsets.only(top: size.height * 0.25, bottom: size.height * 0.26),
+                    padding:  EdgeInsets.only(top: size.height * 0.25, bottom: size.height * 0.255),
                     child: Center(
                       child: Text("DATA KOSONG"),
                     ),

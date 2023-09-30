@@ -182,9 +182,9 @@ class PdfLaporanSemua {
   static Widget buildTabelPenjualan(LaporanSemua invoice) {
     final headers = [
       'Tanggal',
-      'nama',
+      'Nama',
       'Nama Barang',
-      'Jumlah Pembelian',
+      'Jmlh beli',
       'Harga',
     ];
     final data = invoice.itemsPenjualan.map((item) {

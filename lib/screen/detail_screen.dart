@@ -13,6 +13,7 @@ class DetailScreen extends StatefulWidget {
   final String namapembeli;
   final String tanggal;
   final String pembayaran;
+  final String kode_invoice;
 
   final int subtotal;
   final int ongkir;
@@ -29,7 +30,9 @@ class DetailScreen extends StatefulWidget {
       required this.ongkir,
       required this.potongan,
       required this.lain,
-      required this.total});
+      required this.total,
+      required this.kode_invoice,
+      });
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -112,6 +115,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                         ongkir: widget.ongkir,
                                         potongan: widget.potongan,
                                         total: widget.total,
+                                        kode_invoice: widget.kode_invoice,
                                       );
                                     }));
                                   },
@@ -152,7 +156,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   padding: const EdgeInsets.only(left: 33, top: 140),
                   child: Container(
                     width: size.width * 0.85,
-                    height: 600,
+                    height: 650,
                     decoration: ShapeDecoration(
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
@@ -173,6 +177,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          text(size, 'Kode Invoice', widget.kode_invoice),
                           text(
                             size,
                             'Tanggal',

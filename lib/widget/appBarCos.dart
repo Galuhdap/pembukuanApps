@@ -3,7 +3,7 @@
 Container appbarCos(Size size, ttl , ontap) {
     return Container(
               width: size.width,
-              height: 90,
+              height: size.height * 0.11,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   end: Alignment(0.90, -0.43),

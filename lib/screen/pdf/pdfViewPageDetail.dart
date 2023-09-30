@@ -28,7 +28,7 @@ class _PdfviewDetailScreenState extends State<PdfviewDetailScreen> {
 
   Future getDatas() async {
     datas = await pdfController.alls();
-    List penjj = await pdfController.all(widget.penjualanModel!.nama_pembeli ?? '');
+    List penjj = await pdfController.all(widget.penjualanModel!.kode_invoice ?? '');
     users = await pdfController.user();
     setState(() {
       penj =penjj;
@@ -56,7 +56,7 @@ class _PdfviewDetailScreenState extends State<PdfviewDetailScreen> {
     final invoice = Invoice(
       supplier: Supplier(
         name: users.length > 0 ? users[0]['nama'] : "",
-        address: users.length > 0 ? users[0]['alamat'] : "",
+        address:'${users.length > 0 ? (users[0]['alamat']) : ""} ${users.length > 0 ? (users[0]['kota']) : ""} ${users.length > 0 ? (users[0]['prov']) : ""}',
       ),
       customer: Customer(
         judul:  widget.penjualanModel!.nama ?? '',
@@ -65,6 +65,7 @@ class _PdfviewDetailScreenState extends State<PdfviewDetailScreen> {
       info: InvoiceInfo(
         date: DateTime.parse(widget.penjualanModel!.createdAt ?? '') ,
         pay:  widget.penjualanModel!.pembayaran?? '',
+        kode_invoice: widget.penjualanModel!.kode_invoice?? '',
       ),
       items: items,
       sub: InvoiceSub(

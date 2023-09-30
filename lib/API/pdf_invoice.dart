@@ -71,10 +71,12 @@ class PdfInvoiceApi {
     final titles = <String>[
       'Invoice Date:',
       'Payment :',
+      'Kode Invoice :',
     ];
     final data = <String>[
       DateFormat(' dd MMMM yyyy', 'id_ID').format(info.date).toString(),
       info.pay,
+      info.kode_invoice,
     ];
 
     return Column(

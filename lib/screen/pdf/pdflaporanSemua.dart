@@ -89,7 +89,8 @@ class _PDFLaporanSemuaScreenState extends State<PDFLaporanSemuaScreen> {
 
     final laporan = LaporanSemua(
       userModel: UserModel(
-          nama:  users.length > 0 ? users[0]['nama'] : "", alamat: users.length > 0 ? users[0]['alamat'] : ""),
+          nama:  users.length > 0 ? users[0]['nama'] : "", 
+          alamat: '${users.length > 0 ? (users[0]['alamat']) : ""} ${users.length > 0 ? (users[0]['kota']) : ""} ${users.length > 0 ? (users[0]['prov']) : ""}'),
       items: itemsPembelian,
       itemsPengeluaran: itemsPengeluaran,
       itemsPenjualan: itemsPenjualans,

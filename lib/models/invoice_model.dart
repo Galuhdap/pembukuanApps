@@ -21,10 +21,12 @@ class Invoice {
 class InvoiceInfo {
   final DateTime date;
   final String pay;
+  final String kode_invoice;
 
   const InvoiceInfo({
     required this.date,
     required this.pay,
+    required this.kode_invoice,
   });
 }
 

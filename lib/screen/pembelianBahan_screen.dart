@@ -241,7 +241,7 @@ class _PembelianbahanScreenState extends State<PembelianbahanScreen> {
                       padding: const EdgeInsets.only(left: 35, right: 35),
                       child: Container(
                         width: size.width * 0.9,
-                        height: size.height * 0.599,
+                        height: size.height * 0.6,
                         child: ListView.builder(
                           physics: BouncingScrollPhysics(),
                           padding: EdgeInsets.only(top: 10),

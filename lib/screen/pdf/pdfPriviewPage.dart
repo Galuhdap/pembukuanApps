@@ -12,6 +12,7 @@ class PdfPreviewScreen extends StatefulWidget {
   final String namapembeli;
   final String tanggal;
   final String pembayaran;
+  final String kode_invoice;
 
   final int subtotal;
   final int ongkir;
@@ -28,7 +29,9 @@ class PdfPreviewScreen extends StatefulWidget {
       required this.ongkir,
       required this.potongan,
       required this.lain,
-      required this.total});
+      required this.total,
+      required this.kode_invoice,
+      });
 
   @override
   State<PdfPreviewScreen> createState() => _PdfPreviewScreenState();
@@ -70,7 +73,7 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
     final invoice = Invoice(
       supplier: Supplier(
         name: users.length > 0 ? users[0]['nama'] : "",
-        address: users.length > 0 ? users[0]['alamat'] : "",
+        address: '${users.length > 0 ? (users[0]['alamat']) : ""} ${users.length > 0 ? (users[0]['kota']) : ""} ${users.length > 0 ? (users[0]['prov']) : ""}',
       ),
       customer: Customer(
         judul: widget.namatransaksi,
@@ -79,6 +82,7 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
       info: InvoiceInfo(
         date: DateTime.parse(widget.tanggal),
         pay: widget.pembayaran,
+        kode_invoice: widget.kode_invoice
       ),
       items: items,
       sub: InvoiceSub(

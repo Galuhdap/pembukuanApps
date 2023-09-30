@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:fajarjayaspring_app/controllers/transactionController.dart';
 import 'package:fajarjayaspring_app/models/keranjang_model.dart';
@@ -84,6 +86,12 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final random = Random();
+    String invoice = 'KI-';
+
+    for (int i = 0; i < 5; i++) {
+      invoice += random.nextInt(10).toString();
+    }
     var size = MediaQuery.of(context).size;
     return Scaffold(
       body: Form(
@@ -97,64 +105,63 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
               }),
               SingleChildScrollView(
                 scrollDirection: Axis.vertical,
-                child:  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 5, top: 10),
-                        child: Text(
-                          "Nama Transaksi",
-                          style: TextStyle(
-                            color: Color(0xFF333333),
-                            fontSize: 12,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                          ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 5, top: 10),
+                      child: Text(
+                        "Nama Transaksi",
+                        style: TextStyle(
+                          color: Color(0xFF333333),
+                          fontSize: 12,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
-                      Container(
-                        width: size.width * 0.8,
-                        child: TextFormField(
-                          validator: (value) {
-                            if (value == '') {
-                              return "Text Tidak Boleh Kosong";
-                            }
-                            return null;
-                          },
-                          controller: namaController,
-                          onChanged: (value) {
-                            setState(() {
-                              nama = value;
-                            });
-                          },
-                          enabled: true,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(3),
-                              borderSide: BorderSide(
-                                color: Color(0xFFA8A8A8),
-                              ),
+                    ),
+                    Container(
+                      width: size.width * 0.8,
+                      child: TextFormField(
+                        validator: (value) {
+                          if (value == '') {
+                            return "Text Tidak Boleh Kosong";
+                          }
+                          return null;
+                        },
+                        controller: namaController,
+                        onChanged: (value) {
+                          setState(() {
+                            nama = value;
+                          });
+                        },
+                        enabled: true,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(3),
+                            borderSide: BorderSide(
+                              color: Color(0xFFA8A8A8),
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(3),
-                              borderSide: BorderSide(
-                                color: Color(0xFFA8A8A8),
-                              ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(3),
+                            borderSide: BorderSide(
+                              color: Color(0xFFA8A8A8),
                             ),
-                            filled: true,
-                            fillColor: Colors.white,
-                            isDense: true,
                           ),
-                          style: TextStyle(
-                            fontSize: 13.0,
-                            color: Colors.black,
-                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                          isDense: true,
                         ),
-                      )
-                    ],
-                  ),
+                        style: TextStyle(
+                          fontSize: 13.0,
+                          color: Colors.black,
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-              
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -175,11 +182,11 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                     height: 40,
                     child: TextFormField(
                       validator: (value) {
-                            if (value == '') {
-                              return "Text Tidak Boleh Kosong";
-                            }
-                            return null;
-                          },
+                        if (value == '') {
+                          return "Text Tidak Boleh Kosong";
+                        }
+                        return null;
+                      },
                       controller: tglController,
                       enabled: true,
                       decoration: InputDecoration(
@@ -207,13 +214,13 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                           firstDate: DateTime(2000),
                           lastDate: DateTime(2101),
                         );
-      
+
                         if (picked != null) {
                           setState(() {
                             tglController.text =
                                 DateFormat('EEEE, dd MMMM yyyy', 'id_ID')
                                     .format(picked);
-      
+
                             _date = picked;
                           });
                         }
@@ -401,7 +408,6 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                   Container(
                     width: size.width * 0.8,
                     child: TextFormField(
-                      
                       inputFormatters: [_currencyFormatter],
                       keyboardType: TextInputType.number,
                       onChanged: (value) {
@@ -411,9 +417,9 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                           } else {
                             String hargaText =
                                 value.replaceAll('Rp ', '').replaceAll('.', '');
-      
+
                             int parsedHarga = int.tryParse(hargaText) ?? 0;
-      
+
                             ongkir = parsedHarga;
                           }
                         });
@@ -464,7 +470,6 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                   Container(
                     width: size.width * 0.8,
                     child: TextFormField(
- 
                       inputFormatters: [_currencyFormatter],
                       keyboardType: TextInputType.number,
                       onChanged: (value) {
@@ -474,9 +479,9 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                           } else {
                             String hargaText =
                                 value.replaceAll('Rp ', '').replaceAll('.', '');
-      
+
                             int parsedHarga = int.tryParse(hargaText) ?? 0;
-      
+
                             byn = parsedHarga;
                           }
                         });
@@ -527,7 +532,6 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                   Container(
                     width: size.width * 0.8,
                     child: TextFormField(
-                      
                       inputFormatters: [_currencyFormatter],
                       keyboardType: TextInputType.number,
                       onChanged: (value) {
@@ -537,9 +541,9 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                           } else {
                             String hargaText =
                                 value.replaceAll('Rp ', '').replaceAll('.', '');
-      
+
                             int parsedHarga = int.tryParse(hargaText) ?? 0;
-      
+
                             potongan = parsedHarga;
                           }
                         });
@@ -609,7 +613,7 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                             return CircularProgressIndicator();
                           } else {
                             subtotals = snapshot.data;
-      
+
                             return Text(
                               CurrencyFormat.convertToIdr(subtotals, 0),
                               textAlign: TextAlign.right,
@@ -724,7 +728,8 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                     FutureBuilder<int>(
                       future: transaksiController.subtotal(),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return CircularProgressIndicator();
                         } else {
                           final int? data = snapshot.data;
@@ -834,17 +839,17 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                       String potoText = potonganController.text
                           .replaceAll('Rp ', '')
                           .replaceAll('.', '');
-      
+
                       int parsedongkir = int.tryParse(ongkirText) ?? 0;
                       int parsedbaiay = int.tryParse(biayaText) ?? 0;
                       int parsedpotong = int.tryParse(potoText) ?? 0;
-      
+
                       setState(() {
                         ongkirs = parsedongkir;
                         biayas = parsedbaiay;
                         potonganH = parsedpotong;
                       });
-      
+
                       await transaksiController.insertpenjualan(
                         nama: namaController.text,
                         nama_pembeli: namapemController.text,
@@ -855,9 +860,12 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                         pembayaran: _value,
                         total: finals,
                         idP: 1,
-                        tgl:  _date != null ?  _date.toString() : DateTime.now().toString()
+                        tgl: _date != null
+                            ? _date.toString()
+                            : DateTime.now().toString(),
+                        kode_invoice: invoice.toString(),
                       );
-      
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -866,12 +874,15 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                               namatransaksi: namaController.text,
                               namapembeli: namapemController.text,
                               pembayaran: _value,
-                              tanggal: _date != null ?  _date.toString() : DateTime.now().toString(),
+                              tanggal: _date != null
+                                  ? _date.toString()
+                                  : DateTime.now().toString(),
                               subtotal: subtotals ?? 0,
                               lain: byn,
                               ongkir: ongkir,
                               potongan: potongan,
                               total: finals,
+                              kode_invoice: invoice.toString(),
                             );
                           },
                         ),

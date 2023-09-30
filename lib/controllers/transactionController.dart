@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:fajarjayaspring_app/config/db.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -35,24 +37,29 @@ class TransaksiController {
         whereArgs: [idParams]);
   }
 
-  Future<void> insertpenjualan(
-      {required String nama,
-      required String nama_pembeli,
-      required String pembayaran,
-      required int subtotal,
-      required int biaya_lain,
-      required int ongkos_kirim,
-      required int potongan_harga,
-      required int total,
-      required int idP,
-      required String tgl,}) async {
+  Future<void> insertpenjualan({
+    required String nama,
+    required String nama_pembeli,
+    required String pembayaran,
+    required int subtotal,
+    required int biaya_lain,
+    required int ongkos_kirim,
+    required int potongan_harga,
+    required int total,
+    required int idP,
+    required String tgl,
+    required String kode_invoice
+  }) async {
     final Database _database = await databaseService.database();
 
     final List<Map<String, dynamic>> keranjang =
         await _database.rawQuery('SELECT * FROM keranjang');
 
+
+
     for (var result in keranjang) {
       await _database.insert('penjualan', {
+        'kode_invoice' : kode_invoice,
         'nama': nama,
         'nama_pembeli': nama_pembeli,
         'produk': result['nama'],
@@ -150,19 +157,18 @@ class TransaksiController {
         where: 'id = ?',
         whereArgs: [1]);
 
-            final List<Map<String, dynamic>> results =
+    final List<Map<String, dynamic>> results =
         await _database.rawQuery('SELECT * FROM saldo');
 
-    if(results.isNotEmpty){
-
+    if (results.isNotEmpty) {
       final datas = results[0]['saldo'] ?? 0;
-         await _database.update(
-        'saldo',
-        {
-          'saldo': datas - total,
-        },
-        where: 'id = ?',
-        whereArgs: [1]);
+      await _database.update(
+          'saldo',
+          {
+            'saldo': datas - total,
+          },
+          where: 'id = ?',
+          whereArgs: [1]);
     }
   }
 
@@ -262,8 +268,6 @@ class TransaksiController {
     final biya = pengeluaran.first['biaya'] as int? ?? 0;
     final totals = total + harga + biya;
 
-    
-
     return totals;
   }
 
@@ -291,7 +295,6 @@ class TransaksiController {
 
     return totals;
   }
-
 
   Future<int> totalBersih() async {
     final Database _database = await databaseService.database();
@@ -340,7 +343,7 @@ class TransaksiController {
     return totals;
   }
 
-   Future<int> totalSemua() async {
+  Future<int> totalSemua() async {
     final Database _database = await databaseService.database();
     final kas = await _database.rawQuery(
       'SELECT SUM(saldo) as total FROM saldo',
@@ -349,7 +352,4 @@ class TransaksiController {
 
     return kass;
   }
-
-
-
 }
