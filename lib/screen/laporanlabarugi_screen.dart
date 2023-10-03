@@ -103,7 +103,8 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                                     locale: DateTimePickerLocale.id,
                                     looping: true,
                                   );
-                                  if (picked != null && picked != selectedDate) {
+                                  if (picked != null &&
+                                      picked != selectedDate) {
                                     setState(() {
                                       selectedDate = picked;
                                     });
@@ -142,7 +143,7 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                 padding: const EdgeInsets.only(bottom: 20),
                 child: SizedBox(
                   width: size.width,
-                 height: size.height * 0.7,
+                  height: size.height * 0.7,
                   child: ListView(
                     scrollDirection: Axis.vertical,
                     padding: EdgeInsets.only(top: 10),
@@ -177,11 +178,12 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                                         : transaksiController
                                             .filterDataByDateKotor(
                                                 formattedDates.toString()));
-                                    final penjualans = await (selectedDate == null
+                                    final penjualans = await (selectedDate ==
+                                            null
                                         ? transaksiController.totals()
                                         : transaksiController.filterDataByDate(
                                             formattedDates.toString()));
-      
+
                                     Navigator.of(context).push(
                                       MaterialPageRoute(builder: (context) {
                                         return PDFLaporanLabaScreen(
@@ -260,7 +262,7 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                                             return CircularProgressIndicator();
                                           } else {
                                             final kotor = snapshot.data ?? 0;
-      
+
                                             final ordinalDataList = [
                                               OrdinalData(
                                                 domain: 'kotor',
@@ -298,7 +300,8 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                                       decoration: ShapeDecoration(
                                         color: Colors.white,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
                                         shadows: [
                                           BoxShadow(
@@ -327,8 +330,8 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                                                   ),
                                                 ),
                                                 Padding(
-                                                    padding:
-                                                        EdgeInsets.only(left: 5)),
+                                                    padding: EdgeInsets.only(
+                                                        left: 5)),
                                                 Text(
                                                   'Laba',
                                                   style: TextStyle(
@@ -358,10 +361,14 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                                                         const EdgeInsets.only(
                                                             top: 10),
                                                     child: Text(
-                                                      CurrencyFormat.convertToIdr(
-                                                          snapshot.data ?? 0, 0),
+                                                      CurrencyFormat
+                                                          .convertToIdr(
+                                                              snapshot.data ??
+                                                                  0,
+                                                              0),
                                                       style: TextStyle(
-                                                        color: Color(0xFF333333),
+                                                        color:
+                                                            Color(0xFF333333),
                                                         fontSize: 15,
                                                         fontFamily: 'Poppins',
                                                         fontWeight:
@@ -384,7 +391,8 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                                       decoration: ShapeDecoration(
                                         color: Colors.white,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
                                         shadows: [
                                           BoxShadow(
@@ -413,8 +421,8 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                                                   ),
                                                 ),
                                                 Padding(
-                                                    padding:
-                                                        EdgeInsets.only(left: 5)),
+                                                    padding: EdgeInsets.only(
+                                                        left: 5)),
                                                 Text(
                                                   'Kotor',
                                                   style: TextStyle(
@@ -428,10 +436,9 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                                             ),
                                             FutureBuilder<int>(
                                               future: selectedDate == null
-                                                  ? transaksiController
-                                                      .totalKotor()
+                                                  ? transaksiController.totals()
                                                   : transaksiController
-                                                      .filterDataByDateKotor(
+                                                      .filterDataByDate(
                                                           formattedDates
                                                               .toString()),
                                               builder: (context, snapshot) {
@@ -444,10 +451,14 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                                                         const EdgeInsets.only(
                                                             top: 10),
                                                     child: Text(
-                                                      CurrencyFormat.convertToIdr(
-                                                          snapshot.data ?? 0, 0),
+                                                      CurrencyFormat
+                                                          .convertToIdr(
+                                                              snapshot.data ??
+                                                                  0,
+                                                              0),
                                                       style: TextStyle(
-                                                        color: Color(0xFF333333),
+                                                        color:
+                                                            Color(0xFF333333),
                                                         fontSize: 15,
                                                         fontFamily: 'Poppins',
                                                         fontWeight:
@@ -456,9 +467,48 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                                                       ),
                                                     ),
                                                   );
+
+                                                  // contText(
+                                                  //     size,
+                                                  //     "Keuntungan Kotor",
+                                                  //     CurrencyFormat.convertToIdr(
+                                                  //         snapshot.data ?? 0, 0));
                                                 }
                                               },
                                             ),
+                                            // FutureBuilder<int>(
+                                            //   future: selectedDate == null
+                                            //       ? transaksiController
+                                            //           .totalKotor()
+                                            //       : transaksiController
+                                            //           .filterDataByDateKotor(
+                                            //               formattedDates
+                                            //                   .toString()),
+                                            //   builder: (context, snapshot) {
+                                            //     if (snapshot.connectionState ==
+                                            //         ConnectionState.waiting) {
+                                            //       return CircularProgressIndicator();
+                                            //     } else {
+                                            //       return Padding(
+                                            //         padding:
+                                            //             const EdgeInsets.only(
+                                            //                 top: 10),
+                                            //         child: Text(
+                                            //           CurrencyFormat.convertToIdr(
+                                            //               snapshot.data ?? 0, 0),
+                                            //           style: TextStyle(
+                                            //             color: Color(0xFF333333),
+                                            //             fontSize: 15,
+                                            //             fontFamily: 'Poppins',
+                                            //             fontWeight:
+                                            //                 FontWeight.w500,
+                                            //             height: 1.15,
+                                            //           ),
+                                            //         ),
+                                            //       );
+                                            //     }
+                                            //   },
+                                            // ),
                                           ],
                                         ),
                                       ),
@@ -471,8 +521,8 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                           FutureBuilder<int>(
                             future: selectedDate == null
                                 ? transaksiController.totals()
-                                : transaksiController
-                                    .filterDataByDate(formattedDates.toString()),
+                                : transaksiController.filterDataByDate(
+                                    formattedDates.toString()),
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
@@ -504,10 +554,28 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                               }
                             },
                           ),
+                          // FutureBuilder<int>(
+                          //   future: selectedDate == null
+                          //       ? transaksiController.totalKotor()
+                          //       : transaksiController.filterDataByDateKotor(
+                          //           formattedDates.toString()),
+                          //   builder: (context, snapshot) {
+                          //     if (snapshot.connectionState ==
+                          //         ConnectionState.waiting) {
+                          //       return CircularProgressIndicator();
+                          //     } else {
+                          //       return contText(
+                          //           size,
+                          //           "Keuntungan Kotor",
+                          //           CurrencyFormat.convertToIdr(
+                          //               snapshot.data ?? 0, 0));
+                          //     }
+                          //   },
+                          // ),
                           FutureBuilder<int>(
                             future: selectedDate == null
-                                ? transaksiController.totalKotor()
-                                : transaksiController.filterDataByDateKotor(
+                                ? transaksiController.totals()
+                                : transaksiController.filterDataByDate(
                                     formattedDates.toString()),
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
