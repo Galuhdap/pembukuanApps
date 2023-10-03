@@ -7,6 +7,7 @@ import 'package:fajarjayaspring_app/screen/kas_screen.dart';
 import 'package:fajarjayaspring_app/screen/pembelianBahan_screen.dart';
 import 'package:fajarjayaspring_app/screen/pengeluaran_screen.dart';
 import 'package:fajarjayaspring_app/screen/penjualan_screen.dart';
+import 'package:fajarjayaspring_app/screen/piutang_screen.dart';
 import 'package:fajarjayaspring_app/screen/profile_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -201,7 +202,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (builde) {
-                              return ProfileScreen();
+                              return PiutangScreen();
                             },
                           ),
                         ).then((value) {
@@ -209,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         });
                       },
                       child: menu(
-                          size, "assets/logo/profile.png", 'Profile\nUsaha')),
+                          size, "assets/logo/hutang.png", 'Hutang')),
                 ],
               ),
             ),

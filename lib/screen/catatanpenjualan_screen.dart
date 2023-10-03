@@ -38,6 +38,7 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
 
   int total = 0;
   String _value = 'Tunai';
+  bool isTextFieldVisible = false;
 
   CurrencyTextInputFormatter _currencyFormatter =
       CurrencyTextInputFormatter(locale: 'ID', decimalDigits: 0, name: '');
@@ -51,6 +52,7 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
   TextEditingController ongkirController = TextEditingController();
   TextEditingController biayaController = TextEditingController();
   TextEditingController potonganController = TextEditingController();
+  TextEditingController tlgHutangController = TextEditingController();
 
   final _formState = GlobalKey<FormState>();
   DateTime? _date;
@@ -781,6 +783,7 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                             onChanged: (value) {
                               setState(() {
                                 _value = value!;
+                                isTextFieldVisible = false;
                               });
                             }),
                         Text(
@@ -802,6 +805,7 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                             onChanged: (value) {
                               setState(() {
                                 _value = value!;
+                                isTextFieldVisible = false;
                               });
                             }),
                         Text(
@@ -815,9 +819,89 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                         ),
                       ],
                     ),
+                    Row(
+                      children: [
+                        Radio(
+                            value: 'Hutang',
+                            groupValue: _value,
+                            onChanged: (value) {
+                              setState(() {
+                                _value = value.toString();
+                                isTextFieldVisible = true;
+                              });
+                            }),
+                        Text(
+                          'Piutang',
+                          style: TextStyle(
+                            color: Color(0xFF333333),
+                            fontSize: 12,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
+              if (isTextFieldVisible)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Container(
+                    width: size.width * 0.8,
+                    height: 40,
+                    child: TextFormField(
+                      validator: (value) {
+                        if (value == '') {
+                          return "Text Tidak Boleh Kosong";
+                        }
+                        return null;
+                      },
+                      controller: tglController,
+                      enabled: true,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(3),
+                          borderSide: BorderSide(
+                            color: Color(0xFFA8A8A8),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(3),
+                          borderSide: BorderSide(
+                            color: Color(0xFFA8A8A8),
+                          ),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        isDense: true,
+                        suffixIcon: Icon(Icons.calendar_today),
+                      ),
+                      onTap: () async {
+                        DateTime? picked = await showDatePicker(
+                          context: context,
+                          initialDate: _date ?? DateTime.now(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2101),
+                        );
+
+                        if (picked != null) {
+                          setState(() {
+                            tglController.text =
+                                DateFormat('EEEE, dd MMMM yyyy', 'id_ID')
+                                    .format(picked);
+
+                            _date = picked;
+                          });
+                        }
+                      },
+                      style: TextStyle(
+                        fontSize: 13.0,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
               Container(
                 width: size.width * 0.75,
                 height: 37,
