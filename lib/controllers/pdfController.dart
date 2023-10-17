@@ -12,8 +12,29 @@ class PdfController {
 
   Future<List> allPenjualan() async {
     final Database _database = await databaseService.database();
-    final data = await _database.rawQuery('SELECT * FROM penjualan');
-    return data;
+    final data = await _database.rawQuery("SELECT * FROM penjualan WHERE pembayaran IN ('Tunai', 'Transfer', 'Lunas')");
+    return data; 
+  }
+
+
+  Future<List> allHutang() async {
+    // SELECT * FROM penjualan WHERE pembayaran IN ('Tunai', 'Transfer', 'Lunas')
+    final Database _database = await databaseService.database();
+    final data = await _database.rawQuery("SELECT * FROM penjualan WHERE pembayaran = 'Hutang'");
+    return data; 
+  }
+
+  Future<List> filterDataBylaporanHutang(String? targetDate) async {
+    final Database _database = await databaseService.database();
+
+    final data = await _database.rawQuery(
+      "SELECT * FROM penjualan WHERE createdAt LIKE ? AND pembayaran = 'Hutang'",
+      ['$targetDate%'],
+    );
+
+    final total = data.isEmpty ? [] : data;
+
+    return total;
   }
 
   Future<List> allPem() async {
@@ -53,7 +74,7 @@ class PdfController {
   Future totalKotor() async {
     final Database _database = await databaseService.database();
     final data = await _database.rawQuery(
-      'SELECT SUM(total) as total FROM penjualan',
+      "SELECT SUM(total) as total FROM penjualan WHERE pembayaran IN ('Tunai', 'Transfer', 'Lunas')",
     );
 
     final bahan = await _database.rawQuery(
@@ -75,7 +96,7 @@ class PdfController {
   Future totalBersih() async {
     final Database _database = await databaseService.database();
     final data = await _database.rawQuery(
-      'SELECT SUM(total) as total FROM penjualan',
+      "SELECT SUM(total) as total FROM penjualan WHERE pembayaran IN ('Tunai', 'Transfer', 'Lunas')",
     );
 
     final bahan = await _database.rawQuery(
@@ -97,7 +118,7 @@ class PdfController {
   Future<List> laporanPenjualanAll() async {
     final Database _database = await databaseService.database();
     final data = await _database.rawQuery(
-      'SELECT * FROM penjualan',
+      "SELECT * FROM penjualan WHERE pembayaran IN ('Tunai', 'Transfer', 'Lunas')",
     );
 
     final total = data.isEmpty ? [] : data;
@@ -108,7 +129,7 @@ class PdfController {
     final Database _database = await databaseService.database();
 
     final data = await _database.rawQuery(
-      'SELECT * FROM penjualan WHERE createdAt LIKE ?',
+      "SELECT * FROM penjualan WHERE createdAt LIKE ? AND WHERE pembayaran IN ('Tunai', 'Transfer', 'Lunas')",
       ['$targetDate%'],
     );
 

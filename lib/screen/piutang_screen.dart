@@ -1,13 +1,16 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:fajarjayaspring_app/controllers/pengeluaranController.dart';
 import 'package:fajarjayaspring_app/models/pengeluaran_model.dart';
+import 'package:fajarjayaspring_app/screen/pdf/pdfViewPageDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../config/db.dart';
 import '../data/format.dart';
+import '../models/penjualan_model.dart';
 import '../widget/appBarCos.dart';
 import '../widget/transaction_card.dart';
+import 'detail_piutang_screen.dart';
 
 class PiutangScreen extends StatefulWidget {
   const PiutangScreen({super.key});
@@ -43,8 +46,8 @@ class _PiutangScreenState extends State<PiutangScreen> {
     setState(() {});
   }
 
-  Future delete(int id, int hrg) async {
-    await pengeluaranController.delete(idParams: id, harga: hrg);
+  Future delete(int id) async {
+    await pengeluaranController.delete2(idParams: id);
     setState(() {});
   }
 
@@ -142,7 +145,7 @@ class _PiutangScreenState extends State<PiutangScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Daftar Pembelian ',
+                                'Daftar Hutang ',
                                 style: TextStyle(
                                   color: Color(0xFF333333),
                                   fontSize: 18,
@@ -198,151 +201,136 @@ class _PiutangScreenState extends State<PiutangScreen> {
                   ),
                 ),
               ),
-              FutureBuilder<List<PengeluaranModel>>(
-                future: databaseService!.allPeng(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    if (snapshot.data!.length == 0) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                            top: size.height * 0.29, bottom: size.height * 0.289),
-                        child: Center(
-                          child: Text("DATA KOSONG"),
-                        ),
-                      );
-                    }
-                    final List<PengeluaranModel> filteredData =
-                        snapshot.data!.where((item) {
-                      final itemDate =
-                          DateTime.parse(item.createdAt.toString());
-                      final formattedDate =
-                          DateFormat('yyyy-MM-dd').format(itemDate);
+              Column(
+                children: [
+                  FutureBuilder<List<PenjualanModel>>(
+                    future: databaseService!.hutangPen(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        if (snapshot.data!.length == 0) {
+                          return Padding(
+                            padding: EdgeInsets.only(
+                                top: size.height * 0.24,
+                                bottom: size.height * 0.32),
+                            child: Center(
+                              child: Text("DATA KOSONG"),
+                            ),
+                          );
+                        }
+                        final List<PenjualanModel> filteredData =
+                            snapshot.data!.where((item) {
+                          final itemDate =
+                              DateTime.parse(item.createdAt.toString());
 
-                      DateTime? kosong = null;
+                          final formattedDate =
+                              DateFormat('yyyy-MM-dd').format(itemDate);
 
-                      final formattedDates = selectedDate != null
-                          ? DateFormat('yyyy-MM-dd')
-                              .format(DateTime.parse(selectedDate!.toString()))
-                          : kosong;
+                          DateTime? kosong = null;
 
-                      return item.nama_pengeluaran!
-                              .toLowerCase()
-                              .contains(query.toLowerCase()) &&
-                          (formattedDates == null ||
-                              formattedDate == formattedDates.toString());
-                    }).toList();
-                    return Padding(
-                      padding: const EdgeInsets.only(left: 35, right: 35),
-                      child: Container(
-                        width: size.width * 0.9,
-                        height: size.height * 0.6,
-                        child: ListView.builder(
-                          physics: BouncingScrollPhysics(),
-                          padding: EdgeInsets.only(top: 10),
-                          itemCount: filteredData.length,
-                          itemBuilder: (BuildContext context, index) {
-                            return transactionCard3(
-                              size,
-                              filteredData[index].nama_pengeluaran.toString(),
-                              DateFormat('EEEE, dd MMMM yyyy', 'id_ID').format(
-                                  DateTime.parse(filteredData[index]
-                                      .createdAt
-                                      .toString())),
-                              '-${CurrencyFormat.convertToIdr(filteredData[index].biaya, 0)}',
-                              () {
-                                delete(snapshot.data![index].id!,
-                                    snapshot.data![index].biaya!);
+                          final formattedDates = selectedDate != null
+                              ? DateFormat('yyyy-MM-dd').format(
+                                  DateTime.parse(selectedDate!.toString()))
+                              : kosong;
+
+                          return item.nama
+                                  .toString()
+                                  .toLowerCase()
+                                  .contains(query.toLowerCase()) &&
+                              item.kode_invoice
+                                      .toString()
+                                      .toLowerCase()
+                                      .contains(query.toLowerCase()) &&
+                                  (formattedDates == null ||
+                                      formattedDate ==
+                                          formattedDates.toString());
+                        }).toList();
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 35, right: 35),
+                          child: Container(
+                            width: size.width * 0.9,
+                            height: size.height * 0.6,
+                            child: ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              physics: BouncingScrollPhysics(),
+                              padding: EdgeInsets.only(top: 10),
+                              itemCount: filteredData.length,
+                              itemBuilder: (BuildContext context, index) {
+                                return transactionCard4(
+                                  size,
+                                  filteredData[index].nama.toString(),
+                                  filteredData[index].kode_invoice.toString(),
+                                  DateFormat('EEEE, dd MMMM yyyy', 'id_ID')
+                                      .format(DateTime.parse(filteredData[index]
+                                          .createdAt
+                                          .toString())),
+                                  '-${CurrencyFormat.convertToIdr(filteredData[index].total, 0)}',
+                                  () {
+                                    delete(
+                                        filteredData[index].id!);
+                                  },
+                                  () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return DetailPiutangScreen(
+                                            penjualanModel: filteredData[index],
+                                          );
+                                        },
+                                      ),
+                                    ).then((value) {
+                                      setState(() {});
+                                    });
+                                  },
+                                  Color.fromARGB(255, 177, 0, 0),
+                                );
                               },
-                              () {},
-                              Color(0xFFE91616),
-                            );
-                          },
+                            ),
+                          ),
+                        );
+                      } else {
+                        print(snapshot.error);
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.blue,
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: size.height * 0.01),
+                    child: Column(
+                      children: [
+                        Text(
+                          'DIDANAI OLEH:',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xFF3F51B5),
+                            fontSize: 10,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                    );
-                  } else {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.blue,
-                      ),
-                    );
-                  }
-                },
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: size.height * 0.01),
-                child: Column(
-                  children: [
-                    Text(
-                      'DIDANAI OLEH:',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color(0xFF3F51B5),
-                        fontSize: 10,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w500,
-                      ),
+                        Padding(padding: EdgeInsets.only(bottom: 7)),
+                        Text(
+                          'Direktorat Riset, Teknologi, dan Pengabdian Kepada Masyarakat, Direktorat\nJenderal Pendidikan Tinggi, Riset dan Teknologi, Kementrian Pendidikan,\nKebudayaan, Riset, dan Teknologi Republik Indonesia Tahun Pendanaan 2023',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xFF3F51B5),
+                            fontSize: 10,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                            height: 1.22,
+                          ),
+                        ),
+                        Padding(padding: EdgeInsets.only(bottom: 7)),
+                      ],
                     ),
-                    Padding(padding: EdgeInsets.only(bottom: 7)),
-                    Text(
-                      'Direktorat Riset, Teknologi, dan Pengabdian Kepada Masyarakat, Direktorat\nJenderal Pendidikan Tinggi, Riset dan Teknologi, Kementrian Pendidikan,\nKebudayaan, Riset, dan Teknologi Republik Indonesia Tahun Pendanaan 2023',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color(0xFF3F51B5),
-                        fontSize: 10,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w400,
-                        height: 1.22,
-                      ),
-                    ),
-                    Padding(padding: EdgeInsets.only(bottom: 7)),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),
-          Positioned(
-            top: size.height * 0.85,
-            left: size.width * 0.77,
-            child: InkWell(
-              onTap: () {
-                add(size);
-              },
-              child: Container(
-                width: 58,
-                height: 58,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: 0,
-                      top: 0,
-                      child: Container(
-                        width: 58,
-                        height: 58,
-                        decoration: ShapeDecoration(
-                          color: Color(0xFF3F51B5),
-                          shape: OvalBorder(),
-                          shadows: [
-                            BoxShadow(
-                              color: Color(0x3F000000),
-                              blurRadius: 16,
-                              offset: Offset(0, 0),
-                              spreadRadius: -6,
-                            )
-                          ],
-                        ),
-                        child: Icon(
-                          Icons.add,
-                          color: Colors.white,
-                          size: 40,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          )
         ],
       ),
     );
@@ -611,10 +599,11 @@ class _PiutangScreenState extends State<PiutangScreen> {
                                 harga = parsedHarga;
                               });
                               await pengeluaranController.insert(
-                                nama_pengeluaran: namaController.text,
-                                biaya: harga,
-                                tgl:_date != null ?  _date.toString() : DateTime.now().toString()
-                              );
+                                  nama_pengeluaran: namaController.text,
+                                  biaya: harga,
+                                  tgl: _date != null
+                                      ? _date.toString()
+                                      : DateTime.now().toString());
                               namaController.clear();
                               biayaController.clear();
                               Navigator.pop(context);

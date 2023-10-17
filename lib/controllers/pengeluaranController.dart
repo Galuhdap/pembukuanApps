@@ -51,6 +51,13 @@ class PengeluaranController {
         where: 'id = ?',
         whereArgs: [1]);
   }
+  Future<void> delete2({required int idParams}) async {
+    final Database _database = await databaseService.database();
+    await _database
+        .delete('penjualan', where: 'id = ?', whereArgs: [idParams]);
+
+  
+  }
 
   Future<int> all() async {
     final Database _database = await databaseService.database();

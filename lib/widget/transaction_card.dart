@@ -738,7 +738,7 @@ Padding productCard2(ttl, tgl, kg, rp, stn, ink, Size size) {
           ),
         ),
         Positioned(
-          left: size.width * 0.72,
+          left: size.width * 0.70,
           top: size.height * 0.01,
           child: InkWell(
             onTap: ink,

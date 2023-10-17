@@ -9,6 +9,7 @@ class LaporanSemua {
   final UserModel userModel;
   final List<PembelianModel> items;
   final List<PenjualanModel> itemsPenjualan;
+  final List<PenjualanModel> itemsHutangPenjualan;
   final List<PengeluaranModel> itemsPengeluaran;
   final Alls all;
 
@@ -18,6 +19,7 @@ class LaporanSemua {
     required this.userModel,
     required this.items,
     required this.itemsPenjualan,
+    required this.itemsHutangPenjualan,
     required this.itemsPengeluaran,
     required this.all,
   });

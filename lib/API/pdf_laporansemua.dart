@@ -32,6 +32,11 @@ class PdfLaporanSemua {
          Divider(),
          totals3(invoice),
          SizedBox(height: 2 * PdfPageFormat.cm),
+        buildTitle('Laporan Hutang '),
+        buildTabelHutangPenjualan(invoice),
+         Divider(),
+
+         SizedBox(height: 2 * PdfPageFormat.cm),
         Divider(),
 
         buildTotals(invoice),
@@ -193,7 +198,43 @@ class PdfLaporanSemua {
         item.nama,
         item.produk,
         item.jumlah_produk,
+        CurrencyFormat.convertToIdr(item.total_produk, 0),
+      ];
+    }).toList();
+
+    return Table.fromTextArray(
+      headers: headers,
+      data: data,
+      border: null,
+      headerStyle: TextStyle(fontWeight: FontWeight.bold),
+      headerDecoration: BoxDecoration(color: PdfColors.grey300),
+      cellHeight: 30,
+      cellAlignments: {
+        0: Alignment.centerLeft,
+        1: Alignment.centerRight,
+        2: Alignment.centerRight,
+        3: Alignment.centerRight,
+        4: Alignment.centerRight,
+        5: Alignment.centerRight,
+      },
+    );
+  }
+  static Widget buildTabelHutangPenjualan(LaporanSemua invoice) {
+    final headers = [
+      'Tanggal',
+      'Nama',
+      'Nama Barang',
+      'Total',
+      'Jatuh Tempo',
+    ];
+    final data = invoice.itemsHutangPenjualan.map((item) {
+      return [
+        DateFormat(' dd MMMM yyyy', 'id_ID').format(DateTime.parse(item.createdAt.toString())),
+        item.nama,
+        item.produk,
         CurrencyFormat.convertToIdr(item.total, 0),
+        DateFormat(' dd MMMM yyyy', 'id_ID').format(DateTime.parse(item.jatuh_tempo.toString())),
+        
       ];
     }).toList();
 

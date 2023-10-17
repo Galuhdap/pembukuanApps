@@ -77,7 +77,6 @@ class _KasScreenState extends State<KasScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    print(_date);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Column(

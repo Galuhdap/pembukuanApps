@@ -25,7 +25,8 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
 
   String nama = '';
 
-  var finals;
+var finals;
+
   var subtotals;
 
   int ongkirs = 0;
@@ -34,6 +35,7 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
   int? datas;
   int ongkir = 0;
   int byn = 0;
+  int awalPembayaran = 0;
   int potongan = 0;
 
   int total = 0;
@@ -51,11 +53,13 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
   TextEditingController namapemController = TextEditingController();
   TextEditingController ongkirController = TextEditingController();
   TextEditingController biayaController = TextEditingController();
+  TextEditingController awalPembayaranController = TextEditingController();
   TextEditingController potonganController = TextEditingController();
-  TextEditingController tlgHutangController = TextEditingController();
+  TextEditingController tglHutangController = TextEditingController();
 
   final _formState = GlobalKey<FormState>();
   DateTime? _date;
+  DateTime? _dates;
 
   Future initDatabase() async {
     await databaseService!.database();
@@ -612,7 +616,7 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return CircularProgressIndicator();
+                            return Container();
                           } else {
                             subtotals = snapshot.data;
 
@@ -732,13 +736,14 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return CircularProgressIndicator();
+                          return Container();
                         } else {
                           final int? data = snapshot.data;
                           final num subtotal = data ?? 0;
-                          finals = subtotal + ongkir + byn - potongan;
+                          finals = subtotal + ongkir + byn - potongan - awalPembayaran;
+                        
                           return Text(
-                            CurrencyFormat.convertToIdr(finals, 0),
+                            CurrencyFormat.convertToIdr(finals , 0),
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               color: Color(0xFF333333),
@@ -784,6 +789,8 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                               setState(() {
                                 _value = value!;
                                 isTextFieldVisible = false;
+                                tglHutangController.clear();
+                                _dates = null;
                               });
                             }),
                         Text(
@@ -806,6 +813,8 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                               setState(() {
                                 _value = value!;
                                 isTextFieldVisible = false;
+                                tglHutangController.clear();
+                                _dates = null;
                               });
                             }),
                         Text(
@@ -845,63 +854,145 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                 ),
               ),
               if (isTextFieldVisible)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: Container(
-                    width: size.width * 0.8,
-                    height: 40,
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value == '') {
-                          return "Text Tidak Boleh Kosong";
-                        }
-                        return null;
-                      },
-                      controller: tglController,
-                      enabled: true,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(3),
-                          borderSide: BorderSide(
-                            color: Color(0xFFA8A8A8),
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(3),
-                          borderSide: BorderSide(
-                            color: Color(0xFFA8A8A8),
-                          ),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        isDense: true,
-                        suffixIcon: Icon(Icons.calendar_today),
-                      ),
-                      onTap: () async {
-                        DateTime? picked = await showDatePicker(
-                          context: context,
-                          initialDate: _date ?? DateTime.now(),
-                          firstDate: DateTime(2000),
-                          lastDate: DateTime(2101),
-                        );
-
-                        if (picked != null) {
-                          setState(() {
-                            tglController.text =
-                                DateFormat('EEEE, dd MMMM yyyy', 'id_ID')
-                                    .format(picked);
-
-                            _date = picked;
-                          });
-                        }
-                      },
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                    padding: const EdgeInsets.only(bottom: 5, top: 10),
+                    child: Text(
+                      "Tanggal Jatuh Tempo",
                       style: TextStyle(
-                        fontSize: 13.0,
-                        color: Colors.black,
+                        color: Color(0xFF333333),
+                        fontSize: 12,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                   ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 7),
+                      child: Container(
+                        width: size.width * 0.8,
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value == '') {
+                              return "Text Tidak Boleh Kosong";
+                            }
+                            return null;
+                          },
+                          controller: tglHutangController,
+                          enabled: true,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(3),
+                              borderSide: BorderSide(
+                                color: Color(0xFFA8A8A8),
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(3),
+                              borderSide: BorderSide(
+                                color: Color(0xFFA8A8A8),
+                              ),
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            isDense: true,
+                            suffixIcon: Icon(Icons.calendar_today),
+                          ),
+                          onTap: () async {
+                            DateTime? picked = await showDatePicker(
+                              context: context,
+                              initialDate: _dates ?? DateTime.now(),
+                              firstDate: DateTime(2000),
+                              lastDate: DateTime(2101),
+                            );
+
+                            if (picked != null) {
+                              setState(() {
+                                tglHutangController.text =
+                                    DateFormat('EEEE, dd MMMM yyyy', 'id_ID')
+                                        .format(picked);
+
+                                _dates = picked;
+                              });
+                            }
+                          },
+                          style: TextStyle(
+                            fontSize: 13.0,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
+              if (isTextFieldVisible)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 5, top: 10),
+                      child: Text(
+                        "Pembayaran Awal",
+                        style: TextStyle(
+                          color: Color(0xFF333333),
+                          fontSize: 12,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: size.width * 0.8,
+                      child: TextFormField(
+                        inputFormatters: [_currencyFormatter],
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) {
+                          setState(() {
+                            if (value.isEmpty) {
+                              awalPembayaran = 0;
+                            } else {
+                              String hargaText =
+                                  value.replaceAll('Rp ', '').replaceAll('.', '');
+              
+                              int parsedHarga = int.tryParse(hargaText) ?? 0;
+              
+                              awalPembayaran = parsedHarga;
+                            }
+                          });
+                        },
+                        controller: awalPembayaranController,
+                        enabled: true,
+                        decoration: InputDecoration(
+                          prefixText: "Rp ",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(3),
+                            borderSide: BorderSide(
+                              color: Color(0xFFA8A8A8),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(3),
+                            borderSide: BorderSide(
+                              color: Color(0xFFA8A8A8),
+                            ),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                          isDense: true,
+                        ),
+                        style: TextStyle(
+                          fontSize: 13.0,
+                          color: Colors.black,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
               Container(
                 width: size.width * 0.75,
                 height: 37,
@@ -935,20 +1026,23 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                       });
 
                       await transaksiController.insertpenjualan(
-                        nama: namaController.text,
-                        nama_pembeli: namapemController.text,
-                        subtotal: subtotals ?? 0,
-                        biaya_lain: biayas,
-                        ongkos_kirim: ongkirs,
-                        potongan_harga: potonganH,
-                        pembayaran: _value,
-                        total: finals,
-                        idP: 1,
-                        tgl: _date != null
-                            ? _date.toString()
-                            : DateTime.now().toString(),
-                        kode_invoice: invoice.toString(),
-                      );
+                          nama: namaController.text,
+                          nama_pembeli: namapemController.text,
+                          subtotal: subtotals ?? 0,
+                          biaya_lain: biayas,
+                          ongkos_kirim: ongkirs,
+                          potongan_harga: potonganH,
+                          pembayaran: _value,
+                          total: finals,
+                          idP: 1,
+                          tgl: _date != null
+                              ? _date.toString()
+                              : DateTime.now().toString(),
+                          kode_invoice: invoice.toString(),
+                          jatuh_tempo: _dates != null ? _dates.toString() : "",
+                          pemAwal: awalPembayaran,
+                          );
+
 
                       Navigator.push(
                         context,
@@ -967,6 +1061,11 @@ class _CatatanpenjualanScreenState extends State<CatatanpenjualanScreen> {
                               potongan: potongan,
                               total: finals,
                               kode_invoice: invoice.toString(),
+                              hutang: _dates != null
+                                  ? DateFormat('dd MMMM yyyy', 'id_ID')
+                                      .format(DateTime.parse(_dates.toString()))
+                                  : "",
+                              pembayaranAwal: awalPembayaran,
                             );
                           },
                         ),

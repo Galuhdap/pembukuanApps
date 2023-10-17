@@ -30,15 +30,15 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
 
   int kotor = 0;
   int bersih = 0;
-  List pemasukan = [];
+
 
   Future fetchData() async {
     int kotorss = await pdfController.totalKotor();
     int bersihss = await pdfController.totalBersih();
-    List pemasukans = await transaksiController.alls();
+  
 
     setState(() {
-      pemasukan = pemasukans;
+
       kotor = kotorss;
       bersih = bersihss;
     });
@@ -467,48 +467,10 @@ class _LaporanlabarugiScreenState extends State<LaporanlabarugiScreen> {
                                                       ),
                                                     ),
                                                   );
-
-                                                  // contText(
-                                                  //     size,
-                                                  //     "Keuntungan Kotor",
-                                                  //     CurrencyFormat.convertToIdr(
-                                                  //         snapshot.data ?? 0, 0));
                                                 }
                                               },
                                             ),
-                                            // FutureBuilder<int>(
-                                            //   future: selectedDate == null
-                                            //       ? transaksiController
-                                            //           .totalKotor()
-                                            //       : transaksiController
-                                            //           .filterDataByDateKotor(
-                                            //               formattedDates
-                                            //                   .toString()),
-                                            //   builder: (context, snapshot) {
-                                            //     if (snapshot.connectionState ==
-                                            //         ConnectionState.waiting) {
-                                            //       return CircularProgressIndicator();
-                                            //     } else {
-                                            //       return Padding(
-                                            //         padding:
-                                            //             const EdgeInsets.only(
-                                            //                 top: 10),
-                                            //         child: Text(
-                                            //           CurrencyFormat.convertToIdr(
-                                            //               snapshot.data ?? 0, 0),
-                                            //           style: TextStyle(
-                                            //             color: Color(0xFF333333),
-                                            //             fontSize: 15,
-                                            //             fontFamily: 'Poppins',
-                                            //             fontWeight:
-                                            //                 FontWeight.w500,
-                                            //             height: 1.15,
-                                            //           ),
-                                            //         ),
-                                            //       );
-                                            //     }
-                                            //   },
-                                            // ),
+                                            
                                           ],
                                         ),
                                       ),

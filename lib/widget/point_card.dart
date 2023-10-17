@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Center PoinCard(Size size, ttl, kas, ontap) {
+Center PoinCard(Size size, ttl, kas, ontap, icnpres) {
   return Center(
     child: Stack(
       children: [
@@ -45,7 +45,14 @@ Center PoinCard(Size size, ttl, kas, ontap) {
                             ),
                           ],
                         ),
-                       
+                        IconButton(
+                          onPressed: icnpres,
+                          icon: Icon(
+                            Icons.account_circle,
+                            size: 35,
+                            color: Colors.white,
+                          ),
+                        ),
                       ],
                     ),
                     Padding(
@@ -81,7 +88,6 @@ Center PoinCard(Size size, ttl, kas, ontap) {
                                     height: 1.15,
                                   ),
                                 )
-
                               ],
                             ),
                           )
@@ -94,70 +100,94 @@ Center PoinCard(Size size, ttl, kas, ontap) {
             ],
           ),
         ),
-          Padding(
-            padding: const EdgeInsets.only(left: 33, top: 155),
-            child: InkWell(
-              onTap: ontap,
-              child: Container(
-                width: size.width * 0.85,
-                height: 85,
-                decoration: ShapeDecoration(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  shadows: [
-                    BoxShadow(
-                      color: Color(0x3F000000),
-                      blurRadius: 16,
-                      offset: Offset(0, 0),
-                      spreadRadius: -6,
+        Padding(
+          padding: const EdgeInsets.only(left: 33, top: 155),
+          child: InkWell(
+            onTap: ontap,
+            child: Container(
+              width: size.width * 0.85,
+              height: 85,
+              decoration: ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                shadows: [
+                  BoxShadow(
+                    color: Color(0x3F000000),
+                    blurRadius: 16,
+                    offset: Offset(0, 0),
+                    spreadRadius: -6,
+                  )
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 30, right: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Image.asset(
+                          "assets/logo/wallet.png",
+                          width: 37,
+                          height: 37,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20, left: 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Saldo Sekarang',
+                                style: TextStyle(
+                                  color: Color(0xFF333333),
+                                  fontSize: 14,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w500,
+                                  height: 1.15,
+                                ),
+                              ),
+                              Padding(padding: EdgeInsets.only(bottom: 3)),
+                              Text(
+                                kas,
+                                style: TextStyle(
+                                  color: Color(0xFF333333),
+                                  fontSize: 20,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      
+                      children: [
+                        Container(width: 1, color: Color.fromARGB(255, 188, 188, 188)),
+                        SizedBox(
+                          width: size.width *0.03,
+                        ),
+                        Text(
+                          'Tambah\nKas',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xFF333333),
+                            fontSize: 18,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w500,
+                            height: 1.15,
+                          ),
+                        ),
+                      ],
                     )
                   ],
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 30, right: 30),
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        "assets/logo/wallet.png",
-                        width: 37,
-                        height: 37,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20, left: 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Saldo Sekarang',
-                              style: TextStyle(
-                                color: Color(0xFF333333),
-                                fontSize: 14,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500,
-                                height: 1.15,
-                              ),
-                            ),
-                            Padding(padding: EdgeInsets.only(bottom: 3)),
-                            Text(
-                              kas,
-                              style: TextStyle(
-                                color: Color(0xFF333333),
-                                fontSize: 20,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
               ),
             ),
-          
+          ),
         ),
       ],
     ),

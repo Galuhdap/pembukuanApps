@@ -25,13 +25,13 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
   PembelianController pembelianController = PembelianController();
   PengeluaranController pengeluaranController = PengeluaranController();
   TransaksiController transaksiController = TransaksiController();
-
+  int _penj = 0;
   int saldos = 0;
   List pembelian = [];
   int pengeluaran = 0;
   List penjualan = [];
   List peng = [];
-  List pemasukan = [];
+
   List hpp = [];
   List prTer = [];
   List produks = [];
@@ -44,7 +44,7 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
     int pengeluarans = await pengeluaranController.all();
     List pengeluarans2 = await pengeluaranController.allPeng();
     List penjualans = await transaksiController.all();
-    List pemasukans = await transaksiController.alls();
+    int penj = await transaksiController.totals();
     List totalHpp = await produkController.totalHpp();
     List prTers = await transaksiController.totalProd();
     List produk = await transaksiController.allProd();
@@ -54,7 +54,7 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
       pembelian = pembelians;
       pengeluaran = pengeluarans;
       penjualan = penjualans;
-      pemasukan = pemasukans;
+      _penj = penj;
       hpp = totalHpp;
       prTer = prTers;
       produks = produk;
@@ -79,7 +79,7 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
           color: Color(0xFFE91616)),
       OrdinalData(
         domain: 'Pemasukan',
-        measure: pemasukan.length > 0 ? pemasukan[0]['total'] : 0,
+        measure: _penj,
         color: Color(0xFF2196F3),
       ),
     ];
@@ -179,11 +179,7 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                                 ? (peng[0]['biaya'] ?? 0)
                                                 : 0)
                                             : 0,
-                                        penjualan: pemasukan.length > 0
-                                            ? (pemasukan[0] != null
-                                                ? (pemasukan[0]['total'] ?? 0)
-                                                : 0)
-                                            : 0,
+                                        penjualan: _penj,
                                         pemblihanbahan: pembelian.length > 0
                                             ? (pembelian[0] != null
                                                 ? (pembelian[0]['harga'] ?? 0)
@@ -297,27 +293,35 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                                 ),
                                               ],
                                             ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 10),
-                                              child: Text(
-                                                CurrencyFormat.convertToIdr(
-                                                    pemasukan.length > 0
-                                                        ? (pemasukan[0] != null
-                                                            ? (pemasukan[0]
-                                                                    ['total'] ??
-                                                                0)
-                                                            : 0)
-                                                        : 0,
-                                                    0),
-                                                style: TextStyle(
-                                                  color: Color(0xFF333333),
-                                                  fontSize: 15,
-                                                  fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w500,
-                                                  height: 1.15,
-                                                ),
-                                              ),
+                                            FutureBuilder<int>(
+                                              future:
+                                                  transaksiController.totals(),
+                                              builder: (context, snapshot) {
+                                                if (snapshot.connectionState ==
+                                                    ConnectionState.waiting) {
+                                                  return CircularProgressIndicator();
+                                                } else {
+                                                  return Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 10),
+                                                    child: Text(
+                                                      CurrencyFormat
+                                                          .convertToIdr(
+                                                              snapshot.data, 0),
+                                                      style: TextStyle(
+                                                        color:
+                                                            Color(0xFF333333),
+                                                        fontSize: 15,
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        height: 1.15,
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
+                                              },
                                             ),
                                           ],
                                         ),

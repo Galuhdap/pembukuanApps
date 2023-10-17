@@ -68,7 +68,7 @@ class _PenjualanScreenState extends State<PenjualanScreen> {
                 padding: const EdgeInsets.only(bottom: 15),
                 child: Container(
                   width: size.width,
-                  height: size.height * 0.3,
+                  height: size.height * 0.32,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     boxShadow: [
@@ -198,27 +198,27 @@ class _PenjualanScreenState extends State<PenjualanScreen> {
                                 height: 1.15,
                               ),
                             )),
-                        FutureBuilder<List>(
+                        FutureBuilder<int>(
                             future: transaksiController.alls(),
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
                                 return CircularProgressIndicator();
                               } else {
-                                final List<SaldopenjualanModel> saldos =
-                                    snapshot.data!.map((item) {
-                                  return SaldopenjualanModel(
-                                    id: item['id'],
-                                    total: item['total'] != null
-                                        ? item['total']
-                                        : 0.0,
-                                  );
-                                }).toList();
+                                // final List<SaldopenjualanModel> saldos =
+                                //     snapshot.data!.map((item) {
+                                //   return SaldopenjualanModel(
+                                //     id: item['id'],
+                                //     total: item['total'] != null
+                                //         ? item['total']
+                                //         : 0.0,
+                                //   );
+                                // }).toList();
                                 return Padding(
                                   padding: const EdgeInsets.only(bottom: 20),
                                   child: Text(
                                     CurrencyFormat.convertToIdr(
-                                        saldos.length > 0 ? saldos[0].total : 0,
+                                        snapshot.data ?? 0,
                                         0),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
@@ -271,7 +271,7 @@ class _PenjualanScreenState extends State<PenjualanScreen> {
                             return item.nama
                                     .toString()
                                     .toLowerCase()
-                                    .contains(query.toLowerCase()) ||
+                                    .contains(query.toLowerCase()) &&
                                 item.kode_invoice
                                         .toString()
                                         .toLowerCase()
@@ -283,13 +283,14 @@ class _PenjualanScreenState extends State<PenjualanScreen> {
                             padding: const EdgeInsets.only(left: 35, right: 35),
                             child: Container(
                               width: size.width * 0.9,
-                              height: size.height * 0.480,
+                              height: size.height * 0.450,
                               child: ListView.builder(
                                 scrollDirection: Axis.vertical,
                                 physics: BouncingScrollPhysics(),
                                 padding: EdgeInsets.only(top: 10),
                                 itemCount: filteredData.length,
                                 itemBuilder: (BuildContext context, index) {
+                                 
                                   return transactionCard4(
                                     size,
                                     filteredData[index].nama.toString(),

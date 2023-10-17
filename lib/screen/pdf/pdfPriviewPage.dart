@@ -11,10 +11,12 @@ class PdfPreviewScreen extends StatefulWidget {
   final String namatransaksi;
   final String namapembeli;
   final String tanggal;
+  final String hutang;
   final String pembayaran;
   final String kode_invoice;
 
   final int subtotal;
+  final int pembayaranAwal;
   final int ongkir;
   final int lain;
   final int potongan;
@@ -24,7 +26,9 @@ class PdfPreviewScreen extends StatefulWidget {
       required this.namatransaksi,
       required this.namapembeli,
       required this.tanggal,
+      required this.hutang,
       required this.pembayaran,
+      required this.pembayaranAwal,
       required this.subtotal,
       required this.ongkir,
       required this.potongan,
@@ -82,11 +86,13 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
       info: InvoiceInfo(
         date: DateTime.parse(widget.tanggal),
         pay: widget.pembayaran,
-        kode_invoice: widget.kode_invoice
+        kode_invoice: widget.kode_invoice,
+        jatuh_tempo: widget.hutang
       ),
       items: items,
       sub: InvoiceSub(
           subtotal: widget.subtotal,
+          pembayaranAwal: widget.pembayaranAwal,
           ongkir: widget.ongkir,
           lain: widget.lain,
           potongan: widget.potongan,

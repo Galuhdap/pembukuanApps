@@ -37,29 +37,28 @@ class TransaksiController {
         whereArgs: [idParams]);
   }
 
-  Future<void> insertpenjualan({
-    required String nama,
-    required String nama_pembeli,
-    required String pembayaran,
-    required int subtotal,
-    required int biaya_lain,
-    required int ongkos_kirim,
-    required int potongan_harga,
-    required int total,
-    required int idP,
-    required String tgl,
-    required String kode_invoice
-  }) async {
+  Future<void> insertpenjualan(
+      {required String nama,
+      required String nama_pembeli,
+      required String pembayaran,
+      required int subtotal,
+      required int biaya_lain,
+      required int ongkos_kirim,
+      required int potongan_harga,
+      required int pemAwal,
+      required int total,
+      required int idP,
+      required String tgl,
+      required String kode_invoice,
+      required String jatuh_tempo}) async {
     final Database _database = await databaseService.database();
 
     final List<Map<String, dynamic>> keranjang =
         await _database.rawQuery('SELECT * FROM keranjang');
 
-
-
     for (var result in keranjang) {
       await _database.insert('penjualan', {
-        'kode_invoice' : kode_invoice,
+        'kode_invoice': kode_invoice,
         'nama': nama,
         'nama_pembeli': nama_pembeli,
         'produk': result['nama'],
@@ -73,35 +72,13 @@ class TransaksiController {
         'total': total,
         'createdAt': tgl,
         'updatedAt': DateTime.now().toString(),
+        'jatuh_tempo': jatuh_tempo,
+        'pembayaran_awal': pemAwal
       });
     }
 
-    final List<Map<String, dynamic>> result =
-        await _database.rawQuery('SELECT * FROM saldopenjualan');
-
-    final List<Map<String, dynamic>> results =
-        await _database.rawQuery('SELECT * FROM saldo');
-
-    await _database.update(
-        'saldopenjualan',
-        {
-          'total': result[0]['total'] + total,
-          'ongkir': result[0]['ongkir'] + ongkos_kirim,
-          'createdAt': DateTime.now().toString(),
-          'updatedAt': DateTime.now().toString(),
-        },
-        where: 'id = ?',
-        whereArgs: [idP]);
-
-    await _database.update(
-        'saldo',
-        {
-          'saldo': results[0]['saldo'] + total,
-          'createdAt': DateTime.now().toString(),
-          'updatedAt': DateTime.now().toString(),
-        },
-        where: 'id = ?',
-        whereArgs: [idP]);
+    // final List<Map<String, dynamic>> result =
+    //     await _database.rawQuery('SELECT * FROM saldopenjualan');
   }
 
   Future<int> subtotal() async {
@@ -172,15 +149,74 @@ class TransaksiController {
     }
   }
 
-  Future<List> alls() async {
+  Future<int> alls() async {
     final Database _database = await databaseService.database();
-    final data = await _database.rawQuery('SELECT * FROM saldopenjualan');
-    return data;
+    final data = await _database
+        .rawQuery("SELECT SUM(total) as total FROM saldopenjualan");
+    final kass = data.first['total'] as int? ?? 0;
+    print(kass);
+    return kass;
   }
 
-  Future<void> deleteKer() async {
+  Future<void> deleteKer(kode_invoice, total , pembayaran) async {
     final Database _database = await databaseService.database();
     await _database.delete('keranjang');
+    // final data = await _database.rawQuery(
+    //     "SELECT CASE WHEN pembayaran IN ('Tunai', 'Transfer') THEN 0 ELSE 0 END AS total FROM penjualan WHERE kode_invoice = ?  GROUP BY kode_invoice",
+    //     [kode_invoice]);
+    // final kass = data.first['total'] as int? ?? 0;
+    if (pembayaran == 'Hutang') {
+      final List<Map<String, dynamic>> result =
+          await _database.rawQuery('SELECT * FROM saldopenjualan');
+      await _database.update(
+          'saldopenjualan',
+          {
+            'total': result[0]['total'] + 0,
+            'createdAt': DateTime.now().toString(),
+            'updatedAt': DateTime.now().toString(),
+          },
+          where: 'id = ?',
+          whereArgs: [1]);
+
+      final List<Map<String, dynamic>> results =
+          await _database.rawQuery('SELECT * FROM saldo');
+
+      await _database.update(
+          'saldo',
+          {
+            'saldo': results[0]['saldo'] + 0,
+            'createdAt': DateTime.now().toString(),
+            'updatedAt': DateTime.now().toString(),
+          },
+          where: 'id = ?',
+          whereArgs: [1]);
+    } else {
+      final List<Map<String, dynamic>> result =
+          await _database.rawQuery('SELECT * FROM saldopenjualan');
+      final _totals = total;
+      await _database.update(
+          'saldopenjualan',
+          {
+            'total': result[0]['total'] + _totals,
+            'createdAt': DateTime.now().toString(),
+            'updatedAt': DateTime.now().toString(),
+          },
+          where: 'id = ?',
+          whereArgs: [1]);
+
+      final List<Map<String, dynamic>> results =
+          await _database.rawQuery('SELECT * FROM saldo');
+
+      await _database.update(
+          'saldo',
+          {
+            'saldo': results[0]['saldo'] + _totals,
+            'createdAt': DateTime.now().toString(),
+            'updatedAt': DateTime.now().toString(),
+          },
+          where: 'id = ?',
+          whereArgs: [1]);
+    }
   }
 
   Future<List> all() async {
@@ -192,7 +228,7 @@ class TransaksiController {
   Future<List> totalProd() async {
     final Database _database = await databaseService.database();
     List datas = await _database
-        .rawQuery('SELECT SUM(jumlah_produk) as jumlah FROM penjualan');
+        .rawQuery("SELECT SUM(jumlah_produk) as jumlah FROM penjualan WHERE pembayaran IN ('Tunai', 'Transfer', 'Lunas')");
     return datas;
   }
 
@@ -206,7 +242,7 @@ class TransaksiController {
   Future<int> ongkir() async {
     final Database _database = await databaseService.database();
     List data = await _database
-        .rawQuery('SELECT SUM(ongkos_kirim) as total FROM penjualan');
+        .rawQuery("SELECT SUM(ongkos_kirim) as total FROM penjualan WHERE pembayaran IN ('Tunai', 'Transfer', 'Lunas')");
 
     final total = data.first['total'] as int;
 
@@ -217,7 +253,7 @@ class TransaksiController {
     final Database _database = await databaseService.database();
 
     final data = await _database.rawQuery(
-      'SELECT SUM(ongkos_kirim) as total FROM penjualan WHERE createdAt LIKE ?',
+      "SELECT SUM(ongkos_kirim) as total FROM penjualan WHERE createdAt LIKE ? AND pembayaran IN ('Tunai', 'Transfer', 'Lunas')",
       ['$targetDate%'],
     );
 
@@ -229,7 +265,7 @@ class TransaksiController {
   Future<int> totals() async {
     final Database _database = await databaseService.database();
     final data = await _database.rawQuery(
-      'SELECT SUM(total) as total FROM penjualan',
+      "SELECT SUM(total_produk) as total FROM penjualan WHERE pembayaran IN ('Tunai', 'Transfer', 'Lunas') ",
     );
 
     final total = data.first['total'] as int? ?? 0;
@@ -240,7 +276,7 @@ class TransaksiController {
     final Database _database = await databaseService.database();
 
     final data = await _database.rawQuery(
-      'SELECT SUM(total) as total FROM penjualan WHERE createdAt LIKE ?',
+      "SELECT SUM(total_produk) as total FROM penjualan WHERE createdAt LIKE ? AND pembayaran IN ('Tunai', 'Transfer', 'Lunas')",
       ['$targetDate%'],
     );
 
@@ -252,21 +288,13 @@ class TransaksiController {
   Future<int> totalKotor() async {
     final Database _database = await databaseService.database();
     final data = await _database.rawQuery(
-      'SELECT SUM(total) as total FROM penjualan',
+      "SELECT SUM(total_produk) as total FROM penjualan WHERE pembayaran IN ('Tunai', 'Transfer', 'Lunas')",
     );
 
-    final bahan = await _database.rawQuery(
-      'SELECT SUM(harga) as harga FROM pembelian',
-    );
-
-    final pengeluaran = await _database.rawQuery(
-      'SELECT SUM(biaya) as biaya FROM pengeluaran',
-    );
 
     final total = data.first['total'] as int? ?? 0;
-    final harga = bahan.first['harga'] as int? ?? 0;
-    final biya = pengeluaran.first['biaya'] as int? ?? 0;
-    final totals = total + harga + biya;
+
+    final totals = total ;
 
     return totals;
   }
@@ -275,23 +303,14 @@ class TransaksiController {
     final Database _database = await databaseService.database();
 
     final data = await _database.rawQuery(
-      'SELECT SUM(total) as total FROM penjualan WHERE createdAt LIKE ?',
+      "SELECT SUM(total_produk) as total FROM penjualan WHERE createdAt LIKE ? AND pembayaran IN ('Tunai', 'Transfer', 'Lunas')",
       ['$targetDate%'],
     );
-    final bahan = await _database.rawQuery(
-      'SELECT SUM(harga) as harga FROM pembelian WHERE createdAt LIKE ?',
-      ['$targetDate%'],
-    );
-    final pengeluaran = await _database.rawQuery(
-      'SELECT SUM(biaya) as biaya FROM pengeluaran WHERE createdAt LIKE ?',
-      ['$targetDate%'],
-    );
+
 
     final total = data.first['total'] as int? ?? 0;
-    final harga = bahan.first['harga'] as int? ?? 0;
-    final biya = pengeluaran.first['biaya'] as int? ?? 0;
 
-    final totals = total + harga + biya;
+    final totals = total;
 
     return totals;
   }
@@ -299,7 +318,7 @@ class TransaksiController {
   Future<int> totalBersih() async {
     final Database _database = await databaseService.database();
     final data = await _database.rawQuery(
-      'SELECT SUM(total) as total FROM penjualan',
+      "SELECT SUM(total_produk) as total FROM penjualan WHERE pembayaran IN ('Tunai', 'Transfer', 'Lunas')",
     );
 
     final bahan = await _database.rawQuery(
@@ -322,7 +341,7 @@ class TransaksiController {
     final Database _database = await databaseService.database();
 
     final data = await _database.rawQuery(
-      'SELECT SUM(total) as total FROM penjualan WHERE createdAt LIKE ?',
+      "SELECT SUM(total_produk) as total FROM penjualan WHERE createdAt LIKE ? AND pembayaran IN ('Tunai', 'Transfer', 'Lunas');" ,
       ['$targetDate%'],
     );
     final bahan = await _database.rawQuery(
@@ -351,5 +370,42 @@ class TransaksiController {
     final kass = kas.first['total'] as int? ?? 0;
 
     return kass;
+  }
+
+  Future konfirmasiPembayaran(kode_invoice, _total) async {
+    final Database _database = await databaseService.database();
+    await _database.update(
+        'penjualan',
+        {
+          'pembayaran': 'Lunas',
+          'total': _total,
+        },
+        where: 'kode_invoice = ?',
+        whereArgs: [kode_invoice]);
+
+    final List<Map<String, dynamic>> result =
+        await _database.rawQuery('SELECT * FROM saldopenjualan');
+
+    await _database.update(
+        'saldopenjualan',
+        {
+          'total': result[0]['total'] + _total,
+          'createdAt': DateTime.now().toString(),
+          'updatedAt': DateTime.now().toString(),
+        },
+        where: 'id = ?',
+        whereArgs: [1]);
+
+    final List<Map<String, dynamic>> total =
+        await _database.rawQuery('SELECT * FROM saldo');
+    await _database.update(
+        'saldo',
+        {
+          'saldo': total[0]['saldo'] + _total,
+          'createdAt': DateTime.now().toString(),
+          'updatedAt': DateTime.now().toString(),
+        },
+        where: 'id = ?',
+        whereArgs: [1]);
   }
 }

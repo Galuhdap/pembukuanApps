@@ -7,12 +7,14 @@ class LaporanLaba {
   final UserModel userModel;
   final Alls all;
   final List<PenjualanModel> items;
+  final List<PenjualanModel> itemsHutang;
 
 
   const LaporanLaba({
     required this.userModel,
     required this.all,
     required this.items,
+    required this.itemsHutang,
 
   });
 }

@@ -14,25 +14,29 @@ class DetailScreen extends StatefulWidget {
   final String tanggal;
   final String pembayaran;
   final String kode_invoice;
+  final String hutang;
 
   final int subtotal;
+  final int pembayaranAwal;
   final int ongkir;
   final int lain;
   final int potongan;
   final int total;
-  DetailScreen(
-      {super.key,
-      required this.namatransaksi,
-      required this.namapembeli,
-      required this.tanggal,
-      required this.pembayaran,
-      required this.subtotal,
-      required this.ongkir,
-      required this.potongan,
-      required this.lain,
-      required this.total,
-      required this.kode_invoice,
-      });
+  DetailScreen({
+    super.key,
+    required this.namatransaksi,
+    required this.namapembeli,
+    required this.tanggal,
+    required this.pembayaran,
+    required this.subtotal,
+    required this.ongkir,
+    required this.potongan,
+    required this.lain,
+    required this.pembayaranAwal,
+    required this.total,
+    required this.kode_invoice,
+    required this.hutang,
+  });
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -101,50 +105,30 @@ class _DetailScreenState extends State<DetailScreen> {
                                     ],
                                   ),
                                 ),
-                                IconButton(
-                                  onPressed: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(builder: (context) {
-                                      return PdfPreviewScreen(
-                                        namatransaksi: widget.namatransaksi,
-                                        namapembeli: widget.namapembeli,
-                                        pembayaran: widget.pembayaran,
-                                        tanggal: widget.tanggal,
-                                        subtotal: widget.subtotal,
-                                        lain: widget.lain,
-                                        ongkir: widget.ongkir,
-                                        potongan: widget.potongan,
-                                        total: widget.total,
-                                        kode_invoice: widget.kode_invoice,
-                                      );
-                                    }));
-                                  },
-                                  icon: Icon(
-                                    Icons.print,
-                                    color: Colors.white,
-                                  ),
-                                ),
                               ],
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  "assets/logo/tuturi.png",
-                                  width: 45,
-                                  height: 45,
-                                ),
-                                Image.asset(
-                                  "assets/logo/untag.png",
-                                  width: 40,
-                                  height: 40,
-                                ),
-                                Image.asset(
-                                  "assets/logo/logounesa.png",
-                                  width: 45,
-                                  height: 45,
-                                ),
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    "assets/logo/tuturi.png",
+                                    width: 45,
+                                    height: 45,
+                                  ),
+                                  Image.asset(
+                                    "assets/logo/untag.png",
+                                    width: 40,
+                                    height: 40,
+                                  ),
+                                  Image.asset(
+                                    "assets/logo/logounesa.png",
+                                    width: 45,
+                                    height: 45,
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -152,144 +136,230 @@ class _DetailScreenState extends State<DetailScreen> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 33, top: 140),
-                  child: Container(
-                    width: size.width * 0.85,
-                    height: 650,
-                    decoration: ShapeDecoration(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 33, top: 140),
+                    child: Container(
+                      width: size.width * 0.85,
+                      decoration: ShapeDecoration(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        shadows: [
+                          BoxShadow(
+                            color: Color(0x3F000000),
+                            blurRadius: 16,
+                            offset: Offset(0, 0),
+                            spreadRadius: -6,
+                          )
+                        ],
                       ),
-                      shadows: [
-                        BoxShadow(
-                          color: Color(0x3F000000),
-                          blurRadius: 16,
-                          offset: Offset(0, 0),
-                          spreadRadius: -6,
-                        )
-                      ],
-                    ),
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(top: 30, left: 30, right: 30),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          text(size, 'Kode Invoice', widget.kode_invoice),
-                          text(
-                            size,
-                            'Tanggal',
-                            DateFormat(' dd MMMM yyyy', 'id_ID')
-                                .format(DateTime.parse(widget.tanggal)),
-                          ),
-                          text(size, 'Nama Pembeli', widget.namapembeli),
-                          text(size, 'Nama Transaksi', widget.namatransaksi),
-                          text(size, 'Pembayaran', widget.pembayaran),
-                          Text(
-                            'Detail Transaksi',
-                            style: TextStyle(
-                              color: Color(0xFF333333),
-                              fontSize: 14,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w500,
-                              height: 1.15,
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.only(top: 30, left: 30, right: 30),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            text(size, 'Kode Invoice', widget.kode_invoice),
+                            text(
+                              size,
+                              'Tanggal',
+                              DateFormat(' dd MMMM yyyy', 'id_ID')
+                                  .format(DateTime.parse(widget.tanggal)),
                             ),
-                          ),
-                          FutureBuilder<List<KeranjangModel>>(
-                            future: databaseService!.allDataKar(),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                if (snapshot.data!.length == 0) {
+                            text(size, 'Nama Pembeli', widget.namapembeli),
+                            text(size, 'Nama Transaksi', widget.namatransaksi),
+                            text(size, 'Pembayaran', widget.pembayaran),
+                            text(size, 'Pembayaran Awal',  CurrencyFormat.convertToIdr(widget.pembayaranAwal, 0)),
+                            text(
+                              size,
+                              'Jatuh Tempo',
+                              widget.hutang,
+                            ),
+                            Text(
+                              'Detail Transaksi',
+                              style: TextStyle(
+                                color: Color(0xFF333333),
+                                fontSize: 14,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w500,
+                                height: 1.15,
+                              ),
+                            ),
+                            FutureBuilder<List<KeranjangModel>>(
+                              future: databaseService!.allDataKar(),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  if (snapshot.data!.length == 0) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 50, bottom: 50),
+                                      child: Center(
+                                        child: Text("DATA KOSONG"),
+                                      ),
+                                    );
+                                  }
                                   return Padding(
                                     padding: const EdgeInsets.only(
-                                        top: 50, bottom: 50),
-                                    child: Center(
-                                      child: Text("DATA KOSONG"),
+                                        left: 0, right: 0),
+                                    child: Container(
+                                      width: size.width * 0.9,
+                                      height: size.height * 0.2,
+                                      child: ListView.builder(
+                                        physics: BouncingScrollPhysics(),
+                                        padding:
+                                            EdgeInsets.only(top: 10, left: 0),
+                                        itemCount: snapshot.data!.length,
+                                        itemBuilder:
+                                            (BuildContext context, index) {
+                                          return detail(
+                                              snapshot.data![index].nama,
+                                              snapshot.data![index].jumlah
+                                                  .toString(),
+                                              CurrencyFormat.convertToIdr(
+                                                  snapshot.data![index].total,
+                                                  0));
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.blue,
                                     ),
                                   );
                                 }
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 0, right: 0),
-                                  child: Container(
-                                    width: size.width * 0.9,
-                                    height: size.height * 0.2,
-                                    child: ListView.builder(
-                                      physics: BouncingScrollPhysics(),
-                                      padding:
-                                          EdgeInsets.only(top: 10, left: 0),
-                                      itemCount: snapshot.data!.length,
-                                      itemBuilder:
-                                          (BuildContext context, index) {
-                                        return detail(
-                                            snapshot.data![index].nama,
-                                            snapshot.data![index].jumlah
-                                                .toString(),
-                                            CurrencyFormat.convertToIdr(
-                                                snapshot.data![index].total,
-                                                0));
-                                      },
+                              },
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 15, bottom: 15),
+                              child: Container(
+                                width: size.width * 0.8,
+                                decoration: ShapeDecoration(
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                      width: 0.50,
+                                      strokeAlign: BorderSide.strokeAlignCenter,
+                                      color: Color(0xFFA8A8A8),
                                     ),
-                                  ),
-                                );
-                              } else {
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    color: Colors.blue,
-                                  ),
-                                );
-                              }
-                            },
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 15, bottom: 15),
-                            child: Container(
-                              width: size.width * 0.8,
-                              decoration: ShapeDecoration(
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                    width: 0.50,
-                                    strokeAlign: BorderSide.strokeAlignCenter,
-                                    color: Color(0xFFA8A8A8),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          totals(
-                            'Subtotal',
-                            CurrencyFormat.convertToIdr(widget.subtotal, 0),
-                          ),
-                          totals(
-                            'Ongkir',
-                            CurrencyFormat.convertToIdr(widget.ongkir, 0),
-                          ),
-                          totals(
-                            'Lain - Lain',
-                            CurrencyFormat.convertToIdr(widget.lain, 0),
-                          ),
-                          totals(
-                            'Potongan',
-                            CurrencyFormat.convertToIdr(widget.potongan, 0),
-                          ),
-                          totals(
-                            'Total',
-                            CurrencyFormat.convertToIdr(widget.total, 0),
-                          ),
-                        ],
+                            totals(
+                              'Subtotal',
+                              CurrencyFormat.convertToIdr(widget.subtotal, 0),
+                            ),
+                            totals(
+                              'Pembayaran Awal',
+                              CurrencyFormat.convertToIdr(widget.pembayaranAwal, 0),
+                            ),
+                            totals(
+                              'Ongkir',
+                              CurrencyFormat.convertToIdr(widget.ongkir, 0),
+                            ),
+                            totals(
+                              'Lain - Lain',
+                              CurrencyFormat.convertToIdr(widget.lain, 0),
+                            ),
+                            totals(
+                              'Potongan',
+                              CurrencyFormat.convertToIdr(widget.potongan, 0),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 10),
+                              child: totals(
+                                'Total',
+                                CurrencyFormat.convertToIdr(widget.total, 0),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
               ],
             ),
+            // IconButton(
+            //   onPressed: () {
+            //     print("sdsda");
+            //     // Navigator.of(context).push(
+            //     //     MaterialPageRoute(builder: (context) {
+            //     //   return PdfPreviewScreen(
+            //     //     namatransaksi: widget.namatransaksi,
+            //     //     namapembeli: widget.namapembeli,
+            //     //     pembayaran: widget.pembayaran,
+            //     //     tanggal: widget.tanggal,
+            //     //     subtotal: widget.subtotal,
+            //     //     lain: widget.lain,
+            //     //     ongkir: widget.ongkir,
+            //     //     potongan: widget.potongan,
+            //     //     total: widget.total,
+            //     //     kode_invoice: widget.kode_invoice,
+            //     //     hutang: widget.hutang,
+            //     //   );
+            //     // }));
+            //   },
+            //   icon: Icon(
+            //     Icons.print,
+            //     color: Colors.white,
+            //   ),
+            // ),
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: InkWell(
                 onTap: () async {
-                  await transaksiController.deleteKer();
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return PdfPreviewScreen(
+                      namatransaksi: widget.namatransaksi,
+                      namapembeli: widget.namapembeli,
+                      pembayaran: widget.pembayaran,
+                      tanggal: widget.tanggal,
+                      subtotal: widget.subtotal,
+                      lain: widget.lain,
+                      ongkir: widget.ongkir,
+                      potongan: widget.potongan,
+                      total: widget.total,
+                      kode_invoice: widget.kode_invoice,
+                      hutang: widget.hutang,
+                      pembayaranAwal: widget.pembayaranAwal,
+                    );
+                  }));
+                },
+                child: Container(
+                  width: 327,
+                  height: 45,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 38, vertical: 10),
+                  decoration: ShapeDecoration(
+                    color: Color(0xFF3F51B5),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.print,
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: InkWell(
+                onTap: () async {
+                  await transaksiController.deleteKer(widget.kode_invoice, widget.total, widget.pembayaran);
                   Navigator.pop(context);
                   Navigator.pop(context);
                 },

@@ -23,7 +23,10 @@ class PdfLaporanLaba {
          Divider(),
          totals3(invoice),
          SizedBox(height: 2 * PdfPageFormat.cm),
-        Divider(),
+                 SizedBox(height: 2 * PdfPageFormat.cm),
+        buildTitle('Laporan Hutang' , invoice),
+        buildTabelHutangPenjualan(invoice),
+         Divider(),
 
         buildTotals(invoice),
        
@@ -135,7 +138,41 @@ class PdfLaporanLaba {
     );
   }
 
+  static Widget buildTabelHutangPenjualan(LaporanLaba invoice) {
+    final headers = [
+      'Tanggal',
+      'Nama',
+      'Nama Barang',
+      'Total',
+      'Jatuh Tempo',
+    ];
+    final data = invoice.itemsHutang.map((item) {
+      return [
+       DateFormat(' dd MMMM yyyy', 'id_ID').format(DateTime.parse(item.createdAt.toString())),
+        item.nama,
+        item.produk,
+        CurrencyFormat.convertToIdr(item.total, 0),
+        DateFormat(' dd MMMM yyyy', 'id_ID').format(DateTime.parse(item.jatuh_tempo.toString())),
+      ];
+    }).toList();
 
+    return Table.fromTextArray(
+      headers: headers,
+      data: data,
+      border: null,
+      headerStyle: TextStyle(fontWeight: FontWeight.bold),
+      headerDecoration: BoxDecoration(color: PdfColors.grey300),
+      cellHeight: 30,
+      cellAlignments: {
+        0: Alignment.centerLeft,
+        1: Alignment.centerRight,
+        2: Alignment.centerRight,
+        3: Alignment.centerRight,
+        4: Alignment.centerRight,
+        5: Alignment.centerRight,
+      },
+    );
+  }
 //ini untuk kaki
   static Widget buildFooter(LaporanLaba invoice) => Column(
         crossAxisAlignment: CrossAxisAlignment.center,

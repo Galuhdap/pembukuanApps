@@ -53,7 +53,7 @@ class PdfInvoiceApi {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               buildCustomerAddress(invoice.customer),
-              buildInvoiceInfo(invoice.info),
+              buildInvoiceInfo(invoice),
             ],
           ),
         ],
@@ -67,16 +67,21 @@ class PdfInvoiceApi {
         ],
       ); 
 
-  static Widget buildInvoiceInfo(InvoiceInfo info) {
+  static Widget buildInvoiceInfo(Invoice info) {
     final titles = <String>[
       'Invoice Date:',
       'Payment :',
+      'Jatuh Tempo :',
+      'Pembayaran Awal :',
       'Kode Invoice :',
     ];
     final data = <String>[
-      DateFormat(' dd MMMM yyyy', 'id_ID').format(info.date).toString(),
-      info.pay,
-      info.kode_invoice,
+      DateFormat(' dd MMMM yyyy', 'id_ID').format(info.info.date).toString(),
+      info.info.pay,
+      info.info.jatuh_tempo,
+      CurrencyFormat.convertToIdr(info.sub.pembayaranAwal, 0),
+      // DateFormat(' dd MMMM yyyy', 'id_ID').format(DateTime.parse(info.jatuh_tempo)).toString(),
+      info.info.kode_invoice,
     ];
 
     return Column(
@@ -153,6 +158,11 @@ class PdfInvoiceApi {
                 buildText(
                   title: 'Sub Total',
                   value: CurrencyFormat.convertToIdr(invoice.sub.subtotal, 0),
+                  unite: true,
+                ),
+                buildText(
+                  title: 'Pembayaran Awal',
+                  value: CurrencyFormat.convertToIdr(invoice.sub.pembayaranAwal, 0),
                   unite: true,
                 ),
                 buildText(

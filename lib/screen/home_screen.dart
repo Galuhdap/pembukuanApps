@@ -93,7 +93,20 @@ class _HomeScreenState extends State<HomeScreen> {
                           ).then((value) {
                             setState(() {});
                           });
+                        },
+                        (){
+                          Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (builde) {
+                              return ProfileScreen();
+                            },
+                          ),
+                        ).then((value) {
+                          setState(() {});
                         });
+                        }
+                        );
                       }
                     },
                   );

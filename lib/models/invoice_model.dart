@@ -22,16 +22,19 @@ class InvoiceInfo {
   final DateTime date;
   final String pay;
   final String kode_invoice;
+  final String jatuh_tempo;
 
   const InvoiceInfo({
     required this.date,
     required this.pay,
     required this.kode_invoice,
+    required this.jatuh_tempo,
   });
 }
 
 class InvoiceSub {
   final int subtotal;
+  final int pembayaranAwal;
   final int ongkir;
   final int lain;
   final int potongan;
@@ -39,6 +42,7 @@ class InvoiceSub {
 
   const InvoiceSub({
     required this.subtotal,
+    required this.pembayaranAwal,
     required this.ongkir,
     required this.lain,
     required this.potongan,

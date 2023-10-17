@@ -34,9 +34,11 @@ class _PDFLaporanSemuaScreenState extends State<PDFLaporanSemuaScreen> {
   List pem = [];
   List peng = [];
   List users = [];
+  List datashutang= [];
 
   Future getDatas() async {
     datas = await pdfController.allPenjualan();
+    List _datashutang = await pdfController.allHutang();
     List pems = await pdfController.allPem();
     List pengs = await pdfController.allPeng();
    users = await pdfController.user();
@@ -44,6 +46,7 @@ class _PDFLaporanSemuaScreenState extends State<PDFLaporanSemuaScreen> {
       penj = datas;
       pem = pems;
       peng = pengs;
+      datashutang = _datashutang;
     });
   }
 
@@ -66,6 +69,16 @@ class _PDFLaporanSemuaScreenState extends State<PDFLaporanSemuaScreen> {
         jumlah_produk: category['jumlah_produk'],
         total_produk: category['total_produk'],
         total: category['total'],
+      );
+    }).toList();
+    List<PenjualanModel> itemsHutangPenjualans = datashutang.map((category) {
+      return PenjualanModel(
+        createdAt: category['createdAt'],
+        nama: category['nama'],
+        produk: category['produk'],
+        jumlah_produk: category['jumlah_produk'],
+      total: category['total'],
+      jatuh_tempo: category['jatuh_tempo']
       );
     }).toList();
 
@@ -94,6 +107,7 @@ class _PDFLaporanSemuaScreenState extends State<PDFLaporanSemuaScreen> {
       items: itemsPembelian,
       itemsPengeluaran: itemsPengeluaran,
       itemsPenjualan: itemsPenjualans,
+      itemsHutangPenjualan: itemsHutangPenjualans,
       all: Alls(
           kas: widget.kas,
           pemblihanbahan: widget.pemblihanbahan,
